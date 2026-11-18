@@ -881,6 +881,50 @@ footer{ color:var(--text-faint); }
 .pill.danger{ background:transparent !important; color:var(--np-text) !important; box-shadow:inset 0 0 0 1px var(--np-line) !important; }
 .bar-seg.danger:not(.donut-seg){ background:var(--np) !important; }
 .bar-counts b.danger, .np-text{ color:var(--np-text) !important; }
+
+/* ===== Palette unica degli stati (18/11/2026) =====
+   verde = previsto/in regola · rosso = previsto con uscite da fare · ambra scuro = in trattativa (contratto non attivo)
+   grigio trasparente = non previsto · grigio a strisce = da compilare nel Master */
+:root{ --amber:#a8640a; --amber-soft:#f6ead6; --late:#d6302a; --late-soft:#fbe8e7;
+  --stripe:repeating-linear-gradient(45deg,#c3c9d6 0 3px,#f4f6fa 3px 6px); }
+.cov-legend{ display:flex; flex-wrap:wrap; gap:8px 20px; font-size:.78rem; color:var(--text-muted); margin:2px 0 12px; }
+.cov-legend span{ display:inline-flex; align-items:center; gap:7px; }
+.cov-sw{ width:14px; height:10px; border-radius:3px; display:inline-block; }
+.cov-sw.ok{ background:var(--ok); } .cov-sw.np{ background:var(--np); box-shadow:inset 0 0 0 1px var(--np-line); }
+.cov-sw.tr{ background:var(--amber); } .cov-sw.dc{ background:var(--stripe); box-shadow:inset 0 0 0 1px #c3c9d6; }
+.bar-row.cov{ grid-template-columns:190px 1fr 120px !important; }
+.cov-track{ height:22px !important; border-radius:7px !important; display:flex; overflow:hidden; background:var(--bg-sunken) !important; }
+.cov-track .bar-seg{ height:100%; display:flex; align-items:center; justify-content:center; white-space:nowrap; overflow:hidden;
+  font-size:.7rem; font-weight:700; color:#fff; cursor:pointer; transition:filter .15s; border-radius:0 !important; }
+.cov-track .bar-seg:hover{ filter:brightness(1.08); }
+.cov-track .bar-seg.ok{ background:var(--ok) !important; }
+.cov-track .bar-seg.danger{ background:var(--np) !important; color:#7a86a3; }
+.cov-track .bar-seg.pending{ background:var(--amber) !important; }
+.cov-track .bar-seg.neutral{ background:var(--stripe) !important; color:#5d6884; }
+.cov-pct{ text-align:right; font-size:.76rem; color:var(--text-muted); white-space:nowrap; }
+.cov-pct b{ color:var(--ok); font-size:.95rem; }
+.cov-note{ margin-top:10px; font-size:.72rem; color:var(--text-faint); }
+@media (max-width:640px){ .bar-row.cov{ grid-template-columns:1fr !important; gap:6px !important; } .cov-pct{ text-align:left; } }
+/* stessi colori su mappe, schede e pillole */
+.map-dot.due{ fill:var(--late) !important; } .map-dot.pending{ fill:var(--amber) !important; }
+.map-chip[data-st=due] .dot, .map-legend-dot.due{ background:var(--late) !important; box-shadow:0 0 6px rgba(214,48,42,.55) !important; }
+.map-chip[data-st=pending] .dot, .map-legend-dot.pending{ background:var(--amber) !important; box-shadow:none !important; }
+.map-tip .st.due{ background:var(--late-soft) !important; color:var(--late) !important; }
+.map-tip .st.pending{ background:var(--amber-soft) !important; color:var(--amber) !important; }
+.badge.status-due{ background:var(--late-soft) !important; color:var(--late) !important; }
+.badge.status-pending{ background:var(--amber-soft) !important; color:var(--amber) !important; }
+.client-card:has(.badge.status-due){ border-left-color:var(--late) !important; }
+.client-card:has(.badge.status-pending){ border-left-color:var(--amber) !important; }
+.pill.pending{ background:var(--amber-soft) !important; color:var(--amber) !important; }
+.pill.neutral{ background:var(--stripe) !important; color:#5d6884 !important; }
+
+.map-legend-title{ font-size:.68rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--text-faint); margin:0 0 6px; }
+.map-approx-note{ display:flex; align-items:center; gap:8px; font-size:.74rem; color:var(--text-faint); margin:8px 0 14px; }
+.map-approx-note .map-legend-dot, .map-mini-legend .map-legend-dot{ width:10px; height:10px; border-radius:50%; display:inline-block; flex:0 0 auto; }
+.map-mini-legend{ display:flex; flex-direction:column; gap:6px; margin:12px 0; font-size:.8rem; color:var(--text-muted); }
+.map-mini-legend > span{ display:flex; align-items:center; gap:8px; }
+.map-mini-legend b{ margin-left:auto; color:var(--text); }
+.map-legend-dot.ok{ background:var(--ok); }
 </style>
 
 <div id="gate" class="gate">
@@ -1418,39 +1462,43 @@ function svcCounts(nome){
   return {ok,no,vuoto,pending};
 }
 const barsContainer = document.getElementById('barsContainer');
-let barsHtml = '';
-SERVICE_META.forEach(([nome,sigla])=>{
-  const {ok,no,vuoto,pending} = svcCounts(nome);
-  const total = ok+no+vuoto+pending;
-  const nomeEsc = escapeHtml(nome);
-  barsHtml += `
-    <div class="bar-row">
+// Copertura servizi (proposta B, 18/11/2026): legenda in alto, numeri dentro i segmenti, a destra la quota
+// di impianti con contratto attivo e dato compilato che hanno il servizio previsto.
+function covSeg(cls, n, total, servizio, stato, label, title){
+  const w = total ? n / total * 100 : 0;
+  const txt = w >= 9 ? label : (w >= 4 ? String(n) : '');
+  return `<div class="bar-seg ${cls}" style="width:${w}%" data-servizio="${servizio}" data-stato="${stato}" title="${title} (${n})">${txt}</div>`;
+}
+function covRow(nome, servizio, ok, no, pending, vuoto){
+  const total = ok + no + pending + vuoto;
+  const base = ok + no;
+  const pct = base ? Math.round(ok / base * 100) : 0;
+  const t = servizio === 'PR_CONTRATTUALE' ? 'PR Contrattuale' : nome;
+  return `
+    <div class="bar-row cov">
       <div class="bar-name">${nome}</div>
-      <div class="bar-track">
-        <div class="bar-seg ok" style="width:${ok/total*100}%" data-servizio="${nomeEsc}" data-stato="ok" title="Mostra sotto gli impianti con ${nomeEsc} = Previsto"></div>
-        <div class="bar-seg danger" style="width:${no/total*100}%" data-servizio="${nomeEsc}" data-stato="danger" title="Mostra sotto gli impianti con ${nomeEsc} = Non previsto"></div>
-        <div class="bar-seg pending" style="width:${pending/total*100}%" data-servizio="${nomeEsc}" data-stato="pending" title="Mostra sotto gli impianti con ${nomeEsc} in trattativa"></div>
-        <div class="bar-seg neutral" style="width:${vuoto/total*100}%" data-servizio="${nomeEsc}" data-stato="neutral" title="Mostra sotto gli impianti con ${nomeEsc} da compilare"></div>
+      <div class="bar-track cov-track">
+        ${covSeg('ok', ok, total, servizio, 'ok', `${ok} previsti`, `Mostra sotto gli impianti con ${t} previsto`)}
+        ${covSeg('danger', no, total, servizio, 'danger', `${no} non previsti`, `Mostra sotto gli impianti con ${t} non previsto`)}
+        ${covSeg('pending', pending, total, servizio, 'pending', `${pending} in trattativa`, `Mostra sotto gli impianti in trattativa`)}
+        ${covSeg('neutral', vuoto, total, servizio, 'neutral', `${vuoto} da compilare`, `Mostra sotto gli impianti con ${t} da compilare`)}
       </div>
-      <div class="bar-counts"><b class="ok">${ok}</b> / <b class="danger">${no}</b> / <b style="color:var(--text-muted)">${pending}</b> / ${vuoto}</div>
-    </div>`;
-});
-{
-  const total = K.prOk+K.prNo+K.prVuoto+K.prPending;
-  barsHtml += `
-    <div class="bar-row">
-      <div class="bar-name">PR Contrattuale</div>
-      <div class="bar-track">
-        <div class="bar-seg ok" style="width:${K.prOk/total*100}%" data-servizio="PR_CONTRATTUALE" data-stato="ok" title="Mostra sotto gli impianti con PR Contrattuale = Previsto"></div>
-        <div class="bar-seg danger" style="width:${K.prNo/total*100}%" data-servizio="PR_CONTRATTUALE" data-stato="danger" title="Mostra sotto gli impianti con PR Contrattuale = Non previsto"></div>
-        <div class="bar-seg pending" style="width:${K.prPending/total*100}%" data-servizio="PR_CONTRATTUALE" data-stato="pending" title="Mostra sotto gli impianti con PR Contrattuale in trattativa"></div>
-        <div class="bar-seg neutral" style="width:${K.prVuoto/total*100}%" data-servizio="PR_CONTRATTUALE" data-stato="neutral" title="Mostra sotto gli impianti con PR Contrattuale da compilare"></div>
-      </div>
-      <div class="bar-counts"><b class="ok">${K.prOk}</b> / <b class="danger">${K.prNo}</b> / <b style="color:var(--text-muted)">${K.prPending}</b> / ${K.prVuoto}</div>
+      <div class="cov-pct" title="${ok} previsti su ${base} impianti con contratto attivo e dato compilato"><b>${pct}%</b> dei contratti</div>
     </div>`;
 }
+let barsHtml = `<div class="cov-legend">
+  <span><i class="cov-sw ok"></i>Previsto da contratto</span>
+  <span><i class="cov-sw np"></i>Non previsto</span>
+  <span><i class="cov-sw tr"></i>In trattativa (contratto non attivo)</span>
+  <span><i class="cov-sw dc"></i>Da compilare nel Master</span>
+</div>`;
+SERVICE_META.forEach(([nome,sigla])=>{
+  const {ok,no,vuoto,pending} = svcCounts(nome);
+  barsHtml += covRow(nome, escapeHtml(nome), ok, no, pending, vuoto);
+});
+barsHtml += covRow('PR Contrattuale', 'PR_CONTRATTUALE', K.prOk, K.prNo, K.prPending, K.prVuoto);
 barsContainer.innerHTML = barsHtml;
-barsContainer.insertAdjacentHTML('beforeend', `<div style="margin-top:10px; font-size:0.72rem; color:var(--text-faint);">Ordine segmenti/conteggi: <b class="ok" style="color:var(--ok)">Previsto</b> / <b class="np-text">Non previsto</b> / <span style="color:var(--text-muted)">In trattativa</span> / Da compilare</div>`);
+barsContainer.insertAdjacentHTML('beforeend', `<div class="cov-note">% = impianti con il servizio previsto sul totale degli impianti con contratto attivo e dato compilato. Clic su un segmento per vedere sotto gli impianti corrispondenti.</div>`);
 
 function uniqSorted(arr){ return [...new Set(arr.map(trimVal).filter(v=>v))].sort((a,b)=>a.localeCompare(b,'it')); }
 const regioni = uniqSorted(DATA.map(c=>c.regione));
@@ -1786,7 +1834,7 @@ renderList();
   });
   // tooltip
   var tip = document.createElement('div'); tip.className = 'map-tip'; document.body.appendChild(tip);
-  var STL = {ok:'In regola', due:'Da fare entro fine anno', pending:'Non contrattualizzato'};
+  var STL = {ok:'In regola', due:'Uscite da fare entro fine anno', pending:'In trattativa (contratto non attivo)'};
   function tipHtml(c){
     var st = mapStatusClass(c);
     var pot = c.potenza ? Number(c.potenza).toLocaleString('it-IT') + ' kW' : '—';
@@ -1835,7 +1883,14 @@ renderList();
     var nm = r.charAt(0) + r.slice(1).toLowerCase();
     return '<div class="map-rank-row" data-reg="'+escapeHtml(r)+'"><span>'+escapeHtml(nm)+'</span><span class="map-rank-bar"><i style="width:'+Math.max(4, Math.round(reg[r]/mx*100))+'%"></i></span><b>'+reg[r]+'</b></div>';
   }).join('') + '</div>';
-  legend.insertAdjacentHTML('afterbegin', chips + rank);
+  var approxNote = '<div class="map-approx-note"><span class="map-legend-dot approx"></span>Bordo tratteggiato: posizione approssimata (comune, provincia o regione), mancano le coordinate nel Master</div>';
+  legend.insertAdjacentHTML('afterbegin', '<div class="map-legend-title">Legenda · clic per mostrare o nascondere</div>' + chips + approxNote + rank);
+  // stessa legenda (solo lettura) sotto la mappa del Veneto
+  var vCounts = {ok:0, due:0, pending:0};
+  DATA.forEach(function(c){ if(c.lat != null && (c.regione || '').trim().toUpperCase() === 'VENETO') vCounts[mapStatusClass(c)]++; });
+  var vLeg = document.querySelector('#venetoMapCaption');
+  if(vLeg) vLeg.insertAdjacentHTML('afterend', '<div class="map-mini-legend">' + ['ok','due','pending'].map(function(st){
+    return '<span><span class="map-legend-dot '+st+'"></span>'+STL[st]+' <b>'+vCounts[st]+'</b></span>'; }).join('') + '</div>');
   legend.querySelectorAll('.map-chip').forEach(function(b){ b.addEventListener('click', function(){
     var on = b.getAttribute('aria-pressed') !== 'true'; b.setAttribute('aria-pressed', on);
     panel.classList.toggle('hide-' + b.dataset.st, !on);
