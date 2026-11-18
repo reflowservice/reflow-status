@@ -1631,7 +1631,7 @@ function renderCard(c){
           : `<span class="uscite-complete">completo</span>`) +
         anomalyHtml + overDoneHtml + `</span>`;
     }
-    if(SENZA_USCITE.includes(s.nome) && s.state === 'ok') usciteCell = '<span class="np-text">non tracciate</span>';
+    // Estintori, TVCC e Termografia: come la CCTV, nessuna indicazione su uscite fatte o mancanti (Luca, 18/11/2026)
     bodyHtml += `<tr>
       <td><span class="svc-name-cell">${pillHtml(sigla, svcPillState(s), s.noteText, '', svcPillTitle(s))} ${s.nome}</span></td>
       <td>${escapeHtml(s.frequenza) || '—'}</td>
