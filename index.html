@@ -929,6 +929,17 @@ footer{ color:var(--text-faint); }
 /* Distintivi informativi della scheda (regione, tipologia, potenza, PM): blu notte con testo bianco (18/11/2026) */
 .client-header .badge:not(.status-pending):not(.status-due):not(.status-complete){
   background:#0b1d3f !important; color:#fff !important; border:0 !important; box-shadow:none !important; }
+
+/* Elenco impianti, opzione A (18/11/2026): fondo grigio-blu, schede bianche con ombra e bordo di stato spesso a sinistra */
+:root{ --bg:#e7ecf3 !important; }
+body{ background:#e7ecf3 !important; }
+.client-card{ background:#fff !important; border:0 !important; border-left:5px solid #b8c1d1 !important; border-radius:12px !important;
+  box-shadow:0 1px 2px rgba(16,32,64,.06), 0 4px 14px rgba(16,32,64,.06) !important; margin-bottom:10px; }
+.client-card:hover{ box-shadow:0 2px 4px rgba(16,32,64,.08), 0 8px 22px rgba(16,32,64,.10) !important; }
+.client-card:has(.badge.status-complete){ border-left-color:var(--ok) !important; }
+.client-card:has(.badge.status-due){ border-left-color:var(--late) !important; }
+.client-card:has(.badge.status-pending){ border-left-color:var(--amber) !important; }
+.client-card .client-body{ background:#fff !important; border-radius:0 0 12px 12px; }
 </style>
 
 <div id="gate" class="gate">
