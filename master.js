@@ -15,17 +15,18 @@
     layout: 35, pm: 36, pm2: 37 };
   const EXPECTED_HEADERS = { 1: 'CLIENTE', 2: 'REGIONE', 4: 'TIPOLOGIA IMPIANTO', 7: 'PR CONTRATTUALE',
     10: 'TIPOLOGIA DI CONTRATTO', 14: 'MANUTENZIONE ORDINARIA', 18: 'MANUTENZIONE VERDE', 21: 'LAVAGGIO MODULI',
-    23: 'MANUTENZIONE ESTINTORI', 27: 'MANUTENZIONE TVCC', 29: 'TERMOGRAFIA CON DRONE', 31: 'DERATTIZZAZIONE',
+    23: 'DERATTIZZAZIONE', 25: 'MANUTENZIONE ESTINTORI', 29: 'MANUTENZIONE TVCC', 31: 'TERMOGRAFIA CON DRONE',
     33: 'SERVIZIO DI CCTV E VIGILANZA', 36: 'PM', 37: 'PM SECONDA LINEA' };
   const GROUP_COLS = [
+    // ordine del Master dal 18/11/2026: Derattizzazione spostata accanto a Lavaggio Moduli
     ['Manutenzione Ordinaria', 14], ['Manutenzione Verde', 18], ['Lavaggio Moduli', 21],
-    ['Manutenzione Estintori', 23], ['Manutenzione TVCC', 27], ['Termografia con Drone', 29],
-    ['Derattizzazione', 31]
+    ['Derattizzazione', 23], ['Manutenzione Estintori', 25], ['Manutenzione TVCC', 29],
+    ['Termografia con Drone', 31]
   ];
   const SERVICE_META = [
     ['Manutenzione Ordinaria', 'ORD'], ['Manutenzione Verde', 'VERDE'], ['Lavaggio Moduli', 'LAV'],
-    ['Manutenzione Estintori', 'ESTINT'], ['Manutenzione TVCC', 'TVCC'], ['Termografia con Drone', 'TERMO'],
-    ['Derattizzazione', 'DERAT'], ['Servizio di CCTV e vigilanza', 'CCTV']
+    ['Derattizzazione', 'DERAT'], ['Manutenzione Estintori', 'ESTINT'], ['Manutenzione TVCC', 'TVCC'],
+    ['Termografia con Drone', 'TERMO'], ['Servizio di CCTV e vigilanza', 'CCTV']
   ];
   const STATUS_PATTERNS = [
     [/\bGARANZIA ESPE ATTIVA\b/i, 'garanzia_espe', 'Garanzia costruttiva ESPE attiva'],

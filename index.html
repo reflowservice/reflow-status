@@ -1132,6 +1132,7 @@ function trimVal(v){ return (v||'').trim(); }
 // contata silenziosamente come completata. Verificare con Luca se un caso del genere risulta impattante.
 const MESI_SET = new Set(['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre']);
 const FREQ_ATTESE = {'Annuale':1, 'Semestrale':2, 'Quadrimestrale':3};
+const SENZA_USCITE = ['Manutenzione Estintori', 'Manutenzione TVCC', 'Termografia con Drone'];
 const ANNO_CORRENTE = new Date().getFullYear();
 // Finché il Master non è compilato meglio anche sugli altri servizi, i pannelli "uscite fatte/da fare" mostrano
 // solo le tipologie con dati sufficientemente affidabili (Luca, 04/09/2026) — Estintori/TVCC/Termografia/
@@ -1165,7 +1166,8 @@ DATA.forEach(c => {
     } else {
       s.noteText = extractNoteText(s.note);
     }
-    const expected = c.nonContrattualizzato ? 0 : (FREQ_ATTESE[trimVal(s.frequenza)] || 0);
+    // Estintori, TVCC e Termografia: nel Master solo la frequenza, le uscite non si tracciano (Luca, 18/11/2026)
+    const expected = (c.nonContrattualizzato || SENZA_USCITE.includes(s.nome)) ? 0 : (FREQ_ATTESE[trimVal(s.frequenza)] || 0);
     if(expected > 0){
       const slots = [s.u1, s.u2, s.u3].map(classifyUscita);
       const done = slots.filter(x=>x.done).length;
@@ -1629,6 +1631,7 @@ function renderCard(c){
           : `<span class="uscite-complete">completo</span>`) +
         anomalyHtml + overDoneHtml + `</span>`;
     }
+    if(SENZA_USCITE.includes(s.nome) && s.state === 'ok') usciteCell = '<span class="np-text">non tracciate</span>';
     bodyHtml += `<tr>
       <td><span class="svc-name-cell">${pillHtml(sigla, svcPillState(s), s.noteText, '', svcPillTitle(s))} ${s.nome}</span></td>
       <td>${escapeHtml(s.frequenza) || '—'}</td>
