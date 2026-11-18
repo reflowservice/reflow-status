@@ -940,6 +940,13 @@ body{ background:#e7ecf3 !important; }
 .client-card:has(.badge.status-due){ border-left-color:var(--late) !important; }
 .client-card:has(.badge.status-pending){ border-left-color:var(--amber) !important; }
 .client-card .client-body{ background:#fff !important; border-radius:0 0 12px 12px; }
+
+/* Pallini delle mappe (18/11/2026): bordo bianco sottile a spessore fisso sullo schermo, anche nella mappa
+   del Veneto (prima il bordo era in unità della mappa e nel Veneto copriva il colore); posizione approssimata
+   = pallino più chiaro con bordo tratteggiato, senza l'effetto "stella". */
+.map-dot{ vector-effect:non-scaling-stroke; stroke:#fff !important; stroke-width:1.3px !important; stroke-dasharray:none !important; }
+.map-dot.dot-sm{ stroke-width:1px !important; }
+.map-dot.approx{ opacity:.6; stroke:var(--text-muted) !important; stroke-width:1px !important; stroke-dasharray:2 1.6 !important; }
 </style>
 
 <div id="gate" class="gate">
