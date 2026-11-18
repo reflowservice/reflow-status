@@ -4,6 +4,11 @@
   'use strict';
   const $ = id => document.getElementById(id);
   const gate = $('gate'), msg = $('gateMsg'), btn = $('gateBtn');
+  // Battito della linea a impulso (deve coincidere con --beat nel CSS di .gate-pulse)
+  const BEAT_MS = 1600;
+  // Dopo "Aggiorna" la pagina si ricarica: la schermata col polso resta per 3 battiti e poi si chiude da sola
+  let refresh = false;
+  try { refresh = sessionStorage.getItem('status_refresh') === '1'; sessionStorage.removeItem('status_refresh'); } catch (e) {}
   const say = (t, err) => { msg.textContent = t; msg.classList.toggle('err', !!err); };
   const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
   const fmtData = iso => { const d = new Date(iso); return isNaN(d) ? '' : d.toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' }) + ' alle ' + d.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' }); };
@@ -34,7 +39,7 @@
 
   async function load() {
     btn.hidden = true;
-    say('Lettura del REFLOW MASTER…');
+    say(refresh ? 'Aggiornamento dal REFLOW MASTER…' : 'Lettura del REFLOW MASTER…');
     try {
       const m = await STATUS.loadMaster();
       say('Elaborazione dei dati…');
@@ -44,7 +49,20 @@
       if (m.url) $('bMaster').href = m.url; else $('bMaster').hidden = true;
       RUN(clients, STATUS_MASTER.SERVICE_META);
       rememberPm();
-      done();
+      const quando = 'Master aggiornato il ' + fmtData(m.modified);
+      if (refresh) {
+        // chiude alla fine del terzo battito dall'apertura della pagina
+        say(quando);
+        const an = (document.querySelector('.gate-pulse path').getAnimations || (() => []))
+          .call(document.querySelector('.gate-pulse path'))[0];
+        const t = an && an.currentTime != null ? an.currentTime : performance.now();
+        const fine = Math.ceil(Math.max(t, 3 * BEAT_MS - 1) / BEAT_MS) * BEAT_MS;
+        setTimeout(done, fine - t);
+      } else {
+        // la schermata iniziale resta finché non si clicca
+        say(quando);
+        btn.textContent = 'Entra'; btn.hidden = false; btn.onclick = done; btn.focus();
+      }
     } catch (e) {
       console.error(e);
       say('Non riesco a leggere il Master.\n' + (e && e.message ? e.message : e), true);
@@ -61,7 +79,7 @@
     $('resetBtn') && $('resetBtn').addEventListener('click', () => { try { localStorage.removeItem('status_pm'); } catch (e) {} });
   }
 
-  $('bReload').addEventListener('click', () => location.reload());
+  $('bReload').addEventListener('click', () => { try { sessionStorage.setItem('status_refresh', '1'); } catch (e) {} location.reload(); });
   $('bOut').addEventListener('click', () => STATUS.logout());
 
   STATUS.ready.then(ok => {
