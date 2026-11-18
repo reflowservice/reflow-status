@@ -872,6 +872,15 @@ footer{ color:var(--text-faint); }
   .filters select,.filters .reset-btn{min-width:0;width:100%}
 }
 
+
+/* Prevista ma con uscite dell'anno ancora da fare: rosso */
+.pill.late{ background:var(--danger-soft) !important; color:var(--danger) !important; box-shadow:inset 0 0 0 1px rgba(224,52,44,.35) !important; }
+/* ===== Non previsto da contratto: grigio trasparente, non rosso (18/11/2026) =====
+   Il rosso resta solo per le uscite "da fare" (ciambelle): un servizio non previsto non è un'attività mancata. */
+:root{ --np:rgba(154,160,180,.30); --np-text:#98a1b5; --np-line:rgba(154,160,180,.45); }
+.pill.danger{ background:transparent !important; color:var(--np-text) !important; box-shadow:inset 0 0 0 1px var(--np-line) !important; }
+.bar-seg.danger:not(.donut-seg){ background:var(--np) !important; }
+.bar-counts b.danger, .np-text{ color:var(--np-text) !important; }
 </style>
 
 <div id="gate" class="gate">
@@ -1441,7 +1450,7 @@ SERVICE_META.forEach(([nome,sigla])=>{
     </div>`;
 }
 barsContainer.innerHTML = barsHtml;
-barsContainer.insertAdjacentHTML('beforeend', `<div style="margin-top:10px; font-size:0.72rem; color:var(--text-faint);">Ordine segmenti/conteggi: <b class="ok" style="color:var(--ok)">Previsto</b> / <b class="danger" style="color:var(--danger)">Non previsto</b> / <span style="color:var(--text-muted)">In trattativa</span> / Da compilare</div>`);
+barsContainer.insertAdjacentHTML('beforeend', `<div style="margin-top:10px; font-size:0.72rem; color:var(--text-faint);">Ordine segmenti/conteggi: <b class="ok" style="color:var(--ok)">Previsto</b> / <b class="np-text">Non previsto</b> / <span style="color:var(--text-muted)">In trattativa</span> / Da compilare</div>`);
 
 function uniqSorted(arr){ return [...new Set(arr.map(trimVal).filter(v=>v))].sort((a,b)=>a.localeCompare(b,'it')); }
 const regioni = uniqSorted(DATA.map(c=>c.regione));
@@ -1475,14 +1484,29 @@ let activeDueFilter = null; // {servizio, want:'done'|'remaining'} oppure null
 // i due si escludono a vicenda quando se ne attiva uno nuovo, per non sovrapporre due filtri invisibili.
 let activeCoverageFilter = null; // {servizio, stato} oppure null
 
-function pillHtml(sigla, state, noteText, extraClass){
+function pillHtml(sigla, state, noteText, extraClass, title){
   const dot = noteText ? '<span class="dot" title="Annotazione presente"></span>' : '';
-  return `<span class="pill ${state} ${extraClass||''}">${sigla}${dot}</span>`;
+  return `<span class="pill ${state} ${extraClass||''}"${title ? ` title="${title}"` : ''}>${sigla}${dot}</span>`;
+}
+// Colore della pillola di un servizio: verde = previsto e in regola, rosso = previsto con uscite dell'anno
+// ancora da fare, grigio trasparente = non previsto da contratto (non è un'attività mancata).
+// Solo per i servizi con uscite affidabili nel Master (Ordinaria, Verde, Lavaggio): sugli altri le uscite
+// sono spesso segnaposto e il rosso direbbe "non svolta" senza saperlo.
+function isLate(s){
+  return s.state === 'ok' && s.due && s.due.remaining > 0 && TIPOLOGIE_USCITE_AFFIDABILI.includes(s.nome);
+}
+function svcPillState(s){
+  return isLate(s) ? 'late' : s.state;
+}
+function svcPillTitle(s){
+  if(isLate(s)) return `Prevista: ${s.due.remaining} uscit${s.due.remaining === 1 ? 'a' : 'e'} ${ANNO_CORRENTE} ancora da fare`;
+  if(s.state === 'ok') return 'Prevista';
+  return stateLabel(s.state) + (s.state === 'danger' ? ' da contratto' : '');
 }
 
 function renderCard(c){
   const isOpen = openState.has(c.riga);
-  const pillsHtml = c.servizi.map((s, i) => pillHtml(SERVICE_META[i][1], s.state, s.noteText)).join('') +
+  const pillsHtml = c.servizi.map((s, i) => pillHtml(SERVICE_META[i][1], svcPillState(s), s.noteText, '', svcPillTitle(s))).join('') +
     pillHtml('PR', c.prState, c.pr_comment, 'pr');
 
   let bodyHtml = anagraficaHtml(c);
@@ -1493,7 +1517,7 @@ function renderCard(c){
     </div>`;
   } else if(c.pr || c.pr_comment){
     bodyHtml += `<div class="pr-block">
-      <div class="pr-title">PR Contrattuale: <span style="color:var(--${c.prState==='ok'?'ok':(c.prState==='danger'?'danger':'text-faint')})">${c.pr || 'da compilare'}</span></div>
+      <div class="pr-title">PR Contrattuale: <span style="color:var(--${c.prState==='ok'?'ok':(c.prState==='danger'?'np-text':'text-faint')})">${c.pr || 'da compilare'}</span></div>
       ${c.pr_comment ? `<div class="pr-note">${escapeHtml(c.pr_comment)}</div>` : ''}
     </div>`;
   }
@@ -1518,7 +1542,7 @@ function renderCard(c){
         anomalyHtml + overDoneHtml + `</span>`;
     }
     bodyHtml += `<tr>
-      <td><span class="svc-name-cell">${pillHtml(sigla, s.state, s.noteText)} ${s.nome}</span></td>
+      <td><span class="svc-name-cell">${pillHtml(sigla, svcPillState(s), s.noteText, '', svcPillTitle(s))} ${s.nome}</span></td>
       <td>${escapeHtml(s.frequenza) || '—'}</td>
       <td>${usciteCell}</td>
       <td>${escapeHtml(s.u1) || '—'}</td>
