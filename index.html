@@ -1556,13 +1556,18 @@ function pillHtml(sigla, state, noteText, extraClass, title){
 // Solo per i servizi con uscite affidabili nel Master (Ordinaria, Verde, Lavaggio): sugli altri le uscite
 // sono spesso segnaposto e il rosso direbbe "non svolta" senza saperlo.
 function isLate(s){
-  return s.state === 'ok' && s.due && s.due.remaining > 0 && TIPOLOGIE_USCITE_AFFIDABILI.includes(s.nome);
+  // 18/11/2026 (Luca): rosso su ogni servizio previsto con uscite dell'anno mancanti, così pillole,
+  // distintivo "N da fare", bordo della scheda e mappe dicono la stessa cosa.
+  return s.state === 'ok' && s.due && s.due.remaining > 0;
 }
 function svcPillState(s){
   return isLate(s) ? 'late' : s.state;
 }
 function svcPillTitle(s){
-  if(isLate(s)) return `Prevista: ${s.due.remaining} uscit${s.due.remaining === 1 ? 'a' : 'e'} ${ANNO_CORRENTE} ancora da fare`;
+  if(isLate(s)){
+    const n = s.due.remaining, u = `${n} uscit${n === 1 ? 'a' : 'e'} ${ANNO_CORRENTE}`;
+    return TIPOLOGIE_USCITE_AFFIDABILI.includes(s.nome) ? `Prevista: ${u} ancora da fare` : `Prevista: ${u} non registrat${n === 1 ? 'a' : 'e'} nel Master`;
+  }
   if(s.state === 'ok') return 'Prevista';
   return stateLabel(s.state) + (s.state === 'danger' ? ' da contratto' : '');
 }
