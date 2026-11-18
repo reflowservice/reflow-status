@@ -1,0 +1,21 @@
+# Dati aziendali: mai nel repository (vivono su SharePoint)
+*.xlsx
+*.xls
+*.csv
+*.pdf
+*.dwg
+impianti/
+mappe/
+app/
+richieste/
+# Ambiente
+__pycache__/
+*.pyc
+.venv/
+node_modules/
+.DS_Store
+*.json
+!manifest.json
+*.png
+!assets/*.png
+dati/

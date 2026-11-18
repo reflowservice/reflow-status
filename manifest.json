@@ -1,0 +1,14 @@
+{
+  "name": "REFLOW STATUS",
+  "short_name": "STATUS",
+  "description": "Stato O&M degli impianti FV Reflow, letto dal REFLOW MASTER",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b1d3f",
+  "theme_color": "#0b1d3f",
+  "icons": [
+    {"src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+  ]
+}
