@@ -1,0 +1,1946 @@
+<!doctype html>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>REFLOW STATUS</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b1d3f">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" type="image/png" href="assets/favicon-64.png">
+<link rel="apple-touch-icon" href="assets/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Michroma&family=PT+Serif:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy-950:#091a54;
+  --navy-800:#2a1152;
+  --navy-700:#3a1c68;
+  --blue-accent:#1c8fe0;
+  --cyan-accent:#3fd0f0;
+  --ok:#00b050;
+  --ok-soft:#e3f7ec;
+  --danger:#e0342c;
+  --danger-soft:#fbe8e7;
+  --neutral:#9aa0b4;
+  --neutral-soft:#eef0f6;
+  --pending:#a06a10;
+  --pending-soft:#faf1de;
+  --due:#b5530c;
+  --due-soft:#fdefe0;
+  --gold:#b8860a;
+  --gold-soft:#faf1de;
+  --verde-mil:#55672c;
+  --verde-mil-soft:#eef0e2;
+  --blue-soft:#e6f3fc;
+  --map-sea:#d8ecf9;
+  --map-sea-edge:#c3e0f2;
+  --map-land:#f2ecda;
+  --map-land-edge:#d8cfa8;
+  --map-region-line:#4f6a94;
+  --map-due:#c99a04;
+
+  --bg:#eef4fc;
+  --bg-elevated:#ffffff;
+  --bg-sunken:#dbe8f6;
+  --text:#131c33;
+  --text-muted:#4d5a78;
+  --text-faint:#7a86a3;
+  --border:#c5ddf2;
+  --border-strong:#8fbce4;
+  --header-bg:var(--navy-950);
+  --header-text:#ffffff;
+  --accent:var(--blue-accent);
+  --accent-soft:#e6f3fc;
+  --shadow: 0 1px 2px rgba(8,28,64,0.10), 0 8px 24px -12px rgba(8,28,64,0.24);
+  --focus-ring: 0 0 0 3px rgba(28,143,224,0.35);
+}
+
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#081128;
+    --bg-elevated:#16234f;
+    --bg-sunken:#0a1530;
+    --text:#eef2fb;
+    --text-muted:#aab7dc;
+    --text-faint:#8593b8;
+    --border:#2c3f70;
+    --border-strong:#4060a0;
+    --header-bg:#060f28;
+    --header-text:#f1eefb;
+    --accent:var(--cyan-accent);
+    --accent-soft:#1c2f47;
+    --ok-soft:#0f2a1d;
+    --danger-soft:#3a1613;
+    --neutral-soft:#241a3d;
+    --pending:#e0b04a;
+    --pending-soft:#3a2c10;
+    --due:#f0a35c;
+    --due-soft:#3a2408;
+    --gold:#e0b23a;
+    --gold-soft:#3a2c10;
+    --verde-mil:#8fa05a;
+    --verde-mil-soft:#232a17;
+    --blue-soft:#1c2f47;
+    --map-sea:#0e2338;
+    --map-sea-edge:#0a1a2b;
+    --map-land:#2a2440;
+    --map-land-edge:#3a3358;
+    --map-region-line:#7d93c9;
+    --map-due:#e3c04a;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#081128;
+  --bg-elevated:#16234f;
+  --bg-sunken:#0a1530;
+  --text:#eef2fb;
+  --text-muted:#aab7dc;
+  --text-faint:#8593b8;
+  --border:#2c3f70;
+  --border-strong:#4060a0;
+  --header-bg:#060f28;
+  --header-text:#f1eefb;
+  --accent:var(--cyan-accent);
+  --accent-soft:#1c2f47;
+  --ok-soft:#0f2a1d;
+  --danger-soft:#3a1613;
+  --neutral-soft:#241a3d;
+  --pending:#e0b04a;
+  --pending-soft:#3a2c10;
+  --due:#f0a35c;
+  --due-soft:#3a2408;
+  --gold:#e0b23a;
+  --gold-soft:#3a2c10;
+  --verde-mil:#8fa05a;
+  --verde-mil-soft:#232a17;
+  --blue-soft:#1c2f47;
+  --map-sea:#0e2338;
+  --map-sea-edge:#0a1a2b;
+  --map-land:#2a2440;
+  --map-land-edge:#3a3358;
+  --map-region-line:#7d93c9;
+  --map-due:#e3c04a;
+  --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 24px -12px rgba(0,0,0,0.5);
+}
+
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:"PT Serif", Palatino, "Palatino Linotype", Georgia, serif;
+  font-size:15px;
+  line-height:1.5;
+  -webkit-font-smoothing:antialiased;
+}
+.mono{font-family:"IBM Plex Mono", ui-monospace, monospace;}
+h1,h2,h3{font-family:"PT Serif", Palatino, "Palatino Linotype", Georgia, serif; font-weight:700; text-wrap:balance; margin:0;}
+a{color:var(--accent);}
+button, select, input{font-family:inherit; font-size:inherit;}
+:focus-visible{outline:none; box-shadow:var(--focus-ring); border-radius:6px;}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:0.001ms !important; transition-duration:0.001ms !important;}
+}
+
+.site-header{
+  background:var(--header-bg);
+  color:var(--header-text);
+  padding:28px clamp(16px,4vw,48px);
+  display:grid;
+  grid-template-columns:1fr auto 1fr;
+  align-items:center;
+  gap:24px;
+}
+.brand{grid-column:2; justify-self:center; display:flex; align-items:center; gap:20px;}
+.brand img{height:56px; width:auto; display:block;}
+.brand-divider{width:1px; height:44px; background:rgba(255,255,255,0.25);}
+.page-title{font-size:1.3rem; font-weight:700; letter-spacing:0.01em;}
+.page-sub{font-size:0.82rem; color:rgba(255,255,255,0.65); margin-top:3px;}
+.gen-date{grid-column:3; justify-self:end; font-size:0.8rem; color:rgba(255,255,255,0.65); text-align:right;}
+@media (max-width:720px){
+  .site-header{grid-template-columns:1fr;}
+  .brand{grid-column:1; justify-self:center; flex-direction:column; text-align:center;}
+  .brand-divider{display:none;}
+  .gen-date{grid-column:1; justify-self:center; text-align:center;}
+}
+
+.wrap{max-width:1180px; margin:0 auto; padding:0 clamp(16px,4vw,48px) 80px;}
+
+.summary{
+  margin-top:-28px;
+  padding-top:36px;
+}
+.kpi-row{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:14px;
+  margin-bottom:28px;
+}
+.kpi-card{
+  background:var(--bg-elevated);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:16px 18px;
+  box-shadow:var(--shadow);
+}
+.kpi-num{font-family:"PT Serif"; font-size:1.7rem; font-weight:700; font-variant-numeric:tabular-nums; line-height:1.1;}
+.kpi-label{font-size:0.78rem; color:var(--text-muted); margin-top:4px; text-transform:uppercase; letter-spacing:0.04em;}
+.kpi-card.ok .kpi-num{color:var(--ok);}
+.kpi-card.danger .kpi-num{color:var(--danger);}
+.kpi-card.accent .kpi-num{color:var(--accent);}
+.kpi-card.pending .kpi-num{color:var(--pending);}
+.kpi-card.due .kpi-num{color:var(--due);}
+.kpi-card.gold{background:var(--gold); border-color:var(--gold);}
+.kpi-card.gold .kpi-num, .kpi-card.gold .kpi-label{color:#141413;}
+.kpi-card.green{background:var(--ok); border-color:var(--ok);}
+.kpi-card.green .kpi-num, .kpi-card.green .kpi-label{color:#141413;}
+.kpi-card.grey{background:var(--neutral); border-color:var(--neutral);}
+.kpi-card.grey .kpi-num, .kpi-card.grey .kpi-label{color:#141413;}
+.kpi-card.blue{background:var(--blue-accent); border-color:var(--blue-accent);}
+.kpi-card.blue .kpi-num, .kpi-card.blue .kpi-label{color:#ffffff;}
+
+.due-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:14px;
+}
+.due-block{
+  background:var(--bg-sunken);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:14px 16px;
+}
+.due-block .due-num{font-family:"PT Serif"; font-size:1.5rem; font-weight:700; font-variant-numeric:tabular-nums; line-height:1.1;}
+.due-block.zero .due-num{color:var(--ok);}
+.due-block.has-due .due-num{color:var(--due);}
+.due-block.verde-mil .due-num{color:var(--verde-mil);}
+.due-block.blu .due-num{color:var(--blue-accent);}
+.due-block .due-label{font-size:0.78rem; font-weight:600; color:var(--text-muted); margin-top:4px;}
+.due-block .due-sub{font-size:0.72rem; color:var(--text-faint); margin-top:6px; font-variant-numeric:tabular-nums;}
+
+.bars-panel{
+  background:var(--bg-elevated);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:22px 24px;
+  box-shadow:var(--shadow);
+  margin-bottom:28px;
+}
+.bars-panel h2{font-size:1rem; margin-bottom:16px; color:var(--text);}
+.bar-row{display:grid; grid-template-columns:170px 1fr 130px; align-items:center; gap:14px; padding:6px 0;}
+.bar-row + .bar-row{border-top:1px solid var(--border);}
+.bar-name{font-size:0.85rem; font-weight:600; color:var(--text-muted);}
+.bar-track{
+  height:12px; border-radius:999px; overflow:hidden; display:flex;
+  background:var(--neutral-soft);
+}
+.bar-seg{height:100%;}
+.bar-seg.ok{background:var(--ok);}
+.bar-seg.danger{background:var(--danger);}
+.bar-seg.neutral{background:var(--neutral);}
+.bar-seg.pending{background:var(--text-muted);}
+.bar-counts{font-size:0.76rem; color:var(--text-faint); text-align:right; font-variant-numeric:tabular-nums;}
+.bar-counts b.ok{color:var(--ok);}
+.bar-counts b.danger{color:var(--danger);}
+#doneBarsContainer .bar-seg{cursor:pointer;}
+#doneBarsContainer .bar-seg:hover{filter:brightness(1.15);}
+#barsContainer .bar-seg{cursor:pointer;}
+#barsContainer .bar-seg:hover{filter:brightness(1.15);}
+.donut-grid{display:flex; flex-wrap:wrap; justify-content:center; align-items:flex-start; gap:36px 64px; padding:8px 0 4px;}
+.donut-item{display:flex; flex-direction:column; align-items:center; width:180px; text-align:center;}
+.donut-svg{width:168px; height:168px;}
+.donut-track{fill:none; stroke:var(--neutral-soft); stroke-width:12;}
+.donut-seg{fill:none; stroke-width:12; transform-box:fill-box; transform-origin:center; transform:rotate(-90deg);}
+.donut-seg.ok{stroke:var(--ok);}
+.donut-seg.danger{stroke:var(--danger);}
+.donut-num{font-family:"PT Serif"; font-size:16px; font-weight:700; fill:var(--text); font-variant-numeric:tabular-nums;}
+.donut-name{margin-top:14px; font-size:0.92rem; font-weight:600; color:var(--text-muted); line-height:1.3;}
+.donut-counts{margin-top:4px; font-size:0.82rem; font-weight:400; color:var(--text-faint); font-variant-numeric:tabular-nums;}
+.due-filter-chip{
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:0.8rem; color:var(--blue-accent);
+  background:var(--blue-soft); border-radius:999px;
+  padding:6px 12px; margin:-6px 0 14px;
+}
+.due-filter-chip button{
+  border:none; background:none; color:inherit; cursor:pointer;
+  font-size:0.9rem; line-height:1; padding:0;
+}
+
+.map-panel .map-wrap{display:flex; gap:28px; flex-wrap:wrap; align-items:flex-start;}
+.map-svg-wrap{position:relative; flex:0 0 auto; width:min(100%, 360px);}
+.map-svg-wrap.veneto{width:min(100%, 420px);}
+.map-svg-wrap svg{width:100%; height:auto; display:block; touch-action:none; cursor:grab;}
+.map-svg-wrap svg.panning{cursor:grabbing;}
+.map-subheading{
+  font-family:"PT Serif"; font-size:0.92rem; font-weight:600; color:var(--text);
+  margin:24px 0 14px; padding-top:20px; border-top:1px solid var(--border);
+}
+.map-sea-bg{fill:url(#mapSeaGradient); pointer-events:none;}
+.map-italy{fill:url(#mapLandGradient); stroke:var(--map-land-edge); stroke-width:1.1; filter:drop-shadow(0 1px 2.5px rgba(10,20,40,0.22)); pointer-events:none;}
+.map-regions{fill:none; stroke:var(--map-region-line); stroke-width:0.8; opacity:0.8; pointer-events:none;}
+.map-veneto-provinces{fill:none; stroke:var(--blue-accent); stroke-width:0.6; opacity:0.75; pointer-events:none;}
+.map-zoom-controls{position:absolute; top:8px; right:8px; display:flex; flex-direction:column; gap:4px; z-index:2;}
+.map-zoom-btn{
+  width:26px; height:26px; border-radius:6px; border:1px solid var(--border-strong);
+  background:var(--bg-elevated); color:var(--text-muted); font-size:0.95rem; line-height:1;
+  cursor:pointer; display:flex; align-items:center; justify-content:center; padding:0;
+  box-shadow:0 1px 2px rgba(0,0,0,0.08);
+}
+.map-zoom-btn:hover{background:var(--neutral-soft); color:var(--text);}
+.map-zoom-btn:active{transform:translateY(0.5px);}
+.map-zoom-btn.reset{font-size:0.72rem;}
+.map-dot{cursor:pointer; transition:r 0.12s ease; stroke:var(--bg-elevated); stroke-width:1.1;}
+.map-dot:hover, .map-dot:focus{r:6.5; outline:none;}
+.map-dot.ok{fill:var(--ok);}
+.map-dot.due{fill:var(--map-due);}
+.map-dot.pending{fill:var(--neutral);}
+.map-dot.approx{opacity:0.6; stroke-dasharray:1.3 1.1; stroke-width:1.4;}
+.map-dot.dot-sm{stroke-width:0.35;}
+.map-dot.dot-sm:hover, .map-dot.dot-sm:focus{r:2.2;}
+.map-dot.dot-sm.approx{stroke-dasharray:0.35 0.3; stroke-width:0.45;}
+.map-legend-dot.approx{border:1.5px dashed var(--text-faint); background:transparent;}
+.map-legend{display:flex; flex-direction:column; gap:10px; font-size:0.82rem; color:var(--text-muted); flex:1 1 220px; min-width:200px; padding-top:6px;}
+.map-legend-item{display:flex; align-items:center; gap:9px;}
+.map-legend-dot{width:11px; height:11px; border-radius:50%; flex:0 0 auto;}
+.map-legend-dot.ok{background:var(--ok);}
+.map-legend-dot.due{background:var(--map-due);}
+.map-legend-dot.pending{background:var(--neutral);}
+.map-note{font-size:0.74rem; color:var(--text-faint); margin-top:2px; line-height:1.5;}
+.map-hint{font-size:0.74rem; color:var(--text-faint); margin-top:2px;}
+
+.filters{
+  position:sticky; top:0; z-index:20;
+  background:var(--bg);
+  padding:14px 0;
+  margin-bottom:18px;
+  border-bottom:1px solid var(--border);
+  display:flex; flex-wrap:wrap; gap:10px; align-items:center;
+}
+.filters input[type="search"]{
+  flex:1 1 220px;
+  min-width:180px;
+  padding:9px 14px;
+  border-radius:10px;
+  border:1px solid var(--border-strong);
+  background:var(--bg-elevated);
+  color:var(--text);
+}
+.filters select{
+  padding:9px 12px;
+  border-radius:10px;
+  border:1px solid var(--border-strong);
+  background:var(--bg-elevated);
+  color:var(--text);
+}
+.filters .reset-btn{
+  padding:9px 14px;
+  border-radius:10px;
+  border:1px solid var(--border-strong);
+  background:var(--bg-sunken);
+  color:var(--text-muted);
+  cursor:pointer;
+}
+.filters .reset-btn:hover{color:var(--text);}
+.result-count{
+  font-size:0.82rem; color:var(--text-faint); margin-bottom:14px;
+}
+
+.client-list{display:flex; flex-direction:column; gap:10px;}
+.client-card{
+  background:var(--bg-elevated);
+  border:1px solid var(--border);
+  border-radius:14px;
+  overflow:hidden;
+}
+.client-header{
+  display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  padding:14px 18px;
+  cursor:pointer;
+  user-select:none;
+}
+.client-header:hover{background:var(--bg-sunken);}
+.client-name{font-family:"PT Serif"; font-weight:600; font-size:0.98rem; flex:1 1 220px; min-width:180px;}
+.badge{
+  font-size:0.72rem; padding:3px 9px; border-radius:999px;
+  background:var(--blue-soft); color:var(--blue-accent);
+  white-space:nowrap; font-weight:500;
+}
+.badge.pot{font-family:"IBM Plex Mono"; }
+.badge.status-pending{
+  background:var(--pending-soft); color:var(--pending); font-weight:700;
+  text-transform:uppercase; letter-spacing:0.03em; font-size:0.68rem;
+}
+.badge.status-due{
+  background:var(--due-soft); color:var(--due); font-weight:700; font-size:0.72rem;
+}
+.badge.status-complete{
+  background:var(--ok-soft); color:var(--ok); font-weight:600; font-size:0.72rem;
+}
+.pills{display:flex; gap:5px; flex-wrap:wrap;}
+.pill{
+  position:relative;
+  font-size:0.68rem; font-weight:700; letter-spacing:0.02em;
+  padding:4px 7px; border-radius:6px;
+  font-family:"IBM Plex Mono";
+}
+.pill.ok{background:var(--ok-soft); color:var(--ok);}
+.pill.danger{background:var(--danger-soft); color:var(--danger);}
+.pill.neutral{background:var(--neutral-soft); color:var(--text-faint);}
+.pill.pending{background:var(--pending-soft); color:var(--pending);}
+.pill.pr{border:1px solid currentColor;}
+.pill .dot{
+  position:absolute; top:-3px; right:-3px;
+  width:7px; height:7px; border-radius:50%;
+  background:var(--accent);
+  border:1.5px solid var(--bg-elevated);
+}
+.chevron{
+  color:var(--text-faint);
+  transition:transform 0.15s ease;
+  flex:0 0 auto;
+}
+.client-card.open .chevron{transform:rotate(180deg);}
+.client-body{
+  display:none;
+  padding:4px 18px 20px;
+  border-top:1px solid var(--border);
+}
+.client-card.open .client-body{display:block;}
+
+.pr-block{
+  margin:14px 0 18px;
+  padding:12px 14px;
+  border-radius:10px;
+  background:var(--bg-sunken);
+  font-size:0.85rem;
+}
+.pr-block .pr-title{font-weight:600; margin-bottom:4px;}
+.pr-block .pr-note{color:var(--text-muted); margin-top:6px; font-size:0.82rem; line-height:1.5;}
+.pr-block.status-block{background:var(--pending-soft);}
+.pr-block.status-block .pr-title{color:var(--pending);}
+.pr-block.status-block .pr-note{color:var(--text);}
+
+.svc-table-wrap{overflow-x:auto;}
+table.svc-table{
+  width:100%; border-collapse:collapse; margin-top:8px;
+  font-size:0.83rem;
+}
+table.svc-table th{
+  text-align:left; font-weight:600; color:var(--text-muted);
+  padding:8px 10px; border-bottom:1px solid var(--border-strong);
+  font-size:0.72rem; text-transform:uppercase; letter-spacing:0.03em;
+  white-space:nowrap;
+}
+table.svc-table td{
+  padding:9px 10px; border-bottom:1px solid var(--border);
+  vertical-align:top;
+}
+table.svc-table tr:last-child td{border-bottom:none;}
+.svc-name-cell{display:flex; align-items:center; gap:8px; font-weight:600; white-space:nowrap;}
+.note-cell{color:var(--text-muted); max-width:280px;}
+.note-cell.has-note{color:var(--text);}
+.uscite-cell{font-variant-numeric:tabular-nums; white-space:nowrap;}
+.uscite-remaining{color:var(--due); font-weight:700; margin-left:6px; font-size:0.76rem;}
+.uscite-complete{color:var(--text-faint); margin-left:6px; font-size:0.76rem;}
+.uscite-na{color:var(--text-faint);}
+.anomaly-flag{margin-left:6px; cursor:help;}
+.riga-ref{
+  margin-top:14px; font-size:0.78rem; color:var(--text-faint);
+}
+
+.empty-state{
+  text-align:center; padding:60px 20px; color:var(--text-faint);
+}
+
+footer{
+  text-align:center; color:var(--text-faint); font-size:0.76rem;
+  padding:30px 0 10px;
+}
+/* ===== REFLOW SKIN 2026-10 (override estetico, nessuna modifica a dati/struttura) ===== */
+:root{
+  --font-ui:"Inter","Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,sans-serif;
+  --navy-950:#081830; --navy-800:#104078;
+  --accent:#1c8fe0;
+  --radius:16px;
+  --shadow: 0 1px 2px rgba(8,24,48,.06), 0 10px 30px -14px rgba(8,24,48,.28);
+  --bg:#f1f5fb; --bg-sunken:#e6eef9; --border:#d6e3f3;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --bg:#060d1f; --map-land:#17305c; --map-land-edge:#2c5090; --map-sea:#0a1a33; --map-sea-edge:#07111f;  --bg-elevated:#0e1b3a; --bg-sunken:#091430; --border:#1f3263; --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px -14px rgba(0,0,0,.65); }
+}
+:root[data-theme="dark"]{ --bg:#060d1f; --map-land:#17305c; --map-land-edge:#2c5090; --map-sea:#0a1a33; --map-sea-edge:#07111f;  --bg-elevated:#0e1b3a; --bg-sunken:#091430; --border:#1f3263; --shadow:0 1px 2px rgba(0,0,0,.4),0 12px 32px -14px rgba(0,0,0,.65); }
+
+body, h1,h2,h3, .kpi-num, .due-num, .donut-num, .client-name, .map-subheading, .page-title{ font-family:var(--font-ui) !important; }
+body{ font-size:14.5px; letter-spacing:-.003em; }
+.mono, .pill, .badge.pot{ font-family:"JetBrains Mono","IBM Plex Mono","Cascadia Mono",ui-monospace,monospace !important; }
+
+.site-header{
+  position:relative; overflow:hidden;
+  background:
+    radial-gradient(900px 260px at 85% -40%, rgba(56,189,248,.28), transparent 60%),
+    radial-gradient(700px 240px at 0% 120%, rgba(28,143,224,.30), transparent 60%),
+    linear-gradient(135deg,#081830 0%,#0b2a54 55%,#104078 100%) !important;
+  padding:34px clamp(16px,4vw,48px) 56px;
+  border-bottom:1px solid rgba(56,189,248,.35);
+}
+.site-header::after{
+  content:""; position:absolute; left:0; right:0; bottom:0; height:3px;
+  background:linear-gradient(90deg,transparent,#38bdf8 30%,#1c8fe0 70%,transparent);
+}
+.site-header::before{
+  content:""; position:absolute; inset:0; pointer-events:none; opacity:.07;
+  background-image:linear-gradient(rgba(255,255,255,.9) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.9) 1px,transparent 1px);
+  background-size:34px 34px;
+  -webkit-mask-image:linear-gradient(180deg,#000,transparent); mask-image:linear-gradient(180deg,#000,transparent);
+}
+.site-header > *{ position:relative; z-index:1; }
+.brand img{ height:52px; filter:drop-shadow(0 2px 8px rgba(0,0,0,.35)); }
+.brand-divider{ background:linear-gradient(180deg,transparent,rgba(56,189,248,.7),transparent); }
+.page-title{ font-size:1.35rem; font-weight:700; letter-spacing:-.01em; }
+.page-sub{ color:rgba(224,240,255,.72); letter-spacing:.01em; }
+.gen-date{ color:rgba(224,240,255,.78); font-variant-numeric:tabular-nums;
+  background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.14); border-radius:12px; padding:8px 14px; }
+
+.summary{ margin-top:-30px; }
+
+.kpi-card, .bars-panel, .due-block, .client-card, .alert-panel{ border-radius:var(--radius) !important; }
+.kpi-card{ position:relative; overflow:hidden; padding:18px 20px; transition:transform .18s ease, box-shadow .18s ease; }
+.kpi-card::before{ content:""; position:absolute; left:0; top:0; right:0; height:3px; background:linear-gradient(90deg,#1c8fe0,#38bdf8); opacity:.9; }
+.kpi-card.ok::before{ background:linear-gradient(90deg,#00b050,#4ade80); }
+.kpi-card.danger::before{ background:linear-gradient(90deg,#e0342c,#fb7185); }
+.kpi-card.pending::before{ background:linear-gradient(90deg,#d99a1e,#fcd34d); }
+.kpi-card.due::before{ background:linear-gradient(90deg,#b5530c,#fb923c); }
+.kpi-card:hover{ transform:translateY(-2px); box-shadow:0 2px 4px rgba(8,24,48,.08),0 18px 36px -16px rgba(28,143,224,.45); }
+.kpi-num{ font-size:1.9rem; font-weight:800; letter-spacing:-.03em; }
+.kpi-label{ font-size:.7rem; font-weight:600; letter-spacing:.09em; }
+.kpi-card.gold,.kpi-card.green,.kpi-card.grey,.kpi-card.blue{ border:none; }
+.kpi-card.blue{ background:linear-gradient(135deg,#104078,#1c8fe0); }
+.kpi-card.green{ background:linear-gradient(135deg,#00a047,#22c55e); }
+.kpi-card.gold{ background:linear-gradient(135deg,#d99a1e,#f5c542); }
+.kpi-card.grey{ background:linear-gradient(135deg,#8791aa,#b6bfd2); }
+.kpi-card.green .kpi-num,.kpi-card.green .kpi-label,.kpi-card.blue .kpi-num,.kpi-card.blue .kpi-label{ color:#fff; }
+.kpi-card.blue::before,.kpi-card.green::before,.kpi-card.gold::before,.kpi-card.grey::before{ display:none; }
+
+.bars-panel{ padding:24px 26px; }
+.bars-panel h2{ font-size:.82rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:var(--text-muted); display:flex; align-items:center; gap:10px; }
+.bars-panel h2::before{ content:""; width:4px; height:16px; border-radius:2px; background:linear-gradient(180deg,#38bdf8,#1c8fe0); }
+.bar-track{ height:10px; background:var(--bg-sunken); box-shadow:inset 0 1px 2px rgba(8,24,48,.12); }
+.bar-seg.ok{ background:linear-gradient(90deg,#00a047,#22c55e); }
+.bar-seg.danger{ background:linear-gradient(90deg,#d6302a,#f0605a); }
+.due-block{ transition:transform .18s ease; }
+.due-block:hover{ transform:translateY(-1px); }
+.due-block .due-num{ font-weight:800; letter-spacing:-.02em; }
+
+.client-card{ box-shadow:var(--shadow); transition:box-shadow .18s ease, border-color .18s ease; }
+.client-card:hover{ border-color:var(--border-strong); box-shadow:0 2px 4px rgba(8,24,48,.08),0 14px 30px -16px rgba(28,143,224,.4); }
+.client-header{ padding:15px 20px; }
+.client-name{ font-weight:650; font-size:1rem; letter-spacing:-.01em; }
+.badge{ font-weight:600; letter-spacing:.01em; }
+.pill{ border-radius:7px; }
+
+input, select{ border-radius:10px !important; }
+input:focus, select:focus{ border-color:#1c8fe0 !important; }
+button{ transition:background .15s ease, transform .1s ease, box-shadow .15s ease; }
+button:active{ transform:scale(.98); }
+*{ scrollbar-width:thin; scrollbar-color:#4f6a94 transparent; }
+/* ===== /REFLOW SKIN ===== */
+/* ===== REFLOW SKIN v2 ===== */
+@keyframes rf-rise{from{opacity:0; transform:translateY(10px)} to{opacity:1; transform:none}}
+@keyframes rf-glow{0%,100%{opacity:.55} 50%{opacity:.95}}
+html{ scroll-behavior:smooth; }
+.site-header{ padding:46px clamp(16px,4vw,48px) 84px !important; }
+.site-header .brand::before{ display:none; }
+.site-header::before{ opacity:.09 !important; }
+.hero-glow{ position:absolute; right:-120px; top:-160px; width:520px; height:520px; border-radius:50%;
+  background:radial-gradient(circle,rgba(56,189,248,.45),transparent 65%); animation:rf-glow 6s ease-in-out infinite; pointer-events:none; }
+.page-title{ font-size:1.7rem !important; font-weight:800 !important; letter-spacing:-.025em !important; }
+.page-title::before{ content:none; }
+.brand img{ background:#fff; border-radius:12px; padding:8px 14px; height:62px !important; box-shadow:0 10px 30px -10px rgba(0,0,0,.6); filter:none !important; }
+.theme-btn{ position:absolute; top:16px; right:clamp(16px,4vw,48px); z-index:3; width:38px; height:38px; border-radius:12px; cursor:pointer;
+  background:rgba(255,255,255,.1); color:#e6f3ff; border:1px solid rgba(255,255,255,.2); font-size:17px; line-height:1; backdrop-filter:blur(6px); }
+.theme-btn:hover{ background:rgba(56,189,248,.28); }
+
+/* KPI */
+.summary{ margin-top:-56px !important; }
+.kpi-row{ gap:16px !important; }
+.kpi-card{ padding:22px 22px 20px !important; animation:rf-rise .5s both; backdrop-filter:blur(8px); }
+.kpi-card:nth-child(2){animation-delay:.06s} .kpi-card:nth-child(3){animation-delay:.12s} .kpi-card:nth-child(4){animation-delay:.18s} .kpi-card:nth-child(5){animation-delay:.24s}
+.kpi-card::after{ content:""; position:absolute; right:-30px; bottom:-40px; width:120px; height:120px; border-radius:50%; background:radial-gradient(circle,rgba(56,189,248,.22),transparent 70%); pointer-events:none; }
+.kpi-num{ font-size:2.3rem !important; font-weight:800 !important; }
+
+/* Pannelli */
+.bars-panel{ animation:rf-rise .5s both; }
+.map-svg-wrap{ border-radius:14px; overflow:hidden; box-shadow:inset 0 0 0 1px var(--border); }
+.map-legend-item{ padding:6px 12px; border-radius:999px; background:var(--bg-sunken); border:1px solid var(--border); font-size:.82rem; }
+
+/* Filtri */
+.filters{ display:grid !important; grid-template-columns:repeat(auto-fit,minmax(176px,1fr)); gap:10px !important; padding:16px !important;
+  background:var(--bg-elevated) !important; border:1px solid var(--border) !important; border-radius:18px !important; box-shadow:var(--shadow); margin:8px 0 14px !important; }
+.filters input[type=search]{ grid-column:span 2; padding:11px 16px 11px 40px !important; border-radius:12px !important; border:1px solid var(--border) !important;
+  background:var(--bg-sunken) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%238593b8' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E") 13px center no-repeat !important; color:var(--text); }
+.filters select{ padding:10px 12px !important; border:1px solid var(--border) !important; background:var(--bg-sunken) !important; color:var(--text) !important; font-size:.84rem; cursor:pointer; }
+.filters select:hover{ border-color:var(--border-strong) !important; }
+.reset-btn{ border-radius:12px !important; border:1px solid #1c8fe0 !important; background:transparent !important; color:var(--accent) !important; font-weight:600; cursor:pointer; padding:10px 14px; }
+.reset-btn:hover{ background:#1c8fe0 !important; color:#fff !important; }
+.result-count{ font-size:.8rem; font-weight:600; letter-spacing:.06em; text-transform:uppercase; color:var(--text-faint); margin:6px 4px 12px; }
+.due-filter-chip{ border-radius:999px !important; }
+
+/* Schede cliente */
+.client-list{ gap:12px !important; }
+.client-card{ border-left:4px solid var(--border-strong) !important; animation:rf-rise .4s both; }
+.client-card:nth-child(-n+14){ animation-delay:calc(var(--i,0)*0s); }
+.client-card:has(.badge.status-complete){ border-left-color:#22c55e !important; }
+.client-card:has(.badge.status-due){ border-left-color:#f59e0b !important; }
+.client-card:has(.badge.status-pending){ border-left-color:#94a3b8 !important; }
+.client-card:hover{ transform:translateX(2px); }
+.client-header:hover{ background:linear-gradient(90deg,rgba(56,189,248,.08),transparent) !important; }
+.pill{ box-shadow:inset 0 0 0 1px rgba(128,160,220,.18); }
+.pill.ok{ box-shadow:inset 0 0 0 1px rgba(34,197,94,.35); }
+.pill.danger{ box-shadow:inset 0 0 0 1px rgba(224,52,44,.35); }
+.svc-table th{ font-size:.68rem !important; letter-spacing:.09em; text-transform:uppercase; color:var(--text-faint); }
+.svc-table tr:hover td{ background:rgba(56,189,248,.06); }
+.pr-block{ border-radius:12px !important; }
+
+/* Barra superiore che compare allo scroll */
+.topbar{ position:fixed; z-index:60; left:0; right:0; top:0; transform:translateY(-110%); transition:transform .28s ease;
+  display:flex; align-items:center; gap:12px; padding:10px clamp(16px,4vw,48px);
+  background:rgba(8,24,48,.84); backdrop-filter:blur(14px) saturate(140%); border-bottom:1px solid rgba(56,189,248,.35); color:#eaf4ff; }
+.topbar.show{ transform:none; }
+.topbar .tb-dot{ width:10px; height:10px; border-radius:50%; background:#38bdf8; box-shadow:0 0 0 4px rgba(56,189,248,.25); }
+.topbar .tb-title{ font-weight:700; letter-spacing:-.01em; }
+.topbar .tb-sub{ font-size:.78rem; color:rgba(224,240,255,.65); }
+.topbar .tb-sp{ flex:1; }
+.topbar button{ width:34px; height:34px; border-radius:10px; border:1px solid rgba(255,255,255,.2); background:rgba(255,255,255,.08); color:#fff; cursor:pointer; font-size:15px; }
+.topbar button:hover{ background:rgba(56,189,248,.3); }
+@media print{ .topbar,.theme-btn,.hero-glow{ display:none !important; } }
+/* ===== /REFLOW SKIN v2 ===== */
+/* ===== REFLOW MAP v2 ===== */
+@keyframes rf-ring{0%{stroke-width:1; stroke-opacity:.9} 100%{stroke-width:9; stroke-opacity:0}}
+.map-panel .map-svg-wrap{ border-radius:16px; transition:width .25s ease; }
+.map-svg-wrap.big{ width:min(100%,780px) !important; }
+.map-sea-graticule{ fill:url(#mapGrid); pointer-events:none; opacity:.55; }
+.map-italy{ stroke-width:.9; filter:drop-shadow(0 3px 6px rgba(8,24,48,.35)) !important; }
+.map-regions{ stroke-width:.55 !important; opacity:.55 !important; stroke-dasharray:none; }
+.map-dot{ --rr:4; r:calc(var(--rr)*1px*(.4 + .6*var(--zs,1))); stroke:#fff; stroke-width:1.2; transition:r .15s ease, opacity .2s ease; }
+.map-dot.dot-sm{ stroke-width:.35; }
+.map-dot:hover, .map-dot:focus, .map-dot.dot-sm:hover, .map-dot.dot-sm:focus{ r:calc(var(--rr)*1px*1.8*(.4 + .6*var(--zs,1))); outline:none; }
+.map-dot.ok{ filter:drop-shadow(0 0 2.5px rgba(34,197,94,.85)); }
+.map-dot.pending{ filter:drop-shadow(0 0 2px rgba(148,163,184,.7)); }
+.map-dot.due{ filter:drop-shadow(0 0 3px rgba(245,158,11,.9)); stroke:var(--map-due); animation:rf-ring 2.6s ease-out infinite; }
+.map-dot.dot-sm.due{ animation-name:rf-ring-sm; }
+svg.moving .map-dot{ transition:none !important; }
+@keyframes rf-ring-sm{0%{stroke-width:.35; stroke-opacity:.9} 100%{stroke-width:2.6; stroke-opacity:0}}
+.map-panel.hide-ok .map-dot.ok, .map-panel.hide-due .map-dot.due, .map-panel.hide-pending .map-dot.pending{ display:none; }
+.map-svg-wrap.focus-region .map-dot{ opacity:.18; }
+.map-svg-wrap.focus-region .map-dot.hl{ opacity:1; --rr:6; }
+.map-zoom-btn{ border-radius:10px !important; width:30px !important; height:30px !important; backdrop-filter:blur(6px); background:color-mix(in srgb,var(--bg-elevated) 85%,transparent) !important; }
+
+.map-legend{ gap:14px !important; }
+.map-chips{ display:flex; flex-direction:column; gap:8px; }
+.map-chip{ display:flex; align-items:center; gap:10px; width:100%; text-align:left; cursor:pointer; padding:9px 12px; border-radius:12px;
+  border:1px solid var(--border); background:var(--bg-sunken); color:var(--text); font-size:.84rem; transition:all .15s ease; }
+.map-chip:hover{ border-color:var(--border-strong); transform:translateX(2px); }
+.map-chip .dot{ width:11px; height:11px; border-radius:50%; flex:0 0 auto; }
+.map-chip[data-st=ok] .dot{ background:var(--ok); box-shadow:0 0 8px rgba(34,197,94,.8); }
+.map-chip[data-st=due] .dot{ background:var(--map-due); box-shadow:0 0 8px rgba(245,158,11,.8); }
+.map-chip[data-st=pending] .dot{ background:var(--neutral); }
+.map-chip .lbl{ flex:1; }
+.map-chip .cnt{ font-weight:800; font-variant-numeric:tabular-nums; }
+.map-chip[aria-pressed=false]{ opacity:.45; }
+.map-chip[aria-pressed=false] .lbl{ text-decoration:line-through; }
+.map-rank-title{ font-size:.7rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--text-faint); margin-top:4px; }
+.map-rank{ display:flex; flex-direction:column; gap:3px; max-height:250px; overflow:auto; padding-right:4px; }
+.map-rank-row{ display:grid; grid-template-columns:118px 1fr 30px; align-items:center; gap:8px; padding:4px 8px; border-radius:8px; cursor:pointer; font-size:.8rem; color:var(--text-muted); }
+.map-rank-row:hover{ background:var(--bg-sunken); color:var(--text); }
+.map-rank-bar{ height:6px; border-radius:99px; background:var(--bg-sunken); overflow:hidden; }
+.map-rank-bar i{ display:block; height:100%; border-radius:99px; background:linear-gradient(90deg,#1c8fe0,#38bdf8); }
+.map-rank-row b{ text-align:right; font-variant-numeric:tabular-nums; color:var(--text); }
+
+.map-tip{ position:fixed; z-index:200; pointer-events:none; min-width:200px; max-width:290px; padding:12px 14px; border-radius:14px;
+  background:var(--bg-elevated); color:var(--text); border:1px solid var(--border-strong);
+  box-shadow:0 18px 40px -14px rgba(0,0,0,.55); opacity:0; transform:translateY(4px); transition:opacity .12s ease, transform .12s ease; font-size:.8rem; }
+.map-tip.show{ opacity:1; transform:none; }
+.map-tip h4{ margin:0 0 6px; font-size:.9rem; line-height:1.25; font-weight:700; font-family:var(--font-ui,inherit); }
+.map-tip .st{ display:inline-flex; align-items:center; gap:6px; padding:3px 9px; border-radius:99px; font-weight:700; font-size:.72rem; margin-bottom:8px; }
+.map-tip .st.ok{ background:var(--ok-soft); color:var(--ok); } .map-tip .st.due{ background:var(--due-soft); color:var(--due); } .map-tip .st.pending{ background:var(--pending-soft); color:var(--pending); }
+.map-tip .kv{ display:flex; justify-content:space-between; gap:12px; color:var(--text-muted); padding:2px 0; }
+.map-tip .kv b{ color:var(--text); font-weight:600; text-align:right; }
+.map-tip .hint{ margin-top:8px; padding-top:7px; border-top:1px solid var(--border); font-size:.7rem; color:var(--text-faint); }
+/* ===== /REFLOW MAP v2 ===== */
+/* ===== REFLOW SKIN v3 (sobrio, istituzionale: sostituisce l'effetto "glow" di v1/v2) ===== */
+:root{
+  --v3-hdr:#0b1f44; --v3-hdr-2:#12305f; --v3-hdr-text:#f2f6fc; --v3-hdr-muted:#9db4d6;
+  --bg:#f4f6fa; --bg-elevated:#ffffff; --bg-sunken:#eef2f8;
+  --border:#e1e7f0; --border-strong:#c3cfe0;
+  --text:#101a2e; --text-muted:#4a5775; --text-faint:#76839e;
+  --accent:#1561c9; --radius:12px;
+  --shadow:0 1px 2px rgba(11,31,68,.04);
+  --map-land:#dbe5f3; --map-land-edge:#c4d3e8; --map-sea:#f7f9fd; --map-sea-edge:#f0f4fa;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --v3-hdr:#0a1530; --v3-hdr-2:#0e1d40;
+    --bg:#080f22; --bg-elevated:#0f1a35; --bg-sunken:#0b1429;
+    --border:#1c2a4a; --border-strong:#2f4373;
+    --text:#e7edf8; --text-muted:#a6b4d0; --text-faint:#7f8eb0;
+    --accent:#5aa6ff; --shadow:none;
+    --map-land:#1a2b50; --map-land-edge:#2a4170; --map-sea:#0b1429; --map-sea-edge:#09112a;
+  }
+}
+:root[data-theme="dark"]{
+  --v3-hdr:#0a1530; --v3-hdr-2:#0e1d40;
+  --bg:#080f22; --bg-elevated:#0f1a35; --bg-sunken:#0b1429;
+  --border:#1c2a4a; --border-strong:#2f4373;
+  --text:#e7edf8; --text-muted:#a6b4d0; --text-faint:#7f8eb0;
+  --accent:#5aa6ff; --shadow:none;
+  --map-land:#1a2b50; --map-land-edge:#2a4170; --map-sea:#0b1429; --map-sea-edge:#09112a;
+}
+html{ scroll-behavior:auto; }
+body, button, input, select, table{ font-family:var(--font-ui) !important; }
+body{ font-size:14px; line-height:1.5; letter-spacing:0; font-feature-settings:"cv11","ss01"; }
+.mono, .pill, .badge.pot{ font-family:"IBM Plex Mono",ui-monospace,"Cascadia Mono",monospace !important; }
+*{ scrollbar-color:var(--border-strong) transparent; }
+
+/* --- Intestazione: piatta, allineata a sinistra --- */
+.site-header{
+  background:var(--v3-hdr) !important; color:var(--v3-hdr-text);
+  display:flex !important; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:16px 32px;
+  padding:22px clamp(16px,4vw,48px) 22px !important; border-bottom:1px solid rgba(255,255,255,.08);
+}
+.site-header::before,.site-header::after,.hero-glow{ display:none !important; }
+.brand{ grid-column:auto; justify-self:auto; gap:18px; min-width:0; }
+.brand img{ height:40px !important; padding:6px 12px !important; border-radius:8px !important; background:#fff; box-shadow:none !important; }
+.brand-divider{ background:rgba(255,255,255,.16) !important; height:34px; }
+.page-title{ font-size:1.15rem !important; font-weight:650 !important; letter-spacing:-.01em !important; color:var(--v3-hdr-text); }
+.page-title::before{ content:none; }
+.page-sub{ color:var(--v3-hdr-muted) !important; font-size:.8rem; margin-top:2px; }
+.gen-date{ grid-column:auto; justify-self:auto; background:none !important; border:0 !important; padding:0 !important; border-radius:0; font-size:.78rem; line-height:1.5; color:var(--v3-hdr-muted) !important; text-align:right; margin-right:48px; }
+.site-header .theme-btn{ position:absolute !important; top:50% !important; transform:translateY(-50%); right:clamp(16px,4vw,48px) !important; width:34px !important; height:34px !important; border-radius:8px !important; background:transparent !important; border:1px solid rgba(255,255,255,.22) !important; color:var(--v3-hdr-text) !important; backdrop-filter:none !important; font-size:15px !important; }
+.theme-btn:hover{ background:rgba(255,255,255,.1) !important; }
+.topbar .theme-btn{ position:static !important; transform:none !important; top:auto !important; right:auto !important; width:30px !important; height:30px !important; }
+@media (max-width:720px){
+  .site-header{ padding-right:64px !important; }
+  .brand{ flex-direction:row !important; text-align:left !important; gap:12px; }
+  .gen-date{ text-align:left; margin-right:0; }
+  .site-header .theme-btn{ top:20px !important; transform:none !important; }
+}
+
+/* --- Barra scorrevole --- */
+.topbar{ background:color-mix(in srgb,var(--v3-hdr) 94%,transparent) !important; border-bottom:1px solid rgba(255,255,255,.1) !important; transition:transform .2s ease !important; padding-top:8px; padding-bottom:8px; }
+.topbar .tb-dot{ width:8px !important; height:8px !important; box-shadow:none !important; background:var(--cyan-accent) !important; }
+.topbar button{ border-radius:8px !important; width:30px !important; height:30px !important; background:transparent !important; }
+.topbar button:hover{ background:rgba(255,255,255,.12) !important; }
+
+/* --- Riepilogo --- */
+.summary{ margin-top:0 !important; padding-top:24px !important; }
+.kpi-row{ gap:12px !important; margin-bottom:16px !important; }
+.kpi-card, .kpi-card.gold, .kpi-card.green, .kpi-card.grey, .kpi-card.blue{
+  background:var(--bg-elevated) !important; border:1px solid var(--border) !important; border-radius:var(--radius) !important;
+  box-shadow:var(--shadow) !important; padding:16px 18px !important; animation:none !important; backdrop-filter:none !important; transform:none !important;
+}
+.kpi-card::before,.kpi-card::after{ display:none !important; }
+.kpi-card:hover{ transform:none !important; box-shadow:var(--shadow) !important; border-color:var(--border-strong) !important; }
+.kpi-num, .kpi-card .kpi-num{ font-size:1.9rem !important; font-weight:650 !important; letter-spacing:-.03em !important; font-variant-numeric:tabular-nums; color:var(--text) !important; line-height:1.15; }
+.kpi-label, .kpi-card .kpi-label{ display:flex; align-items:center; gap:7px; font-size:.74rem !important; font-weight:500 !important; letter-spacing:0 !important; text-transform:none !important; color:var(--text-muted) !important; margin-top:6px; }
+.kpi-label::before{ content:""; width:7px; height:7px; border-radius:50%; background:var(--neutral); flex:0 0 auto; }
+.kpi-card.ok .kpi-label::before, .kpi-card.green .kpi-label::before{ background:var(--ok); }
+.kpi-card.danger .kpi-label::before{ background:var(--danger); }
+.kpi-card.pending .kpi-label::before, .kpi-card.gold .kpi-label::before{ background:#d19a1c; }
+.kpi-card.due .kpi-label::before{ background:var(--due); }
+.kpi-card.blue .kpi-label::before, .kpi-card.accent .kpi-label::before{ background:var(--accent); }
+.kpi-card.grey .kpi-label::before{ background:var(--neutral); }
+
+/* --- Pannelli --- */
+.bars-panel{ background:var(--bg-elevated); border:1px solid var(--border) !important; border-radius:var(--radius) !important; box-shadow:var(--shadow) !important; padding:20px 22px !important; animation:none !important; margin-bottom:16px; }
+.bars-panel h2{ font-size:.78rem !important; font-weight:600 !important; letter-spacing:.06em !important; text-transform:uppercase; color:var(--text-muted) !important; margin-bottom:14px; gap:0 !important; }
+.bars-panel h2::before{ display:none !important; }
+.map-subheading{ font-size:.74rem !important; font-weight:600 !important; letter-spacing:.06em; text-transform:uppercase; color:var(--text-muted) !important; margin-top:22px; padding-top:18px; border-top:1px solid var(--border); }
+.bar-track{ height:8px !important; box-shadow:none !important; background:var(--bg-sunken) !important; border-radius:99px; }
+.bar-seg.ok{ background:var(--ok) !important; } .bar-seg.danger{ background:var(--danger) !important; }
+.bar-row{ padding:8px 0 !important; }
+.due-grid{ gap:10px !important; }
+.due-block{ background:var(--bg-sunken) !important; border:1px solid var(--border) !important; border-radius:10px !important; transition:none !important; transform:none !important; }
+.due-block .due-num{ font-weight:650 !important; letter-spacing:-.02em; }
+.donut-num{ font-weight:650 !important; }
+
+/* --- Mappe: marcatori puliti, niente bagliori --- */
+.map-svg-wrap{ border-radius:10px !important; box-shadow:inset 0 0 0 1px var(--border) !important; }
+.map-sea-graticule{ opacity:.35 !important; }
+.map-italy{ filter:none !important; stroke-width:.8 !important; }
+.map-regions{ opacity:.8 !important; }
+.map-dot{ stroke:var(--bg-elevated) !important; stroke-width:1 !important; filter:none !important; animation:none !important; }
+.map-dot.ok,.map-dot.pending,.map-dot.due{ filter:none !important; animation:none !important; }
+.map-dot.due{ stroke:var(--bg-elevated) !important; }
+.map-zoom-btn{ border-radius:8px !important; background:var(--bg-elevated) !important; border:1px solid var(--border-strong) !important; color:var(--text) !important; backdrop-filter:none !important; }
+.map-legend-item{ background:none !important; border:0 !important; padding:2px 0 !important; border-radius:0 !important; font-size:.82rem !important; color:var(--text-muted); }
+.map-chip{ border-radius:8px !important; background:var(--bg-elevated) !important; transition:border-color .12s ease !important; }
+.map-chip:hover{ transform:none !important; background:var(--bg-sunken) !important; }
+.map-chip .dot{ box-shadow:none !important; width:9px !important; height:9px !important; }
+.map-chip .cnt{ font-weight:650 !important; }
+.map-rank-title{ letter-spacing:.08em !important; }
+.map-rank-row{ border-radius:6px !important; }
+.map-rank-bar i{ background:var(--accent) !important; opacity:.85; }
+.map-tip{ border-radius:10px !important; box-shadow:0 12px 28px -12px rgba(0,0,0,.35) !important; }
+
+/* --- Filtri --- */
+.filters{ background:var(--bg-elevated) !important; border:1px solid var(--border) !important; border-radius:var(--radius) !important; box-shadow:var(--shadow) !important; padding:14px !important; gap:8px !important; margin:4px 0 12px !important; }
+.filters input[type=search]{ border-radius:8px !important; background-color:var(--bg-sunken) !important; padding:9px 14px 9px 38px !important; }
+.filters select{ border-radius:8px !important; background:var(--bg-sunken) !important; font-size:.82rem !important; padding:9px 10px !important; }
+input, select{ border-radius:8px !important; }
+input:focus, select:focus, :focus-visible{ border-color:var(--accent) !important; }
+.reset-btn{ border-radius:8px !important; border:1px solid var(--border-strong) !important; color:var(--text) !important; background:transparent !important; font-weight:500 !important; }
+.reset-btn:hover{ background:var(--bg-sunken) !important; color:var(--text) !important; }
+.result-count{ font-size:.74rem !important; font-weight:600 !important; letter-spacing:.06em !important; margin:10px 2px 10px !important; }
+.due-filter-chip{ border-radius:8px !important; }
+
+/* --- Elenco impianti --- */
+.client-list{ gap:8px !important; }
+.client-card{ border:1px solid var(--border) !important; border-radius:var(--radius) !important; background:var(--bg-elevated); box-shadow:var(--shadow) !important; animation:none !important; transform:none !important; transition:border-color .12s ease !important; }
+.client-card:hover{ border-color:var(--border-strong) !important; box-shadow:var(--shadow) !important; transform:none !important; }
+.client-card.open{ border-color:var(--border-strong) !important; }
+.client-header{ padding:13px 18px !important; gap:10px 12px; }
+.client-header:hover{ background:var(--bg-sunken) !important; }
+.client-name{ font-weight:600 !important; font-size:.96rem !important; letter-spacing:-.005em !important; }
+.badge{ font-weight:500 !important; letter-spacing:0 !important; border-radius:6px !important; padding:3px 8px !important; }
+.badge.status-pending, .badge.status-due, .badge.status-complete{ font-weight:600 !important; text-transform:none !important; letter-spacing:0 !important; font-size:.72rem !important; }
+.pill{ border-radius:5px !important; box-shadow:none !important; font-weight:600 !important; padding:3px 6px !important; }
+.pill.pr{ border-width:1px; }
+.client-body{ background:var(--bg-elevated); padding:6px 18px 18px !important; }
+.pr-block{ border-radius:8px !important; }
+table.svc-table{ font-size:.82rem !important; margin-top:6px !important; }
+table.svc-table th{ font-size:.68rem !important; font-weight:600 !important; letter-spacing:.07em !important; text-transform:uppercase !important; color:var(--text-faint) !important; padding:10px 12px !important; border-bottom:1px solid var(--border-strong) !important; }
+table.svc-table td{ padding:11px 12px !important; border-bottom:1px solid var(--border) !important; }
+table.svc-table tr:hover td{ background:var(--bg-sunken) !important; }
+.svc-name-cell{ font-weight:600; }
+.uscite-remaining{ font-weight:600 !important; }
+.empty-state{ padding:48px 16px !important; }
+footer{ color:var(--text-faint); }
+@media (max-width:560px){
+  .filters{ grid-template-columns:1fr 1fr !important; }
+  .filters input[type=search]{ grid-column:1 / -1 !important; }
+  .bars-panel{ padding:16px !important; }
+  .client-header{ padding:12px 14px !important; }
+  .kpi-row{ grid-template-columns:repeat(2,minmax(0,1fr)) !important; }
+}
+@media print{ .topbar,.theme-btn{ display:none !important; } }
+/* ===== /REFLOW SKIN v3 ===== */
+/* ===== REFLOW STATUS: accesso, azioni, scheda impianto ===== */
+.gate{position:fixed;inset:0;z-index:9999;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(120% 90% at 75% 15%,#16345f 0%,#0b1d3f 48%,#060f24 100%);color:#e6f0ff;overflow:hidden;
+  transition:opacity .45s ease, visibility .45s ease}
+.gate.out{opacity:0;visibility:hidden}
+.gate-glow{position:absolute;width:780px;height:780px;right:-220px;top:-260px;border-radius:50%;
+  background:radial-gradient(circle,rgba(56,182,255,.22),rgba(56,182,255,0) 65%)}
+.gate-pulse{position:absolute;left:50%;top:100%;transform:translateX(-50%);width:100vw;max-width:1100px;height:110px;opacity:.5;margin-top:6px}
+.gate-pulse path{fill:none;vector-effect:non-scaling-stroke;stroke:#38b6ff;stroke-width:2;stroke-linejoin:round;stroke-dasharray:900;stroke-dashoffset:900;
+  animation:gatePulse var(--beat,1.6s) ease-in-out infinite}
+@keyframes gatePulse{0%{stroke-dashoffset:900;opacity:0}15%{opacity:1}60%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:0}}
+@media (prefers-reduced-motion:reduce){.gate-pulse path{animation:none;stroke-dashoffset:0}}
+.gate-box{position:relative;text-align:center;padding:24px;max-width:560px}
+.gate-logo{height:34px;opacity:.95;margin-bottom:34px}
+.gate-brand{font-family:'Michroma',sans-serif;font-weight:400;letter-spacing:.22em;font-size:clamp(20px,4.2vw,36px);color:#fff;white-space:nowrap;padding-left:.22em}
+.gate-brand b{font-weight:400;color:#38b6ff}
+.gate-claim{font-family:'Inter',sans-serif;font-weight:300;font-size:clamp(15px,2.2vw,19px);color:rgba(230,240,255,.78);margin:18px auto 34px;max-width:none;white-space:nowrap;line-height:1.45}
+.gate-btn{font:600 15px 'Inter',sans-serif;padding:12px 34px;border-radius:999px;border:1px solid rgba(56,182,255,.6);
+  background:linear-gradient(180deg,#2aa7f5,#1478c8);color:#fff;cursor:pointer;box-shadow:0 8px 28px rgba(20,120,200,.35)}
+.gate-btn:hover{filter:brightness(1.08)}
+.gate-claim .sep{color:#38b6ff;opacity:.7;margin:0 .75em}
+@media (max-width:420px){.gate-claim{font-size:14px}.gate-claim .sep{margin:0 .4em}}
+.gate-msg{margin-top:18px;font:500 13px 'Inter',sans-serif;color:rgba(230,240,255,.7);min-height:1.4em;white-space:pre-line}
+.gate-msg.err{color:#ffb4b4}
+.hdr-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px;flex-wrap:wrap}
+.hdr-btn{font:600 12px 'Inter',sans-serif;color:#e6f0ff;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.22);
+  border-radius:8px;padding:6px 12px;cursor:pointer;text-decoration:none;line-height:1.2}
+.hdr-btn:hover{background:rgba(255,255,255,.16)}
+.hdr-btn[hidden]{display:none}
+@media (max-width:760px){.hdr-actions{justify-content:center}}
+.ana-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:10px 18px;margin:4px 0 16px;
+  padding:14px 16px;border:1px solid var(--border,#dfe5ee);border-radius:12px;background:var(--bg-sunken)}
+.ana-item{min-width:0}
+.ana-item.wide{grid-column:1/-1}
+.ana-k{font:600 10.5px 'Inter',sans-serif;letter-spacing:.08em;text-transform:uppercase;color:var(--text-faint,#7a8699);margin-bottom:3px}
+.ana-v{font-size:13px;color:var(--text,#1b2433);white-space:pre-line;overflow-wrap:anywhere}
+.ana-v.mono{font-family:'IBM Plex Mono',monospace;font-size:12.5px}
+/* telefono: filtri su due colonne che non escono dallo schermo, e non fissi (occupavano mezzo schermo) */
+@media (max-width:640px){
+  .filters{grid-template-columns:repeat(2,minmax(0,1fr)) !important;position:static !important}
+  .filters input[type=search]{grid-column:1/-1 !important}
+  .filters select,.filters .reset-btn{min-width:0;width:100%}
+}
+
+
+/* Prevista ma con uscite dell'anno ancora da fare: rosso */
+.pill.late{ background:var(--danger-soft) !important; color:var(--danger) !important; box-shadow:inset 0 0 0 1px rgba(224,52,44,.35) !important; }
+/* ===== Non previsto da contratto: grigio trasparente, non rosso (18/11/2026) =====
+   Il rosso resta solo per le uscite "da fare" (ciambelle): un servizio non previsto non è un'attività mancata. */
+:root{ --np:rgba(154,160,180,.30); --np-text:#98a1b5; --np-line:rgba(154,160,180,.45); }
+.pill.danger{ background:transparent !important; color:var(--np-text) !important; box-shadow:inset 0 0 0 1px var(--np-line) !important; }
+.bar-seg.danger:not(.donut-seg){ background:var(--np) !important; }
+.bar-counts b.danger, .np-text{ color:var(--np-text) !important; }
+
+/* ===== Palette unica degli stati (18/11/2026) =====
+   verde = previsto/in regola · rosso = previsto con uscite da fare · ambra scuro = in trattativa (contratto non attivo)
+   grigio trasparente = non previsto · grigio a strisce = da compilare nel Master */
+:root{ --amber:#a8640a; --amber-soft:#f6ead6; --late:#d6302a; --late-soft:#fbe8e7;
+  --stripe:repeating-linear-gradient(45deg,#c3c9d6 0 3px,#f4f6fa 3px 6px); }
+.cov-legend{ display:flex; flex-wrap:wrap; gap:8px 20px; font-size:.78rem; color:var(--text-muted); margin:2px 0 12px; }
+.cov-legend span{ display:inline-flex; align-items:center; gap:7px; }
+.cov-sw{ width:14px; height:10px; border-radius:3px; display:inline-block; }
+.cov-sw.ok{ background:var(--ok); } .cov-sw.np{ background:var(--np); box-shadow:inset 0 0 0 1px var(--np-line); }
+.cov-sw.tr{ background:var(--amber); } .cov-sw.dc{ background:var(--stripe); box-shadow:inset 0 0 0 1px #c3c9d6; }
+.bar-row.cov{ grid-template-columns:190px 1fr 120px !important; }
+.cov-track{ height:22px !important; border-radius:7px !important; display:flex; overflow:hidden; background:var(--bg-sunken) !important; }
+.cov-track .bar-seg{ height:100%; display:flex; align-items:center; justify-content:center; white-space:nowrap; overflow:hidden;
+  font-size:.7rem; font-weight:700; color:#fff; cursor:pointer; transition:filter .15s; border-radius:0 !important; }
+.cov-track .bar-seg:hover{ filter:brightness(1.08); }
+.cov-track .bar-seg.ok{ background:var(--ok) !important; }
+.cov-track .bar-seg.danger{ background:var(--np) !important; color:#7a86a3; }
+.cov-track .bar-seg.pending{ background:var(--amber) !important; }
+.cov-track .bar-seg.neutral{ background:var(--stripe) !important; color:#5d6884; }
+.cov-pct{ text-align:right; font-size:.76rem; color:var(--text-muted); white-space:nowrap; }
+.cov-pct b{ color:var(--ok); font-size:.95rem; }
+.cov-note{ margin-top:10px; font-size:.72rem; color:var(--text-faint); }
+@media (max-width:640px){ .bar-row.cov{ grid-template-columns:1fr !important; gap:6px !important; } .cov-pct{ text-align:left; } }
+/* stessi colori su mappe, schede e pillole */
+.map-dot.due{ fill:var(--late) !important; } .map-dot.pending{ fill:var(--amber) !important; }
+.map-chip[data-st=due] .dot, .map-legend-dot.due{ background:var(--late) !important; box-shadow:0 0 6px rgba(214,48,42,.55) !important; }
+.map-chip[data-st=pending] .dot, .map-legend-dot.pending{ background:var(--amber) !important; box-shadow:none !important; }
+.map-tip .st.due{ background:var(--late-soft) !important; color:var(--late) !important; }
+.map-tip .st.pending{ background:var(--amber-soft) !important; color:var(--amber) !important; }
+.badge.status-due{ background:var(--late-soft) !important; color:var(--late) !important; }
+.badge.status-pending{ background:var(--amber-soft) !important; color:var(--amber) !important; }
+.client-card:has(.badge.status-due){ border-left-color:var(--late) !important; }
+.client-card:has(.badge.status-pending){ border-left-color:var(--amber) !important; }
+.pill.pending{ background:var(--amber-soft) !important; color:var(--amber) !important; }
+.pill.neutral{ background:var(--stripe) !important; color:#5d6884 !important; }
+
+.map-legend-title{ font-size:.68rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--text-faint); margin:0 0 6px; }
+.map-approx-note{ display:flex; align-items:center; gap:8px; font-size:.74rem; color:var(--text-faint); margin:8px 0 14px; }
+.map-approx-note .map-legend-dot, .map-mini-legend .map-legend-dot{ width:10px; height:10px; border-radius:50%; display:inline-block; flex:0 0 auto; }
+.map-mini-legend{ display:flex; flex-direction:column; gap:6px; margin:12px 0; font-size:.8rem; color:var(--text-muted); }
+.map-mini-legend > span{ display:flex; align-items:center; gap:8px; }
+.map-mini-legend b{ margin-left:auto; color:var(--text); }
+.map-legend-dot.ok{ background:var(--ok); }
+
+/* Distintivi informativi della scheda (regione, tipologia, potenza, PM): blu notte con testo bianco (18/11/2026) */
+.client-header .badge:not(.status-pending):not(.status-due):not(.status-complete){
+  background:#0b1d3f !important; color:#fff !important; border:0 !important; box-shadow:none !important; }
+
+/* Elenco impianti, opzione A (18/11/2026): fondo grigio-blu, schede bianche con ombra e bordo di stato spesso a sinistra */
+:root{ --bg:#e7ecf3 !important; }
+body{ background:#e7ecf3 !important; }
+.client-card{ background:#fff !important; border:0 !important; border-left:5px solid #b8c1d1 !important; border-radius:12px !important;
+  box-shadow:0 1px 2px rgba(16,32,64,.06), 0 4px 14px rgba(16,32,64,.06) !important; margin-bottom:10px; }
+.client-card:hover{ box-shadow:0 2px 4px rgba(16,32,64,.08), 0 8px 22px rgba(16,32,64,.10) !important; }
+.client-card:has(.badge.status-complete){ border-left-color:var(--ok) !important; }
+.client-card:has(.badge.status-due){ border-left-color:var(--late) !important; }
+.client-card:has(.badge.status-pending){ border-left-color:var(--amber) !important; }
+.client-card .client-body{ background:#fff !important; border-radius:0 0 12px 12px; }
+</style>
+
+<div id="gate" class="gate">
+  <div class="gate-glow"></div>
+  <div class="gate-box">
+    <img src="assets/logo_w.png" alt="Reflow" class="gate-logo">
+    <div class="gate-brand">REFLOW <b>STATUS</b></div>
+    <div class="gate-claim">Lo stato O&amp;M<span class="sep">|</span>Ogni Impianto<span class="sep">|</span>In tempo reale</div>
+    <button id="gateBtn" class="gate-btn" type="button" hidden>Accedi</button>
+    <div id="gateMsg" class="gate-msg">Avvio…</div>
+    <svg class="gate-pulse" viewBox="0 0 600 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 70 H190 L215 70 L235 22 L262 104 L288 46 L306 70 H600"/></svg>
+  </div>
+</div>
+<div class="topbar" id="topbar"><span class="tb-dot"></span><div><div class="tb-title">REFLOW STATUS</div><div class="tb-sub"><span class="n-clienti"></span> impianti in gestione</div></div><span class="tb-sp"></span><button id="upBtn" type="button" title="Torna su" aria-label="Torna su">↑</button></div>
+<header class="site-header">
+  <div class="hero-glow"></div>
+  <div class="brand">
+    <img src="assets/logo_c.png" alt="Reflow">
+    <div class="brand-divider"></div>
+    <div>
+      <div class="page-title">REFLOW STATUS</div>
+      <div class="page-sub">Stato O&amp;M degli impianti, letto in tempo reale dal REFLOW MASTER</div>
+    </div>
+  </div>
+  <div class="gen-date"><span id="genDate"></span><br><span class="n-clienti"></span> impianti in gestione<div class="hdr-actions"><a id="bMaster" class="hdr-btn" target="_blank" rel="noopener">Apri il Master</a><button id="bReload" class="hdr-btn" type="button">Aggiorna</button><button id="bOut" class="hdr-btn" type="button">Esci</button></div></div>
+</header>
+
+<div class="wrap">
+  <section class="summary">
+    <div class="kpi-row" id="kpiRow"></div>
+    <div class="bars-panel map-panel">
+      <h2>Mappa impianti — Italia</h2>
+      <div class="map-wrap">
+        <div class="map-svg-wrap">
+          <svg id="italyMap" viewBox="0 0 439.35 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mappa degli impianti in Italia, colorati per stato. Zoomabile con la rotella o i pulsanti +/-, trascinabile per spostarsi.">
+            <defs>
+              <radialGradient id="mapSeaGradient" cx="32%" cy="26%" r="90%">
+                <stop offset="0%" style="stop-color:var(--map-sea)"></stop>
+                <stop offset="100%" style="stop-color:var(--map-sea-edge)"></stop>
+              </radialGradient>
+              <linearGradient id="mapLandGradient" x1="15%" y1="0%" x2="85%" y2="100%">
+                <stop offset="0%" style="stop-color:var(--map-land)"></stop>
+                <stop offset="100%" style="stop-color:var(--map-land-edge)"></stop>
+              </linearGradient>
+            </defs>
+            <rect class="map-sea-bg" x="0" y="0" width="439.35" height="520"></rect>
+            <path class="map-italy" d="M 318.81,425.05 L 306.59,460.94 L 311.67,475.07 L 304.54,498.53 L 278.58,481.35 L 261.32,476.43 L 213.94,453.24 L 218.69,429.82 L 258.41,433.99 L 293.04,429.03 L 318.81,425.05 Z M 104.60,289.19 L 124.97,321.57 L 120.20,381.89 L 104.76,379.01 L 90.92,394.24 L 78.06,382.14 L 76.70,327.12 L 68.96,301.05 L 87.63,303.33 L 104.60,289.19 Z M 212.09,35.72 L 260.63,47.50 L 256.95,69.96 L 265.08,89.38 L 238.06,82.74 L 210.46,98.92 L 212.34,121.56 L 208.18,134.56 L 219.31,157.78 L 251.14,180.75 L 268.21,218.45 L 305.99,255.20 L 332.59,254.92 L 340.86,265.00 L 331.34,274.09 L 361.74,290.57 L 386.66,304.37 L 415.77,328.15 L 419.29,336.67 L 412.95,353.00 L 394.11,331.71 L 364.61,324.20 L 350.33,353.71 L 374.86,370.61 L 370.83,394.41 L 356.65,397.12 L 338.52,436.23 L 324.37,439.75 L 324.50,425.80 L 331.43,401.34 L 338.81,391.60 L 325.55,365.17 L 315.19,342.17 L 301.10,336.49 L 291.07,316.80 L 269.26,308.51 L 254.57,290.18 L 229.46,287.22 L 202.93,266.63 L 171.88,236.95 L 148.80,210.68 L 138.21,165.59 L 121.32,160.29 L 93.70,145.24 L 78.07,151.40 L 58.46,172.56 L 44.35,175.91 L 48.24,156.11 L 29.84,150.32 L 21.09,115.04 L 32.86,101.14 L 22.87,84.02 L 24.27,71.13 L 38.87,80.90 L 55.24,78.73 L 74.27,63.27 L 80.16,70.49 L 96.33,69.04 L 103.68,50.65 L 128.80,56.37 L 143.75,48.67 L 146.44,29.98 L 167.01,36.46 L 170.96,27.79 L 204.51,19.86 L 212.09,35.72 Z"></path>
+            <path class="map-regions" d="M 34.20,103.57 L 34.14,92.83 L 60.16,89.35 L 59.39,71.94 L 78.68,49.59 L 78.58,59.33 L 88.26,69.40 L 82.39,80.99 L 92.14,98.37 L 82.30,99.85 L 81.33,107.29 L 85.90,115.52 L 93.65,113.61 L 104.43,134.65 L 72.11,137.83 L 63.76,157.27 L 39.03,155.48 L 25.75,145.43 L 24.67,137.65 L 32.13,130.47 L 16.90,111.62 L 34.20,103.57 Z M 30.70,74.31 L 58.91,74.54 L 60.16,89.35 L 31.20,94.79 L 22.96,81.93 L 30.70,74.31 Z M 48.31,166.76 L 54.29,156.14 L 65.94,155.24 L 71.19,138.44 L 90.26,139.63 L 95.13,131.11 L 114.13,136.45 L 112.35,142.86 L 133.81,157.73 L 125.74,159.71 L 88.77,142.47 L 65.94,166.94 L 52.42,172.15 L 48.31,166.76 Z M 83.20,82.05 L 88.74,65.16 L 94.50,78.47 L 98.62,78.82 L 107.06,48.08 L 113.12,47.59 L 116.12,56.94 L 129.82,53.43 L 135.63,60.50 L 132.90,46.20 L 139.58,41.76 L 152.53,50.30 L 146.79,71.24 L 149.51,80.40 L 159.94,78.36 L 152.75,88.88 L 154.73,100.71 L 172.27,111.24 L 171.31,113.60 L 174.39,113.77 L 174.67,115.50 L 179.49,117.85 L 179.83,118.17 L 179.85,118.61 L 149.06,120.32 L 116.10,110.29 L 107.15,119.45 L 108.49,130.47 L 104.27,130.64 L 93.65,113.61 L 85.90,115.52 L 81.33,107.29 L 82.30,99.85 L 92.14,98.37 L 83.20,82.05 Z M 201.63,39.94 L 191.65,54.39 L 197.64,62.97 L 174.13,74.35 L 169.85,84.73 L 148.47,78.47 L 152.84,52.38 L 144.76,40.86 L 147.48,31.66 L 166.11,35.83 L 170.97,26.70 L 206.91,21.33 L 204.20,29.04 L 215.52,39.72 L 201.63,39.94 Z M 152.99,91.92 L 159.94,78.36 L 160.06,83.56 L 169.62,84.85 L 174.13,74.35 L 195.64,65.23 L 192.87,48.62 L 201.63,39.94 L 224.16,41.82 L 210.27,58.27 L 216.13,63.87 L 213.76,73.12 L 222.02,80.27 L 231.95,77.71 L 236.73,87.08 L 211.55,98.27 L 210.64,112.28 L 218.16,117.90 L 212.82,125.79 L 200.92,117.39 L 179.87,119.55 L 156.14,103.05 L 152.99,91.92 Z M 257.49,46.87 L 247.20,61.05 L 255.80,62.93 L 249.42,70.44 L 255.05,71.48 L 252.76,77.89 L 264.45,87.44 L 262.09,89.67 L 257.80,89.21 L 260.67,88.40 L 256.24,82.72 L 251.36,79.63 L 236.68,86.99 L 231.95,77.71 L 218.30,78.67 L 210.22,58.66 L 225.17,41.18 L 257.49,46.87 Z M 104.27,133.88 L 107.15,119.45 L 116.10,110.29 L 150.67,120.51 L 208.68,118.92 L 212.82,125.79 L 207.49,129.49 L 211.43,149.60 L 224.23,167.86 L 216.07,167.43 L 216.52,162.33 L 208.94,172.67 L 198.85,172.80 L 189.47,167.53 L 190.79,156.29 L 179.66,151.03 L 173.67,157.51 L 151.55,156.68 L 130.40,140.75 L 112.35,142.86 L 114.13,136.45 L 104.27,133.88 Z M 225.51,186.71 L 205.75,178.69 L 211.91,175.21 L 208.97,171.37 L 230.11,165.46 L 254.49,182.45 L 264.36,212.36 L 239.63,219.70 L 242.22,216.30 L 241.26,213.61 L 229.72,209.17 L 225.51,186.71 Z M 139.52,167.77 L 120.78,145.25 L 125.37,140.66 L 162.13,159.06 L 179.66,151.03 L 190.92,156.45 L 190.21,168.17 L 201.70,173.76 L 208.94,172.67 L 211.91,175.21 L 200.17,188.60 L 206.91,194.06 L 196.76,200.74 L 197.92,213.45 L 190.94,216.57 L 192.84,223.38 L 185.01,227.29 L 186.33,233.27 L 170.55,236.69 L 171.44,228.61 L 156.23,216.59 L 157.68,211.71 L 148.31,210.66 L 149.27,196.62 L 139.52,167.77 Z M 238.64,223.32 L 217.17,236.55 L 206.25,223.04 L 197.32,222.00 L 196.36,201.73 L 206.91,194.06 L 200.35,189.15 L 202.55,183.75 L 211.40,179.40 L 225.51,186.71 L 229.72,209.17 L 241.68,214.44 L 238.64,223.32 Z M 192.89,216.36 L 217.17,236.55 L 244.07,220.17 L 246.63,226.19 L 237.20,232.91 L 246.15,244.93 L 234.16,250.88 L 264.46,266.03 L 268.14,274.86 L 263.46,285.20 L 235.20,288.54 L 220.29,278.41 L 180.63,235.94 L 192.68,223.79 L 192.89,216.36 Z M 270.15,277.80 L 287.67,282.17 L 301.41,276.58 L 310.62,287.69 L 308.30,291.99 L 319.76,296.37 L 312.52,306.30 L 328.52,331.91 L 324.10,341.87 L 310.35,343.35 L 298.09,333.27 L 301.11,326.66 L 294.07,314.10 L 278.22,318.42 L 282.43,310.04 L 268.53,308.25 L 259.13,288.61 L 270.15,277.80 Z M 265.20,267.39 L 233.90,249.79 L 246.15,244.93 L 238.46,236.88 L 239.75,226.36 L 264.09,212.35 L 293.78,251.62 L 283.82,264.06 L 276.85,257.23 L 265.20,267.39 Z M 301.41,276.58 L 271.36,275.63 L 268.64,280.85 L 265.20,267.39 L 276.85,257.23 L 283.82,264.06 L 293.65,249.96 L 305.82,256.44 L 306.63,266.41 L 298.91,270.51 L 301.41,276.58 Z M 310.74,294.33 L 298.91,270.51 L 306.63,266.41 L 305.83,256.50 L 338.02,255.87 L 341.73,262.46 L 331.77,270.66 L 333.63,277.71 L 400.82,313.09 L 420.65,339.49 L 415.51,353.78 L 409.87,351.71 L 398.25,331.42 L 372.87,320.67 L 364.33,326.13 L 357.61,310.22 L 348.68,312.11 L 330.69,292.38 L 310.74,294.33 Z M 328.52,331.91 L 313.17,304.12 L 330.69,292.38 L 348.68,312.11 L 359.70,311.82 L 359.54,322.49 L 364.53,326.23 L 357.00,338.99 L 349.39,337.81 L 347.02,348.98 L 326.81,347.86 L 323.03,342.48 L 328.52,331.91 Z M 342.55,397.32 L 327.41,346.15 L 347.00,348.99 L 349.39,337.81 L 356.37,338.44 L 352.68,359.52 L 374.37,371.68 L 376.05,388.68 L 355.96,398.22 L 354.26,416.45 L 337.28,438.98 L 327.09,439.40 L 322.63,425.45 L 331.96,415.28 L 329.53,406.18 L 342.55,397.32 Z M 230.13,434.44 L 243.94,425.35 L 258.54,436.95 L 323.32,423.38 L 304.07,459.20 L 312.57,480.87 L 303.86,497.26 L 215.28,449.05 L 216.04,434.87 L 223.95,427.05 L 230.13,434.44 Z M 79.95,331.86 L 68.61,317.67 L 70.37,300.01 L 80.36,306.95 L 102.37,287.50 L 116.71,293.49 L 114.62,298.35 L 116.52,297.05 L 120.02,299.02 L 114.52,302.72 L 122.16,305.91 L 125.59,320.27 L 118.65,332.87 L 122.44,340.84 L 115.25,385.66 L 104.70,379.61 L 92.56,395.64 L 85.25,396.14 L 81.54,387.28 L 77.26,391.76 L 76.50,369.15 L 82.86,350.59 L 77.06,348.76 L 79.95,331.86 Z"></path>
+            <path class="map-veneto-provinces" d="M 176.62,98.66 L 181.99,103.56 L 178.63,104.73 L 180.38,113.03 L 170.33,110.59 L 167.84,111.83 L 163.22,105.71 L 157.99,101.95 L 156.14,103.05 L 154.69,100.21 L 155.74,97.41 L 152.59,96.10 L 152.75,88.88 L 159.94,78.36 L 161.55,79.32 L 160.06,83.56 L 162.72,85.33 L 167.26,83.58 L 170.62,85.13 L 176.36,93.77 L 176.62,98.66 Z M 186.27,98.63 L 185.06,103.23 L 186.33,104.55 L 183.23,104.54 L 177.31,100.27 L 176.36,93.77 L 170.44,86.50 L 170.07,83.99 L 174.13,74.35 L 177.22,74.86 L 178.05,71.48 L 184.11,70.20 L 192.25,74.52 L 192.49,76.57 L 190.57,77.35 L 193.17,80.50 L 193.26,85.00 L 187.31,87.41 L 187.69,91.70 L 190.10,90.77 L 191.13,92.60 L 186.27,98.63 Z M 187.99,69.95 L 189.31,68.60 L 188.63,66.46 L 195.56,65.27 L 198.01,62.18 L 191.65,54.39 L 195.51,50.58 L 193.17,47.88 L 199.26,46.43 L 201.63,39.94 L 205.84,43.61 L 215.52,39.72 L 224.16,41.82 L 220.36,45.93 L 221.79,49.39 L 217.31,49.55 L 210.27,58.27 L 216.13,63.87 L 213.06,68.78 L 209.97,67.06 L 194.87,76.17 L 191.78,75.85 L 192.11,74.21 L 187.99,69.95 Z M 192.63,79.85 L 190.57,77.35 L 193.38,74.92 L 197.63,75.48 L 198.00,72.80 L 206.99,70.13 L 210.46,66.99 L 212.60,67.48 L 213.77,73.13 L 216.49,74.25 L 218.13,78.51 L 221.29,78.95 L 222.56,83.82 L 216.42,84.98 L 213.71,87.92 L 214.37,90.66 L 211.38,89.46 L 207.64,92.13 L 201.83,87.07 L 195.85,88.37 L 193.06,84.74 L 192.63,79.85 Z M 221.60,80.25 L 225.78,77.37 L 226.76,78.93 L 231.95,77.71 L 236.70,87.20 L 230.29,88.33 L 212.71,96.94 L 209.65,103.63 L 210.59,108.91 L 204.34,113.71 L 198.25,110.23 L 198.56,107.80 L 205.55,107.44 L 204.56,106.22 L 206.31,103.88 L 200.49,102.01 L 198.47,98.18 L 200.19,96.09 L 198.54,95.16 L 200.61,90.28 L 202.99,88.32 L 207.64,92.13 L 211.38,89.46 L 214.37,90.66 L 213.71,87.92 L 216.42,84.98 L 222.56,83.82 L 221.60,80.25 Z M 205.55,107.44 L 198.25,110.23 L 191.20,111.97 L 182.10,111.64 L 179.52,110.44 L 178.63,104.77 L 186.33,104.55 L 185.06,103.23 L 186.26,98.64 L 191.13,92.60 L 190.10,90.77 L 187.69,91.70 L 187.31,87.41 L 193.26,85.00 L 195.85,88.37 L 201.83,87.07 L 202.44,89.23 L 199.22,92.71 L 198.57,95.52 L 200.22,95.94 L 198.47,98.18 L 200.49,102.01 L 206.31,103.88 L 204.56,106.22 L 205.55,107.44 Z M 200.18,110.88 L 204.05,113.79 L 210.67,108.87 L 210.64,112.28 L 218.16,118.14 L 212.82,125.79 L 209.29,122.71 L 208.68,118.92 L 192.74,117.38 L 185.76,121.40 L 183.42,119.22 L 179.87,119.55 L 174.39,113.77 L 171.26,113.11 L 172.34,111.34 L 179.00,113.93 L 180.49,112.67 L 179.31,110.30 L 200.18,110.88 Z"></path>
+            <g id="mapDots"></g>
+          </svg>
+          <div class="map-zoom-controls">
+            <button type="button" class="map-zoom-btn" id="mapZoomIn" aria-label="Aumenta zoom mappa" title="Aumenta zoom">+</button>
+            <button type="button" class="map-zoom-btn" id="mapZoomOut" aria-label="Riduci zoom mappa" title="Riduci zoom">−</button>
+            <button type="button" class="map-zoom-btn reset" id="mapZoomReset" aria-label="Reimposta vista mappa" title="Reimposta vista">⟲</button>
+          </div>
+        </div>
+        <div class="map-legend">
+          <div class="map-legend-item"><span class="map-legend-dot ok"></span>In regola</div>
+          <div class="map-legend-item"><span class="map-legend-dot due"></span>Manutenzioni da fare entro fine anno</div>
+          <div class="map-legend-item"><span class="map-legend-dot pending"></span>Non contrattualizzato / in trattativa</div>
+        </div>
+      </div>
+
+      <h3 class="map-subheading">Dettaglio Veneto</h3>
+      <div class="map-wrap">
+        <div class="map-svg-wrap veneto">
+          <svg id="venetoMap" viewBox="139.97 26.81 109.38 111.88" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mappa di dettaglio degli impianti in Veneto, colorati per stato. Zoomabile con la rotella o i pulsanti +/-, trascinabile per spostarsi.">
+            <rect class="map-sea-bg" x="139.97" y="26.81" width="109.38" height="111.88"></rect>
+            <path class="map-italy" d="M 318.81,425.05 L 306.59,460.94 L 311.67,475.07 L 304.54,498.53 L 278.58,481.35 L 261.32,476.43 L 213.94,453.24 L 218.69,429.82 L 258.41,433.99 L 293.04,429.03 L 318.81,425.05 Z M 104.60,289.19 L 124.97,321.57 L 120.20,381.89 L 104.76,379.01 L 90.92,394.24 L 78.06,382.14 L 76.70,327.12 L 68.96,301.05 L 87.63,303.33 L 104.60,289.19 Z M 212.09,35.72 L 260.63,47.50 L 256.95,69.96 L 265.08,89.38 L 238.06,82.74 L 210.46,98.92 L 212.34,121.56 L 208.18,134.56 L 219.31,157.78 L 251.14,180.75 L 268.21,218.45 L 305.99,255.20 L 332.59,254.92 L 340.86,265.00 L 331.34,274.09 L 361.74,290.57 L 386.66,304.37 L 415.77,328.15 L 419.29,336.67 L 412.95,353.00 L 394.11,331.71 L 364.61,324.20 L 350.33,353.71 L 374.86,370.61 L 370.83,394.41 L 356.65,397.12 L 338.52,436.23 L 324.37,439.75 L 324.50,425.80 L 331.43,401.34 L 338.81,391.60 L 325.55,365.17 L 315.19,342.17 L 301.10,336.49 L 291.07,316.80 L 269.26,308.51 L 254.57,290.18 L 229.46,287.22 L 202.93,266.63 L 171.88,236.95 L 148.80,210.68 L 138.21,165.59 L 121.32,160.29 L 93.70,145.24 L 78.07,151.40 L 58.46,172.56 L 44.35,175.91 L 48.24,156.11 L 29.84,150.32 L 21.09,115.04 L 32.86,101.14 L 22.87,84.02 L 24.27,71.13 L 38.87,80.90 L 55.24,78.73 L 74.27,63.27 L 80.16,70.49 L 96.33,69.04 L 103.68,50.65 L 128.80,56.37 L 143.75,48.67 L 146.44,29.98 L 167.01,36.46 L 170.96,27.79 L 204.51,19.86 L 212.09,35.72 Z"></path>
+            <path class="map-regions" d="M 34.20,103.57 L 34.14,92.83 L 60.16,89.35 L 59.39,71.94 L 78.68,49.59 L 78.58,59.33 L 88.26,69.40 L 82.39,80.99 L 92.14,98.37 L 82.30,99.85 L 81.33,107.29 L 85.90,115.52 L 93.65,113.61 L 104.43,134.65 L 72.11,137.83 L 63.76,157.27 L 39.03,155.48 L 25.75,145.43 L 24.67,137.65 L 32.13,130.47 L 16.90,111.62 L 34.20,103.57 Z M 30.70,74.31 L 58.91,74.54 L 60.16,89.35 L 31.20,94.79 L 22.96,81.93 L 30.70,74.31 Z M 48.31,166.76 L 54.29,156.14 L 65.94,155.24 L 71.19,138.44 L 90.26,139.63 L 95.13,131.11 L 114.13,136.45 L 112.35,142.86 L 133.81,157.73 L 125.74,159.71 L 88.77,142.47 L 65.94,166.94 L 52.42,172.15 L 48.31,166.76 Z M 83.20,82.05 L 88.74,65.16 L 94.50,78.47 L 98.62,78.82 L 107.06,48.08 L 113.12,47.59 L 116.12,56.94 L 129.82,53.43 L 135.63,60.50 L 132.90,46.20 L 139.58,41.76 L 152.53,50.30 L 146.79,71.24 L 149.51,80.40 L 159.94,78.36 L 152.75,88.88 L 154.73,100.71 L 172.27,111.24 L 171.31,113.60 L 174.39,113.77 L 174.67,115.50 L 179.49,117.85 L 179.83,118.17 L 179.85,118.61 L 149.06,120.32 L 116.10,110.29 L 107.15,119.45 L 108.49,130.47 L 104.27,130.64 L 93.65,113.61 L 85.90,115.52 L 81.33,107.29 L 82.30,99.85 L 92.14,98.37 L 83.20,82.05 Z M 201.63,39.94 L 191.65,54.39 L 197.64,62.97 L 174.13,74.35 L 169.85,84.73 L 148.47,78.47 L 152.84,52.38 L 144.76,40.86 L 147.48,31.66 L 166.11,35.83 L 170.97,26.70 L 206.91,21.33 L 204.20,29.04 L 215.52,39.72 L 201.63,39.94 Z M 152.99,91.92 L 159.94,78.36 L 160.06,83.56 L 169.62,84.85 L 174.13,74.35 L 195.64,65.23 L 192.87,48.62 L 201.63,39.94 L 224.16,41.82 L 210.27,58.27 L 216.13,63.87 L 213.76,73.12 L 222.02,80.27 L 231.95,77.71 L 236.73,87.08 L 211.55,98.27 L 210.64,112.28 L 218.16,117.90 L 212.82,125.79 L 200.92,117.39 L 179.87,119.55 L 156.14,103.05 L 152.99,91.92 Z M 257.49,46.87 L 247.20,61.05 L 255.80,62.93 L 249.42,70.44 L 255.05,71.48 L 252.76,77.89 L 264.45,87.44 L 262.09,89.67 L 257.80,89.21 L 260.67,88.40 L 256.24,82.72 L 251.36,79.63 L 236.68,86.99 L 231.95,77.71 L 218.30,78.67 L 210.22,58.66 L 225.17,41.18 L 257.49,46.87 Z M 104.27,133.88 L 107.15,119.45 L 116.10,110.29 L 150.67,120.51 L 208.68,118.92 L 212.82,125.79 L 207.49,129.49 L 211.43,149.60 L 224.23,167.86 L 216.07,167.43 L 216.52,162.33 L 208.94,172.67 L 198.85,172.80 L 189.47,167.53 L 190.79,156.29 L 179.66,151.03 L 173.67,157.51 L 151.55,156.68 L 130.40,140.75 L 112.35,142.86 L 114.13,136.45 L 104.27,133.88 Z M 225.51,186.71 L 205.75,178.69 L 211.91,175.21 L 208.97,171.37 L 230.11,165.46 L 254.49,182.45 L 264.36,212.36 L 239.63,219.70 L 242.22,216.30 L 241.26,213.61 L 229.72,209.17 L 225.51,186.71 Z M 139.52,167.77 L 120.78,145.25 L 125.37,140.66 L 162.13,159.06 L 179.66,151.03 L 190.92,156.45 L 190.21,168.17 L 201.70,173.76 L 208.94,172.67 L 211.91,175.21 L 200.17,188.60 L 206.91,194.06 L 196.76,200.74 L 197.92,213.45 L 190.94,216.57 L 192.84,223.38 L 185.01,227.29 L 186.33,233.27 L 170.55,236.69 L 171.44,228.61 L 156.23,216.59 L 157.68,211.71 L 148.31,210.66 L 149.27,196.62 L 139.52,167.77 Z M 238.64,223.32 L 217.17,236.55 L 206.25,223.04 L 197.32,222.00 L 196.36,201.73 L 206.91,194.06 L 200.35,189.15 L 202.55,183.75 L 211.40,179.40 L 225.51,186.71 L 229.72,209.17 L 241.68,214.44 L 238.64,223.32 Z M 192.89,216.36 L 217.17,236.55 L 244.07,220.17 L 246.63,226.19 L 237.20,232.91 L 246.15,244.93 L 234.16,250.88 L 264.46,266.03 L 268.14,274.86 L 263.46,285.20 L 235.20,288.54 L 220.29,278.41 L 180.63,235.94 L 192.68,223.79 L 192.89,216.36 Z M 270.15,277.80 L 287.67,282.17 L 301.41,276.58 L 310.62,287.69 L 308.30,291.99 L 319.76,296.37 L 312.52,306.30 L 328.52,331.91 L 324.10,341.87 L 310.35,343.35 L 298.09,333.27 L 301.11,326.66 L 294.07,314.10 L 278.22,318.42 L 282.43,310.04 L 268.53,308.25 L 259.13,288.61 L 270.15,277.80 Z M 265.20,267.39 L 233.90,249.79 L 246.15,244.93 L 238.46,236.88 L 239.75,226.36 L 264.09,212.35 L 293.78,251.62 L 283.82,264.06 L 276.85,257.23 L 265.20,267.39 Z M 301.41,276.58 L 271.36,275.63 L 268.64,280.85 L 265.20,267.39 L 276.85,257.23 L 283.82,264.06 L 293.65,249.96 L 305.82,256.44 L 306.63,266.41 L 298.91,270.51 L 301.41,276.58 Z M 310.74,294.33 L 298.91,270.51 L 306.63,266.41 L 305.83,256.50 L 338.02,255.87 L 341.73,262.46 L 331.77,270.66 L 333.63,277.71 L 400.82,313.09 L 420.65,339.49 L 415.51,353.78 L 409.87,351.71 L 398.25,331.42 L 372.87,320.67 L 364.33,326.13 L 357.61,310.22 L 348.68,312.11 L 330.69,292.38 L 310.74,294.33 Z M 328.52,331.91 L 313.17,304.12 L 330.69,292.38 L 348.68,312.11 L 359.70,311.82 L 359.54,322.49 L 364.53,326.23 L 357.00,338.99 L 349.39,337.81 L 347.02,348.98 L 326.81,347.86 L 323.03,342.48 L 328.52,331.91 Z M 342.55,397.32 L 327.41,346.15 L 347.00,348.99 L 349.39,337.81 L 356.37,338.44 L 352.68,359.52 L 374.37,371.68 L 376.05,388.68 L 355.96,398.22 L 354.26,416.45 L 337.28,438.98 L 327.09,439.40 L 322.63,425.45 L 331.96,415.28 L 329.53,406.18 L 342.55,397.32 Z M 230.13,434.44 L 243.94,425.35 L 258.54,436.95 L 323.32,423.38 L 304.07,459.20 L 312.57,480.87 L 303.86,497.26 L 215.28,449.05 L 216.04,434.87 L 223.95,427.05 L 230.13,434.44 Z M 79.95,331.86 L 68.61,317.67 L 70.37,300.01 L 80.36,306.95 L 102.37,287.50 L 116.71,293.49 L 114.62,298.35 L 116.52,297.05 L 120.02,299.02 L 114.52,302.72 L 122.16,305.91 L 125.59,320.27 L 118.65,332.87 L 122.44,340.84 L 115.25,385.66 L 104.70,379.61 L 92.56,395.64 L 85.25,396.14 L 81.54,387.28 L 77.26,391.76 L 76.50,369.15 L 82.86,350.59 L 77.06,348.76 L 79.95,331.86 Z"></path>
+            <path class="map-veneto-provinces" d="M 176.62,98.66 L 181.99,103.56 L 178.63,104.73 L 180.38,113.03 L 170.33,110.59 L 167.84,111.83 L 163.22,105.71 L 157.99,101.95 L 156.14,103.05 L 154.69,100.21 L 155.74,97.41 L 152.59,96.10 L 152.75,88.88 L 159.94,78.36 L 161.55,79.32 L 160.06,83.56 L 162.72,85.33 L 167.26,83.58 L 170.62,85.13 L 176.36,93.77 L 176.62,98.66 Z M 186.27,98.63 L 185.06,103.23 L 186.33,104.55 L 183.23,104.54 L 177.31,100.27 L 176.36,93.77 L 170.44,86.50 L 170.07,83.99 L 174.13,74.35 L 177.22,74.86 L 178.05,71.48 L 184.11,70.20 L 192.25,74.52 L 192.49,76.57 L 190.57,77.35 L 193.17,80.50 L 193.26,85.00 L 187.31,87.41 L 187.69,91.70 L 190.10,90.77 L 191.13,92.60 L 186.27,98.63 Z M 187.99,69.95 L 189.31,68.60 L 188.63,66.46 L 195.56,65.27 L 198.01,62.18 L 191.65,54.39 L 195.51,50.58 L 193.17,47.88 L 199.26,46.43 L 201.63,39.94 L 205.84,43.61 L 215.52,39.72 L 224.16,41.82 L 220.36,45.93 L 221.79,49.39 L 217.31,49.55 L 210.27,58.27 L 216.13,63.87 L 213.06,68.78 L 209.97,67.06 L 194.87,76.17 L 191.78,75.85 L 192.11,74.21 L 187.99,69.95 Z M 192.63,79.85 L 190.57,77.35 L 193.38,74.92 L 197.63,75.48 L 198.00,72.80 L 206.99,70.13 L 210.46,66.99 L 212.60,67.48 L 213.77,73.13 L 216.49,74.25 L 218.13,78.51 L 221.29,78.95 L 222.56,83.82 L 216.42,84.98 L 213.71,87.92 L 214.37,90.66 L 211.38,89.46 L 207.64,92.13 L 201.83,87.07 L 195.85,88.37 L 193.06,84.74 L 192.63,79.85 Z M 221.60,80.25 L 225.78,77.37 L 226.76,78.93 L 231.95,77.71 L 236.70,87.20 L 230.29,88.33 L 212.71,96.94 L 209.65,103.63 L 210.59,108.91 L 204.34,113.71 L 198.25,110.23 L 198.56,107.80 L 205.55,107.44 L 204.56,106.22 L 206.31,103.88 L 200.49,102.01 L 198.47,98.18 L 200.19,96.09 L 198.54,95.16 L 200.61,90.28 L 202.99,88.32 L 207.64,92.13 L 211.38,89.46 L 214.37,90.66 L 213.71,87.92 L 216.42,84.98 L 222.56,83.82 L 221.60,80.25 Z M 205.55,107.44 L 198.25,110.23 L 191.20,111.97 L 182.10,111.64 L 179.52,110.44 L 178.63,104.77 L 186.33,104.55 L 185.06,103.23 L 186.26,98.64 L 191.13,92.60 L 190.10,90.77 L 187.69,91.70 L 187.31,87.41 L 193.26,85.00 L 195.85,88.37 L 201.83,87.07 L 202.44,89.23 L 199.22,92.71 L 198.57,95.52 L 200.22,95.94 L 198.47,98.18 L 200.49,102.01 L 206.31,103.88 L 204.56,106.22 L 205.55,107.44 Z M 200.18,110.88 L 204.05,113.79 L 210.67,108.87 L 210.64,112.28 L 218.16,118.14 L 212.82,125.79 L 209.29,122.71 L 208.68,118.92 L 192.74,117.38 L 185.76,121.40 L 183.42,119.22 L 179.87,119.55 L 174.39,113.77 L 171.26,113.11 L 172.34,111.34 L 179.00,113.93 L 180.49,112.67 L 179.31,110.30 L 200.18,110.88 Z"></path>
+            <g id="venetoDots"></g>
+          </svg>
+          <div class="map-zoom-controls">
+            <button type="button" class="map-zoom-btn" id="venetoZoomIn" aria-label="Aumenta zoom mappa Veneto" title="Aumenta zoom">+</button>
+            <button type="button" class="map-zoom-btn" id="venetoZoomOut" aria-label="Riduci zoom mappa Veneto" title="Riduci zoom">−</button>
+            <button type="button" class="map-zoom-btn reset" id="venetoZoomReset" aria-label="Reimposta vista mappa Veneto" title="Reimposta vista">⟲</button>
+          </div>
+        </div>
+        <div class="map-legend">
+          <div class="map-note" id="venetoMapCaption"></div>
+          <div class="map-hint">Stessi colori e interazioni della mappa sopra — qui solo gli impianti in Veneto, la regione con più impianti in gestione.</div>
+        </div>
+      </div>
+    </div>
+    <div class="bars-panel">
+      <h2 id="dueByServiceTitle">Manutenzioni da fare entro fine anno, per tipologia</h2>
+      <div class="due-grid" id="dueByServiceRow"></div>
+    </div>
+    <div class="bars-panel">
+      <h2>Manutenzioni svolte</h2>
+      <div id="doneBarsContainer"></div>
+    </div>
+    <div class="bars-panel">
+      <h2>Copertura servizi</h2>
+      <div id="barsContainer"></div>
+    </div>
+  </section>
+
+  <div class="filters">
+    <input type="search" id="searchInput" placeholder="Cerca cliente…" aria-label="Cerca cliente">
+    <select id="regioneSelect" aria-label="Filtra per regione"><option value="">Tutte le regioni</option></select>
+    <select id="tipologiaSelect" aria-label="Filtra per tipologia impianto"><option value="">Tutte le tipologie</option></select>
+    <select id="pmSelect" aria-label="Filtra per PM"><option value="">Tutti i PM</option></select>
+    <select id="servizioSelect" aria-label="Filtra per servizio"><option value="">Tutti i servizi</option></select>
+    <select id="statoSelect" aria-label="Filtra per stato">
+      <option value="">Qualsiasi stato</option>
+      <option value="ok">Previsto</option>
+      <option value="danger">Non previsto</option>
+      <option value="neutral">Da compilare</option>
+      <option value="pending">In trattativa</option>
+    </select>
+    <select id="contrattualeSelect" aria-label="Filtra per stato contrattuale">
+      <option value="">Contrattualizzati e non</option>
+      <option value="contrattualizzato">Solo contrattualizzati</option>
+      <option value="non_contrattualizzato">Solo non contrattualizzati</option>
+    </select>
+    <select id="scadenzeSelect" aria-label="Filtra per manutenzioni da fare entro fine anno">
+      <option value="">Tutte le scadenze</option>
+      <option value="con_mancanti">Con manutenzioni da fare entro fine anno</option>
+      <option value="tutto_fatto">Tutto fatto o non previsto</option>
+    </select>
+    <select id="ordinaSelect" aria-label="Ordina la lista impianti">
+      <option value="file">Ordine come nel Master</option>
+      <option value="mancanti">Più manutenzioni mancanti prima</option>
+      <option value="nome">Nome cliente (A-Z)</option>
+    </select>
+    <button class="reset-btn" id="resetBtn" type="button">Azzera filtri</button>
+  </div>
+  <div class="due-filter-chip" id="dueFilterChip" style="display:none;"></div>
+  <div class="due-filter-chip" id="coverageFilterChip" style="display:none;"></div>
+  <div class="result-count" id="resultCount"></div>
+
+  <div class="client-list" id="clientList"></div>
+  <div class="empty-state" id="emptyState" style="display:none;">Nessun impianto corrisponde ai filtri selezionati.</div>
+</div>
+
+<script>
+function RUN(DATA, SERVICE_META){
+
+function normState(previsto){
+  if(previsto === 'Sì') return 'ok';
+  if(previsto === 'No') return 'danger';
+  return 'neutral';
+}
+function stateLabel(s){
+  if(s === 'ok') return 'Previsto';
+  if(s === 'danger') return 'Non previsto';
+  if(s === 'pending') return 'In trattativa';
+  return 'Da compilare';
+}
+function extractNoteText(raw){
+  if(!raw) return '';
+  const idx = raw.indexOf('=');
+  const s = idx >= 0 ? raw.slice(idx+1) : raw;
+  return s.trim();
+}
+function trimVal(v){ return (v||'').trim(); }
+
+// ---- Manutenzioni "da fare entro fine anno" ----
+// Convenzione confermata da Luca (04/09/2026): nei campi 1ª/2ª/3ª uscita di un servizio periodico, un mese
+// reale (es. "Giugno") significa che quell'uscita è STATA EFFETTUATA — a prescindere dal fatto che sull'RDI
+// (rilevante solo per Manutenzione Ordinaria) sia già stato assegnato un numero o resti il placeholder "RDI".
+// I placeholder "Mese" e "X" isolato significano "non ancora fatta". I campi si azzerano a inizio anno solare,
+// quindi il conteggio vale sempre per l'anno corrente.
+// Caso limite non coperto esplicitamente da Luca: un'annotazione libera al posto del mese pulito
+// (es. "X DA PROGRAMMA OTTOBRE" invece di "Ottobre") — trattata qui come NON fatta, perché il testo stesso
+// dice "da programma" (pianificata, non ancora avvenuta), e segnalata a parte come nota/anomalia invece che
+// contata silenziosamente come completata. Verificare con Luca se un caso del genere risulta impattante.
+const MESI_SET = new Set(['gennaio','febbraio','marzo','aprile','maggio','giugno','luglio','agosto','settembre','ottobre','novembre','dicembre']);
+const FREQ_ATTESE = {'Annuale':1, 'Semestrale':2, 'Quadrimestrale':3};
+const ANNO_CORRENTE = new Date().getFullYear();
+// Finché il Master non è compilato meglio anche sugli altri servizi, i pannelli "uscite fatte/da fare" mostrano
+// solo le tipologie con dati sufficientemente affidabili (Luca, 04/09/2026) — Estintori/TVCC/Termografia/
+// Derattizzazione restano fuori da queste 2 viste per ora (restano invece in "Copertura servizi", che è un'altra cosa).
+const TIPOLOGIE_USCITE_AFFIDABILI = ['Manutenzione Ordinaria', 'Manutenzione Verde', 'Lavaggio Moduli'];
+
+function classifyUscita(raw){
+  const val = extractNoteText(raw); // riusa lo split su "=" già usato per le Note
+  if(!val) return {done:false, anomaly:false, label:''};
+  const monthPart = val.split(' - ')[0].trim().toLowerCase();
+  if(monthPart === 'mese' || monthPart === 'x') return {done:false, anomaly:false, label:''};
+  if(MESI_SET.has(monthPart)) return {done:true, anomaly:false, label:val};
+  // Luca, 05/10/2026: "Giugno 22", "Luglio 3", "27-28 Maggio / 1-3 Giugno" o una data (23/05/2026) = uscita EFFETTUATA
+  // (mese + giorno/i). Se il testo parla di programmazione ("PROGRAMMATO AGOSTO", "X DA PROG. GIUGNO") NON e' fatta.
+  const low = val.toLowerCase();
+  if(/prog/.test(low)) return {done:false, anomaly:true, label:val};
+  const hasMonth = Array.from(MESI_SET).some(m => low.includes(m));
+  if((hasMonth && /\d/.test(low)) || /^\d{1,2}\/\d{1,2}(\/\d{2,4})?$/.test(monthPart)) return {done:true, anomaly:false, label:val};
+  return {done:false, anomaly:true, label:val}; // annotazione libera, non un mese pulito
+}
+
+DATA.forEach(c => {
+  c.nonContrattualizzato = !!c.stato_cat;
+  c.prState = c.nonContrattualizzato ? 'pending' : normState(c.pr === 'Previsto' ? 'Sì' : (c.pr === 'Non previsto' ? 'No' : ''));
+  c.totalRemaining = 0;
+  c.totalExpected = 0;
+  c.servizi.forEach(s => {
+    s.state = c.nonContrattualizzato ? 'pending' : normState(s.previsto);
+    if(s.nome === 'Servizio di CCTV e vigilanza'){
+      s.noteText = trimVal(s.note);
+    } else {
+      s.noteText = extractNoteText(s.note);
+    }
+    const expected = c.nonContrattualizzato ? 0 : (FREQ_ATTESE[trimVal(s.frequenza)] || 0);
+    if(expected > 0){
+      const slots = [s.u1, s.u2, s.u3].map(classifyUscita);
+      const done = slots.filter(x=>x.done).length;
+      const anomalies = slots.filter(x=>x.anomaly).map(x=>x.label);
+      s.due = {expected, done, remaining: Math.max(expected - done, 0), overDone: done > expected, anomalies};
+      c.totalExpected += expected;
+      c.totalRemaining += s.due.remaining;
+    } else {
+      s.due = null;
+    }
+  });
+});
+
+// ---- Mappa geografica ----
+// Proiezione equirettangolare centrata sull'Italia, IDENTICA a quella usata server-side (generatore) per
+// generare il contorno statico da GeoJSON: se questi parametri cambiano da una parte vanno cambiati anche
+// dall'altra, altrimenti i punti-cliente non si allineano più con il contorno.
+const MAP_LON_MIN = 6.6, MAP_LAT_MAX = 47.2, MAP_LAT0 = 41.9;
+const MAP_COS_LAT0 = Math.cos(MAP_LAT0 * Math.PI / 180);
+const MAP_VIEW_H = 520, MAP_PAD = 16;
+const MAP_K = (MAP_VIEW_H - 2 * MAP_PAD) / (47.2 - 36.5);
+function mapProject(lat, lon){
+  return {
+    x: (lon - MAP_LON_MIN) * MAP_COS_LAT0 * MAP_K + MAP_PAD,
+    y: (MAP_LAT_MAX - lat) * MAP_K + MAP_PAD,
+  };
+}
+function mapStatusClass(c){
+  if(c.nonContrattualizzato) return 'pending';
+  return c.totalRemaining > 0 ? 'due' : 'ok';
+}
+function mapStatusLabel(c){
+  if(c.nonContrattualizzato) return c.stato_label || 'In trattativa';
+  return c.totalRemaining > 0 ? `${c.totalRemaining} manutenzioni da fare entro fine anno` : 'In regola';
+}
+const MAP_PRECISION_LABEL = {comune: 'posizione approssimata — comune', provincia: 'posizione approssimata — provincia', regione: 'posizione approssimata — regione'};
+function renderMapDots(clientList, radius, extraClass){
+  radius = radius || 4;
+  extraClass = extraClass ? ' ' + extraClass : '';
+  return clientList.map(c => {
+    const p = mapProject(c.lat, c.lon);
+    const isApprox = c.geo_precision && c.geo_precision !== 'esatta';
+    const precisionNote = isApprox ? ` (${MAP_PRECISION_LABEL[c.geo_precision]})` : '';
+    const label = `${c.cliente} — ${mapStatusLabel(c)}${precisionNote}`;
+    const cls = `map-dot ${mapStatusClass(c)}${isApprox ? ' approx' : ''}${extraClass}`;
+    return `<circle class="${cls}" cx="${p.x.toFixed(2)}" cy="${p.y.toFixed(2)}" r="${radius}" tabindex="0" data-riga="${c.riga}"><title>${escapeHtml(label)}</title></circle>`;
+  }).join('');
+}
+const mapDotsG = document.getElementById('mapDots');
+const clientsWithCoords = DATA.filter(c => c.lat != null && c.lon != null);
+mapDotsG.innerHTML = renderMapDots(clientsWithCoords);
+
+// ---- Mappa di dettaglio Veneto ----
+// Stesse coordinate proiettate (mapProject), nessuna nuova proiezione: la mappa Veneto è solo un ritaglio
+// ingrandito della stessa area di coordinate, con un viewBox più piccolo (vedi VENETO_VIEW_DEFAULT sotto).
+// Filtro per REGIONE (non per posizione geometrica) per restare coerenti col significato di "cliente Veneto"
+// già usato altrove nel sito (filtro regione, badge) — un impianto sul bordo mostrato con posizione
+// approssimata potrebbe geometricamente cadere fuori/dentro il ritaglio, ma la sua regione anagrafica resta
+// il criterio corretto.
+const venetoDotsG = document.getElementById('venetoDots');
+const venetoClients = clientsWithCoords.filter(c => trimVal(c.regione) === 'VENETO');
+venetoDotsG.innerHTML = renderMapDots(venetoClients, 0.9, 'dot-sm');
+document.getElementById('venetoMapCaption').textContent = `${venetoClients.length} impianti su ${clientsWithCoords.length} mostrati in mappa sono in Veneto.`;
+function focusClientFromMap(riga){
+  const c = DATA.find(x => x.riga === riga);
+  if(!c) return;
+  document.getElementById('searchInput').value = c.cliente;
+  document.getElementById('regioneSelect').value = '';
+  document.getElementById('tipologiaSelect').value = '';
+  document.getElementById('pmSelect').value = '';
+  document.getElementById('servizioSelect').value = '';
+  document.getElementById('statoSelect').value = '';
+  document.getElementById('contrattualeSelect').value = '';
+  document.getElementById('scadenzeSelect').value = '';
+  openState.add(riga);
+  renderList();
+  document.getElementById('clientList').scrollIntoView({behavior:'smooth', block:'start'});
+}
+// ---- Zoom/pan della mappa via viewBox SVG (fabbrica riusabile: la mappa Italia e la mappa di dettaglio
+// Veneto sono due istanze indipendenti dello stesso meccanismo, ciascuna col proprio SVG/viewBox/stato di
+// trascinamento) ----
+// Zoommare significa restringere/allargare il rettangolo viewBox mantenendo fermo sullo schermo un punto
+// di ancoraggio in coordinate mappa; trascinare significa traslare l'origine del viewBox in proporzione
+// allo spostamento in pixel diviso la scala corrente. Non tocca la proiezione lat/lon->x/y qui sopra.
+function setupZoomableMap(svg, dotsG, viewDefault, minWDivisor, zoomInBtn, zoomOutBtn, resetBtn){
+  let view = {...viewDefault};
+  const minW = viewDefault.w / minWDivisor; // massimo zoom in
+  const maxW = viewDefault.w;               // vista di default = massimo zoom out
+
+  let raf = 0, idle = 0;
+  function paint(){
+    raf = 0;
+    svg.setAttribute('viewBox', `${view.x} ${view.y} ${view.w} ${view.h}`);
+    svg.style.setProperty('--zs', (view.w / viewDefault.w).toFixed(3));
+  }
+  // un solo aggiornamento per fotogramma; durante il movimento niente animazione del raggio dei punti
+  function applyView(){
+    svg.classList.add('moving');
+    clearTimeout(idle); idle = setTimeout(() => svg.classList.remove('moving'), 180);
+    if(!raf) raf = requestAnimationFrame(paint);
+  }
+  // mare e reticolo estesi oltre la vista di default, così spostando la mappa non compare il bianco
+  svg.querySelectorAll('.map-sea-bg').forEach(r => {
+    r.setAttribute('x', viewDefault.x - viewDefault.w); r.setAttribute('y', viewDefault.y - viewDefault.h);
+    r.setAttribute('width', viewDefault.w * 3); r.setAttribute('height', viewDefault.h * 3);
+  });
+  function clampView(v){
+    const w = Math.max(minW, Math.min(maxW, v.w));
+    const h = w * (viewDefault.h / viewDefault.w);
+    // margine di sovra-panning consentito: metà del rettangolo di vista, così non si perde mai la mappa di
+    // vista. I limiti sono relativi all'origine di viewDefault (non a 0 assoluto): la mappa Veneto ha un
+    // viewBox di default che non parte da (0,0) come quella Italia, quindi il margine va ancorato alla sua
+    // stessa vista di default, non all'angolo in alto a sinistra dell'intero spazio di coordinate.
+    const x = Math.min(Math.max(v.x, viewDefault.x - w * 0.5), viewDefault.x + viewDefault.w - w * 0.5);
+    const y = Math.min(Math.max(v.y, viewDefault.y - h * 0.5), viewDefault.y + viewDefault.h - h * 0.5);
+    return {x, y, w, h};
+  }
+  function zoomAt(factor, cx, cy){
+    // cx/cy: punto di ancoraggio in coordinate mappa (resta fermo sullo schermo durante lo zoom)
+    const newW = view.w * factor;
+    const newH = view.h * factor;
+    const newX = cx - (cx - view.x) * (newW / view.w);
+    const newY = cy - (cy - view.y) * (newH / view.h);
+    view = clampView({x: newX, y: newY, w: newW, h: newH});
+    applyView();
+  }
+  function pointFromEvent(e){
+    const pt = svg.createSVGPoint();
+    pt.x = e.clientX; pt.y = e.clientY;
+    return pt.matrixTransform(svg.getScreenCTM().inverse());
+  }
+  svg.addEventListener('wheel', (e) => {
+    e.preventDefault();
+    const p = pointFromEvent(e);
+    let d = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? 400 : 1);
+    d = Math.max(-120, Math.min(120, d));
+    // pizzico sul touchpad (ctrlKey): movimenti piccoli, servono più sensibili
+    const factor = Math.exp(d * (e.ctrlKey ? 0.01 : 0.0022));
+    zoomAt(factor, p.x, p.y);
+  }, {passive: false});
+
+  zoomInBtn.addEventListener('click', () => zoomAt(0.7, view.x + view.w / 2, view.y + view.h / 2));
+  zoomOutBtn.addEventListener('click', () => zoomAt(1 / 0.7, view.x + view.w / 2, view.y + view.h / 2));
+  resetBtn.addEventListener('click', () => { view = {...viewDefault}; applyView(); });
+  // la vista iniziale si disegna subito, senza attendere il fotogramma
+
+  // Trascinamento (pointer events: unifica mouse e touch a un dito). Un trascinamento minimo (soglia in
+  // pixel schermo) sopprime il click successivo, per non aprire per sbaglio la scheda di un cliente mentre
+  // si sta solo spostando la mappa.
+  // Nota: deliberatamente NIENT'affatto setPointerCapture qui — su Chromium, catturare il puntatore sull'SVG
+  // al pointerdown sopprime il successivo evento 'click' anche quando il movimento è nullo (verificato),
+  // il che romperebbe l'apertura scheda cliente al semplice clic su un punto. Per continuare a seguire il
+  // trascinamento anche se il cursore esce dai bordi dell'SVG, i listener di move/up si registrano su
+  // `document` solo per la durata del gesto, invece di usare la pointer capture.
+  let drag = null;
+  const DRAG_CLICK_THRESHOLD = 4;
+  let dragOccurred = false;
+  function onPointerMove(e){
+    if(!drag || pinch) return;
+    const dxPx = e.clientX - drag.startClientX;
+    const dyPx = e.clientY - drag.startClientY;
+    drag.moved = Math.max(drag.moved, Math.hypot(dxPx, dyPx));
+    const rect = svg.getBoundingClientRect();
+    const scaleX = drag.startView.w / rect.width;
+    const scaleY = drag.startView.h / rect.height;
+    const next = {
+      x: drag.startView.x - dxPx * scaleX,
+      y: drag.startView.y - dyPx * scaleY,
+      w: drag.startView.w,
+      h: drag.startView.h,
+    };
+    view = clampView(next);
+    applyView();
+  }
+  function onPointerUp(e){
+    if(!drag) return;
+    dragOccurred = drag.moved > DRAG_CLICK_THRESHOLD;
+    svg.classList.remove('panning');
+    document.removeEventListener('pointermove', onPointerMove);
+    document.removeEventListener('pointerup', onPointerUp);
+    document.removeEventListener('pointercancel', onPointerUp);
+    drag = null;
+  }
+  const touches = new Map(); let pinch = null;
+  svg.addEventListener('pointerdown', (e) => { if(e.pointerType === 'touch') touches.set(e.pointerId, {x: e.clientX, y: e.clientY}); }, true);
+  function endTouch(e){ touches.delete(e.pointerId); if(touches.size < 2) pinch = null; }
+  document.addEventListener('pointerup', endTouch); document.addEventListener('pointercancel', endTouch);
+  document.addEventListener('pointermove', (e) => {
+    if(!touches.has(e.pointerId)) return;
+    touches.set(e.pointerId, {x: e.clientX, y: e.clientY});
+    if(touches.size !== 2) return;
+    const [a, b] = [...touches.values()];
+    const dist = Math.hypot(a.x - b.x, a.y - b.y), mid = {clientX: (a.x + b.x) / 2, clientY: (a.y + b.y) / 2};
+    if(!pinch){ pinch = {dist}; if(drag){ drag.moved = DRAG_CLICK_THRESHOLD + 1; onPointerUp(e); } return; }
+    if(dist > 0 && pinch.dist > 0){ const p = pointFromEvent(mid); zoomAt(pinch.dist / dist, p.x, p.y); }
+    pinch.dist = dist;
+  });
+  svg.addEventListener('pointerdown', (e) => {
+    if(e.button !== undefined && e.button !== 0) return;
+    if(touches.size > 1) return;
+    drag = {startClientX: e.clientX, startClientY: e.clientY, startView: {...view}, moved: 0};
+    svg.classList.add('panning');
+    document.addEventListener('pointermove', onPointerMove);
+    document.addEventListener('pointerup', onPointerUp);
+    document.addEventListener('pointercancel', onPointerUp);
+  });
+
+  dotsG.addEventListener('click', (e) => {
+    if(dragOccurred){ dragOccurred = false; return; }
+    const dot = e.target.closest('.map-dot');
+    if(!dot) return;
+    focusClientFromMap(Number(dot.dataset.riga));
+  });
+  dotsG.addEventListener('keydown', (e) => {
+    const dot = e.target.closest('.map-dot');
+    if(!dot || (e.key !== 'Enter' && e.key !== ' ')) return;
+    e.preventDefault();
+    focusClientFromMap(Number(dot.dataset.riga));
+  });
+
+  paint();
+}
+
+const MAP_VIEW_DEFAULT = {x: 0, y: 0, w: 439.35, h: 520};
+setupZoomableMap(
+  document.getElementById('italyMap'), mapDotsG, MAP_VIEW_DEFAULT, 9,
+  document.getElementById('mapZoomIn'), document.getElementById('mapZoomOut'), document.getElementById('mapZoomReset')
+);
+
+// Ritaglio della mappa Italia sull'area del Veneto (stessa proiezione, stesso viewBox-space: vedi
+// generate_boundaries.py per come è calcolato questo riquadro dai confini reali delle 7 province venete,
+// con un margine del 15% per non tagliare i punti vicini al bordo). Divisore di zoom più basso (6 invece di 9)
+// perché l'area di partenza è già più piccola/densa: un fattore uguale porterebbe a uno zoom eccessivo.
+const VENETO_VIEW_DEFAULT = {x: 139.97, y: 26.81, w: 109.38, h: 111.88};
+setupZoomableMap(
+  document.getElementById('venetoMap'), venetoDotsG, VENETO_VIEW_DEFAULT, 6,
+  document.getElementById('venetoZoomIn'), document.getElementById('venetoZoomOut'), document.getElementById('venetoZoomReset')
+);
+
+function computeKpis(){
+  const totalServizi = DATA.length * 8;
+  let svcOk=0, svcNo=0, svcVuoto=0, svcPending=0;
+  DATA.forEach(c => c.servizi.forEach(s => {
+    if(s.state==='ok') svcOk++; else if(s.state==='danger') svcNo++; else if(s.state==='pending') svcPending++; else svcVuoto++;
+  }));
+  let prOk=0, prNo=0, prVuoto=0, prPending=0;
+  DATA.forEach(c => {
+    if(c.prState==='ok') prOk++; else if(c.prState==='danger') prNo++; else if(c.prState==='pending') prPending++; else prVuoto++;
+  });
+  const nonContrattualizzati = DATA.filter(c=>c.nonContrattualizzato).length;
+  const manutenzioniMancanti = DATA.reduce((sum,c)=>sum + c.totalRemaining, 0);
+  const impiantiConMancanti = DATA.filter(c=>c.totalRemaining>0).length;
+  return {totalServizi, svcOk, svcNo, svcVuoto, svcPending, prOk, prNo, prVuoto, prPending, nonContrattualizzati, manutenzioniMancanti, impiantiConMancanti};
+}
+const K = computeKpis();
+
+const kpiRow = document.getElementById('kpiRow');
+const kpiDefs = [
+  {label:'Impianti censiti', num: DATA.length, cls:'blue'},
+  {label:'Servizi previsti', num: K.svcOk, cls:'green'},
+  {label:'Impianti non contrattualizzati', num: K.nonContrattualizzati, cls:'grey'},
+];
+kpiRow.innerHTML = kpiDefs.map(k => `
+  <div class="kpi-card ${k.cls}">
+    <div class="kpi-num">${k.num}</div>
+    <div class="kpi-label">${k.label}</div>
+  </div>
+`).join('');
+
+// ---- Manutenzioni da fare entro fine anno, un blocco per tipologia (esclusa CCTV: non ha uscite periodiche) ----
+function svcDueTotals(nome){
+  let expected=0, done=0, remaining=0;
+  DATA.forEach(c=>{
+    const s = c.servizi.find(x=>x.nome===nome);
+    if(s && s.due){ expected += s.due.expected; done += s.due.done; remaining += s.due.remaining; }
+  });
+  return {expected, done, remaining};
+}
+const dueByServiceRow = document.getElementById('dueByServiceRow');
+dueByServiceRow.innerHTML = SERVICE_META
+  .filter(([nome]) => TIPOLOGIE_USCITE_AFFIDABILI.includes(nome))
+  .map(([nome, sigla]) => {
+    const t = svcDueTotals(nome);
+    const zero = t.remaining === 0;
+    const fixedCls = nome === 'Manutenzione Verde' ? 'verde-mil' : nome === 'Lavaggio Moduli' ? 'blu' : (zero ? 'zero' : 'has-due');
+    return `
+    <div class="due-block ${fixedCls}">
+      <div class="due-num">${zero ? '✓' : t.remaining}</div>
+      <div class="due-label">${nome}</div>
+      <div class="due-sub">${t.done}/${t.expected} uscite fatte</div>
+    </div>`;
+  }).join('');
+
+// ---- "Manutenzioni svolte" — grafici circolari (donut), fatte (verde) vs da fare (rosso) (Luca, 09/09/2026:
+// "la rappresentazione qui facciamola con dei grafici circolari"). Restano i data-attribute bar-seg/data-servizio/
+// data-want e la classe .bar-seg sui due archi, cosi' il filtro al click (event delegation piu' sotto) resta invariato.
+const doneBarsContainer = document.getElementById('doneBarsContainer');
+const DONUT_R = 40, DONUT_C = 2 * Math.PI * DONUT_R;
+let doneBarsHtml = '<div class="donut-grid">';
+SERVICE_META.filter(([nome]) => TIPOLOGIE_USCITE_AFFIDABILI.includes(nome)).forEach(([nome, sigla]) => {
+  const t = svcDueTotals(nome);
+  const doneForWidth = Math.min(t.done, t.expected);
+  const donePct = t.expected > 0 ? doneForWidth / t.expected * 100 : 0;
+  const remPct = t.expected > 0 ? t.remaining / t.expected * 100 : 0;
+  const doneLen = donePct / 100 * DONUT_C;
+  const remLen = remPct / 100 * DONUT_C;
+  const nomeEsc = escapeHtml(nome);
+  doneBarsHtml += `
+    <div class="donut-item">
+      <svg viewBox="0 0 100 100" class="donut-svg" role="img" aria-label="${nomeEsc}: ${t.done} fatte, ${t.remaining} da fare, su ${t.expected} attese">
+        <circle class="donut-track" cx="50" cy="50" r="${DONUT_R}"></circle>
+        <circle class="bar-seg donut-seg ok" cx="50" cy="50" r="${DONUT_R}" stroke-dasharray="${doneLen.toFixed(2)} ${(DONUT_C-doneLen).toFixed(2)}" data-servizio="${nomeEsc}" data-want="done"><title>Mostra sotto gli impianti con ${nomeEsc} completata</title></circle>
+        <circle class="bar-seg donut-seg danger" cx="50" cy="50" r="${DONUT_R}" stroke-dasharray="${remLen.toFixed(2)} ${(DONUT_C-remLen).toFixed(2)}" stroke-dashoffset="${(-doneLen).toFixed(2)}" data-servizio="${nomeEsc}" data-want="remaining"><title>Mostra sotto gli impianti con ${nomeEsc} ancora da fare</title></circle>
+        <text x="50" y="50" text-anchor="middle" dominant-baseline="central" class="donut-num">${t.done}/${t.expected}</text>
+      </svg>
+      <div class="donut-name">${nomeEsc}<div class="donut-counts"><b class="ok" style="color:var(--ok)">${t.done}</b> fatte / <b class="danger" style="color:var(--danger)">${t.remaining}</b> da fare</div></div>
+    </div>`;
+});
+doneBarsHtml += '</div>';
+doneBarsContainer.innerHTML = doneBarsHtml;
+doneBarsContainer.insertAdjacentHTML('beforeend', `<div style="margin-top:10px; font-size:0.72rem; color:var(--text-faint);">Uscite ${ANNO_CORRENTE}: <b class="ok" style="color:var(--ok)">Fatte</b> / <b class="danger" style="color:var(--danger)">Ancora da fare</b>, sul totale attese secondo la Frequenza contrattuale. Mostrate solo le tipologie con dati sufficientemente compilati nel Master per ora (Estintori/TVCC/Termografia/Derattizzazione restano in "Copertura servizi" qui sotto).</div>`);
+
+function svcCounts(nome){
+  let ok=0,no=0,vuoto=0,pending=0;
+  DATA.forEach(c=>{
+    const s = c.servizi.find(x=>x.nome===nome);
+    if(s.state==='ok') ok++; else if(s.state==='danger') no++; else if(s.state==='pending') pending++; else vuoto++;
+  });
+  return {ok,no,vuoto,pending};
+}
+const barsContainer = document.getElementById('barsContainer');
+// Copertura servizi (proposta B, 18/11/2026): legenda in alto, numeri dentro i segmenti, a destra la quota
+// di impianti con contratto attivo e dato compilato che hanno il servizio previsto.
+function covSeg(cls, n, total, servizio, stato, label, title){
+  const w = total ? n / total * 100 : 0;
+  const txt = w >= 9 ? label : (w >= 4 ? String(n) : '');
+  return `<div class="bar-seg ${cls}" style="width:${w}%" data-servizio="${servizio}" data-stato="${stato}" title="${title} (${n})">${txt}</div>`;
+}
+function covRow(nome, servizio, ok, no, pending, vuoto){
+  const total = ok + no + pending + vuoto;
+  const base = ok + no;
+  const pct = base ? Math.round(ok / base * 100) : 0;
+  const t = servizio === 'PR_CONTRATTUALE' ? 'PR Contrattuale' : nome;
+  return `
+    <div class="bar-row cov">
+      <div class="bar-name">${nome}</div>
+      <div class="bar-track cov-track">
+        ${covSeg('ok', ok, total, servizio, 'ok', `${ok} previsti`, `Mostra sotto gli impianti con ${t} previsto`)}
+        ${covSeg('danger', no, total, servizio, 'danger', `${no} non previsti`, `Mostra sotto gli impianti con ${t} non previsto`)}
+        ${covSeg('pending', pending, total, servizio, 'pending', `${pending} in trattativa`, `Mostra sotto gli impianti in trattativa`)}
+        ${covSeg('neutral', vuoto, total, servizio, 'neutral', `${vuoto} da compilare`, `Mostra sotto gli impianti con ${t} da compilare`)}
+      </div>
+      <div class="cov-pct" title="${ok} previsti su ${base} impianti con contratto attivo e dato compilato"><b>${pct}%</b> dei contratti</div>
+    </div>`;
+}
+let barsHtml = `<div class="cov-legend">
+  <span><i class="cov-sw ok"></i>Previsto da contratto</span>
+  <span><i class="cov-sw np"></i>Non previsto</span>
+  <span><i class="cov-sw tr"></i>In trattativa (contratto non attivo)</span>
+  <span><i class="cov-sw dc"></i>Da compilare nel Master</span>
+</div>`;
+SERVICE_META.forEach(([nome,sigla])=>{
+  const {ok,no,vuoto,pending} = svcCounts(nome);
+  barsHtml += covRow(nome, escapeHtml(nome), ok, no, pending, vuoto);
+});
+barsHtml += covRow('PR Contrattuale', 'PR_CONTRATTUALE', K.prOk, K.prNo, K.prPending, K.prVuoto);
+barsContainer.innerHTML = barsHtml;
+barsContainer.insertAdjacentHTML('beforeend', `<div class="cov-note">% = impianti con il servizio previsto sul totale degli impianti con contratto attivo e dato compilato. Clic su un segmento per vedere sotto gli impianti corrispondenti.</div>`);
+
+function uniqSorted(arr){ return [...new Set(arr.map(trimVal).filter(v=>v))].sort((a,b)=>a.localeCompare(b,'it')); }
+const regioni = uniqSorted(DATA.map(c=>c.regione));
+const tipologie = uniqSorted(DATA.map(c=>c.tipologia));
+
+const regioneSelect = document.getElementById('regioneSelect');
+regioni.forEach(r => { const o=document.createElement('option'); o.value=r; o.textContent=r; regioneSelect.appendChild(o); });
+const tipologiaSelect = document.getElementById('tipologiaSelect');
+tipologie.forEach(t => { const o=document.createElement('option'); o.value=t; o.textContent=t; tipologiaSelect.appendChild(o); });
+const pmList = uniqSorted(DATA.map(c=>c.pm));
+const pmSelect = document.getElementById('pmSelect');
+pmList.forEach(p => { const o=document.createElement('option'); o.value=p; o.textContent=p; pmSelect.appendChild(o); });
+const servizioSelect = document.getElementById('servizioSelect');
+SERVICE_META.forEach(([nome,sigla]) => { const o=document.createElement('option'); o.value=nome; o.textContent=nome; servizioSelect.appendChild(o); });
+
+const clientList = document.getElementById('clientList');
+const emptyState = document.getElementById('emptyState');
+const resultCount = document.getElementById('resultCount');
+const dueFilterChip = document.getElementById('dueFilterChip');
+const coverageFilterChip = document.getElementById('coverageFilterChip');
+const openState = new Set();
+// Filtro rapido attivato cliccando un colore delle barre "Manutenzioni svolte" (Luca, 08/09/2026):
+// non è uno dei filtri a tendina esistenti (quelli sono trasversali a tutti i servizi), quindi vive
+// come stato a parte, mostrato con un chip removibile sopra la lista, e si azzera se si tocca un
+// qualunque filtro standard per evitare che resti attivo in modo invisibile.
+let activeDueFilter = null; // {servizio, want:'done'|'remaining'} oppure null
+// Stesso pattern, per un clic su un colore delle barre "Copertura servizi" (Luca, 09/09/2026): filtra
+// sugli impianti che hanno quel servizio (o PR Contrattuale, sentinella 'PR_CONTRATTUALE' perché non è
+// uno dei servizi in SERVICE_META) in quello stato esatto (ok/danger/pending/neutral). Stato a parte
+// distinto da activeDueFilter perché la semantica è diversa (stato contrattuale, non fatto/da fare) —
+// i due si escludono a vicenda quando se ne attiva uno nuovo, per non sovrapporre due filtri invisibili.
+let activeCoverageFilter = null; // {servizio, stato} oppure null
+
+function pillHtml(sigla, state, noteText, extraClass, title){
+  const dot = noteText ? '<span class="dot" title="Annotazione presente"></span>' : '';
+  return `<span class="pill ${state} ${extraClass||''}"${title ? ` title="${title}"` : ''}>${sigla}${dot}</span>`;
+}
+// Colore della pillola di un servizio: verde = previsto e in regola, rosso = previsto con uscite dell'anno
+// ancora da fare, grigio trasparente = non previsto da contratto (non è un'attività mancata).
+// Solo per i servizi con uscite affidabili nel Master (Ordinaria, Verde, Lavaggio): sugli altri le uscite
+// sono spesso segnaposto e il rosso direbbe "non svolta" senza saperlo.
+function isLate(s){
+  // 18/11/2026 (Luca): rosso su ogni servizio previsto con uscite dell'anno mancanti, così pillole,
+  // distintivo "N da fare", bordo della scheda e mappe dicono la stessa cosa.
+  return s.state === 'ok' && s.due && s.due.remaining > 0;
+}
+function svcPillState(s){
+  return isLate(s) ? 'late' : s.state;
+}
+function svcPillTitle(s){
+  if(isLate(s)){
+    const n = s.due.remaining, u = `${n} uscit${n === 1 ? 'a' : 'e'} ${ANNO_CORRENTE}`;
+    return TIPOLOGIE_USCITE_AFFIDABILI.includes(s.nome) ? `Prevista: ${u} ancora da fare` : `Prevista: ${u} non registrat${n === 1 ? 'a' : 'e'} nel Master`;
+  }
+  if(s.state === 'ok') return 'Prevista';
+  return stateLabel(s.state) + (s.state === 'danger' ? ' da contratto' : '');
+}
+
+function renderCard(c){
+  const isOpen = openState.has(c.riga);
+  const pillsHtml = c.servizi.map((s, i) => pillHtml(SERVICE_META[i][1], svcPillState(s), s.noteText, '', svcPillTitle(s))).join('') +
+    pillHtml('PR', c.prState, c.pr_comment, 'pr');
+
+  let bodyHtml = anagraficaHtml(c);
+  if(c.nonContrattualizzato){
+    bodyHtml += `<div class="pr-block status-block">
+      <div class="pr-title">Stato contrattuale: ${escapeHtml(c.stato_label)}</div>
+      ${c.stato_dettaglio ? `<div class="pr-note">${escapeHtml(c.stato_dettaglio)}</div>` : ''}
+    </div>`;
+  } else if(c.pr || c.pr_comment){
+    bodyHtml += `<div class="pr-block">
+      <div class="pr-title">PR Contrattuale: <span style="color:var(--${c.prState==='ok'?'ok':(c.prState==='danger'?'np-text':'text-faint')})">${c.pr || 'da compilare'}</span></div>
+      ${c.pr_comment ? `<div class="pr-note">${escapeHtml(c.pr_comment)}</div>` : ''}
+    </div>`;
+  }
+
+  bodyHtml += `<div class="svc-table-wrap"><table class="svc-table">
+    <thead><tr>
+      <th>Servizio</th><th>Frequenza</th><th>Uscite ${ANNO_CORRENTE}</th><th>1ª uscita</th><th>2ª uscita</th><th>3ª uscita</th>
+      <th>Subappaltatore/Tecnico</th><th>Contatto</th><th>Note</th>
+    </tr></thead><tbody>`;
+  c.servizi.forEach((s,i) => {
+    const sigla = SERVICE_META[i][1];
+    let usciteCell = '<span class="uscite-na">—</span>';
+    if(s.due){
+      const anomalyHtml = s.due.anomalies.length
+        ? `<span class="anomaly-flag" title="Annotazione da verificare a mano: ${escapeHtml(s.due.anomalies.join(' / '))}">⚠️</span>`
+        : '';
+      const overDoneHtml = s.due.overDone ? `<span class="anomaly-flag" title="Uscite registrate (${s.due.done}) superiori a quelle previste (${s.due.expected}) — verificare a mano.">⚠️</span>` : '';
+      usciteCell = `<span class="uscite-cell">${s.due.done}/${s.due.expected}` +
+        (s.due.remaining > 0
+          ? `<span class="uscite-remaining">manca ${s.due.remaining}</span>`
+          : `<span class="uscite-complete">completo</span>`) +
+        anomalyHtml + overDoneHtml + `</span>`;
+    }
+    bodyHtml += `<tr>
+      <td><span class="svc-name-cell">${pillHtml(sigla, svcPillState(s), s.noteText, '', svcPillTitle(s))} ${s.nome}</span></td>
+      <td>${escapeHtml(s.frequenza) || '—'}</td>
+      <td>${usciteCell}</td>
+      <td>${escapeHtml(s.u1) || '—'}</td>
+      <td>${escapeHtml(s.u2) || '—'}</td>
+      <td>${escapeHtml(s.u3) || '—'}</td>
+      <td>${escapeHtml(s.subtec) || '—'}</td>
+      <td>${escapeHtml(s.contatto) || '—'}</td>
+      <td class="note-cell ${s.noteText ? 'has-note' : ''}">${escapeHtml(s.noteText) || '—'}</td>
+    </tr>`;
+  });
+  bodyHtml += `</tbody></table></div>
+    <div class="riga-ref">Riga di testata nel foglio Impianti del Master: ${c.riga}</div>`;
+
+  return `
+  <div class="client-card ${isOpen?'open':''}" data-riga="${c.riga}">
+    <div class="client-header" role="button" tabindex="0" aria-expanded="${isOpen}">
+      <span class="client-name">${escapeHtml(c.cliente)}</span>
+      ${c.nonContrattualizzato ? `<span class="badge status-pending">${escapeHtml(c.stato_label)}</span>` : ''}
+      ${!c.nonContrattualizzato && c.totalRemaining > 0 ? `<span class="badge status-due">⏳ ${c.totalRemaining} da fare entro fine anno</span>` : ''}
+      ${!c.nonContrattualizzato && c.totalRemaining === 0 && c.totalExpected > 0 ? `<span class="badge status-complete">✓ uscite ${ANNO_CORRENTE} completate</span>` : ''}
+      ${c.regione ? `<span class="badge">${escapeHtml(c.regione)}</span>` : ''}
+      ${c.tipologia ? `<span class="badge">${escapeHtml(c.tipologia)}</span>` : ''}
+      ${c.potenza ? `<span class="badge pot">${Number(c.potenza).toLocaleString('it-IT',{maximumFractionDigits:2})} kWp</span>` : ''}
+      ${c.pm ? `<span class="badge">PM: ${escapeHtml(c.pm)}</span>` : ''}
+      <span class="pills">${pillsHtml}</span>
+      <svg class="chevron" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 6l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <div class="client-body">${bodyHtml}</div>
+  </div>`;
+}
+
+function escapeHtml(s){
+  if(s===null||s===undefined) return '';
+  return String(s).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+}
+
+function currentFilters(){
+  return {
+    q: document.getElementById('searchInput').value.trim().toLowerCase(),
+    regione: document.getElementById('regioneSelect').value,
+    tipologia: document.getElementById('tipologiaSelect').value,
+    pm: document.getElementById('pmSelect').value,
+    servizio: document.getElementById('servizioSelect').value,
+    stato: document.getElementById('statoSelect').value,
+    contrattuale: document.getElementById('contrattualeSelect').value,
+    scadenze: document.getElementById('scadenzeSelect').value,
+  };
+}
+
+function matchesFilters(c, f){
+  if(f.q && !c.cliente.toLowerCase().includes(f.q)) return false;
+  if(f.regione && trimVal(c.regione) !== f.regione) return false;
+  if(f.tipologia && trimVal(c.tipologia) !== f.tipologia) return false;
+  if(f.pm && trimVal(c.pm) !== f.pm) return false;
+  if(f.contrattuale === 'contrattualizzato' && c.nonContrattualizzato) return false;
+  if(f.contrattuale === 'non_contrattualizzato' && !c.nonContrattualizzato) return false;
+  if(f.scadenze === 'con_mancanti' && c.totalRemaining <= 0) return false;
+  if(f.scadenze === 'tutto_fatto' && c.totalRemaining > 0) return false;
+  if(activeDueFilter){
+    const s = c.servizi.find(x=>x.nome===activeDueFilter.servizio);
+    if(!s || !s.due) return false;
+    if(activeDueFilter.want === 'done' && s.due.remaining !== 0) return false;
+    if(activeDueFilter.want === 'remaining' && s.due.remaining === 0) return false;
+  }
+  if(activeCoverageFilter){
+    if(activeCoverageFilter.servizio === 'PR_CONTRATTUALE'){
+      if(c.prState !== activeCoverageFilter.stato) return false;
+    } else {
+      const s = c.servizi.find(x=>x.nome===activeCoverageFilter.servizio);
+      if(!s || s.state !== activeCoverageFilter.stato) return false;
+    }
+  }
+  if(f.stato){
+    if(f.servizio){
+      const s = c.servizi.find(x=>x.nome===f.servizio);
+      if(!s || s.state !== f.stato) return false;
+    } else {
+      const anyMatch = c.servizi.some(s=>s.state===f.stato);
+      if(!anyMatch) return false;
+    }
+  }
+  return true;
+}
+
+function sortClients(list){
+  const ordina = document.getElementById('ordinaSelect').value;
+  const sorted = list.slice();
+  if(ordina === 'mancanti'){
+    sorted.sort((a,b) => (b.totalRemaining - a.totalRemaining) || a.cliente.localeCompare(b.cliente,'it'));
+  } else if(ordina === 'nome'){
+    sorted.sort((a,b) => a.cliente.localeCompare(b.cliente,'it'));
+  }
+  return sorted;
+}
+
+function renderList(){
+  const f = currentFilters();
+  const filtered = sortClients(DATA.filter(c => matchesFilters(c, f)));
+  resultCount.textContent = `${filtered.length} di ${DATA.length} impianti`;
+  if(activeDueFilter){
+    dueFilterChip.style.display = 'inline-flex';
+    dueFilterChip.innerHTML = `Filtro rapido: <b>${escapeHtml(activeDueFilter.servizio)}</b> — ${activeDueFilter.want==='done' ? 'completata' : 'ancora da fare'} <button type="button" id="clearDueFilterBtn" aria-label="Rimuovi filtro rapido">✕</button>`;
+  } else {
+    dueFilterChip.style.display = 'none';
+    dueFilterChip.innerHTML = '';
+  }
+  if(activeCoverageFilter){
+    const label = activeCoverageFilter.servizio === 'PR_CONTRATTUALE' ? 'PR Contrattuale' : activeCoverageFilter.servizio;
+    coverageFilterChip.style.display = 'inline-flex';
+    coverageFilterChip.innerHTML = `Filtro rapido: <b>${escapeHtml(label)}</b> — ${escapeHtml(stateLabel(activeCoverageFilter.stato))} <button type="button" id="clearCoverageFilterBtn" aria-label="Rimuovi filtro rapido">✕</button>`;
+  } else {
+    coverageFilterChip.style.display = 'none';
+    coverageFilterChip.innerHTML = '';
+  }
+  if(filtered.length === 0){
+    clientList.style.display = 'none';
+    emptyState.style.display = 'block';
+  } else {
+    clientList.style.display = 'flex';
+    emptyState.style.display = 'none';
+    clientList.innerHTML = filtered.map(renderCard).join('');
+  }
+}
+
+clientList.addEventListener('click', (e) => {
+  const header = e.target.closest('.client-header');
+  if(!header) return;
+  const card = header.closest('.client-card');
+  const riga = Number(card.dataset.riga);
+  if(openState.has(riga)){ openState.delete(riga); card.classList.remove('open'); header.setAttribute('aria-expanded','false'); }
+  else { openState.add(riga); card.classList.add('open'); header.setAttribute('aria-expanded','true'); }
+});
+clientList.addEventListener('keydown', (e) => {
+  if(e.key === 'Enter' || e.key === ' '){
+    const header = e.target.closest('.client-header');
+    if(header){ e.preventDefault(); header.click(); }
+  }
+});
+
+['searchInput','regioneSelect','tipologiaSelect','pmSelect','servizioSelect','statoSelect','contrattualeSelect','scadenzeSelect','ordinaSelect'].forEach(id=>{
+  document.getElementById(id).addEventListener('input', () => { activeDueFilter = null; activeCoverageFilter = null; renderList(); });
+  document.getElementById(id).addEventListener('change', () => { activeDueFilter = null; activeCoverageFilter = null; renderList(); });
+});
+document.getElementById('resetBtn').addEventListener('click', () => {
+  document.getElementById('searchInput').value = '';
+  document.getElementById('regioneSelect').value = '';
+  document.getElementById('tipologiaSelect').value = '';
+  document.getElementById('pmSelect').value = '';
+  document.getElementById('servizioSelect').value = '';
+  document.getElementById('statoSelect').value = '';
+  document.getElementById('contrattualeSelect').value = '';
+  document.getElementById('scadenzeSelect').value = '';
+  document.getElementById('ordinaSelect').value = 'file';
+  activeDueFilter = null;
+  activeCoverageFilter = null;
+  renderList();
+});
+
+// Clic su un colore delle barre "Manutenzioni svolte" (fatte/da fare) sotto: filtra sotto la lista
+// impianti su quel servizio+esito e ci scorre sopra. Azzera prima gli altri filtri per non combinarli
+// in modo confuso con un filtro che non ha un proprio menu a tendina visibile.
+doneBarsContainer.addEventListener('click', (e) => {
+  const seg = e.target.closest('.bar-seg');
+  if(!seg || !seg.dataset.servizio) return;
+  document.getElementById('searchInput').value = '';
+  document.getElementById('regioneSelect').value = '';
+  document.getElementById('tipologiaSelect').value = '';
+  document.getElementById('pmSelect').value = '';
+  document.getElementById('servizioSelect').value = '';
+  document.getElementById('statoSelect').value = '';
+  document.getElementById('contrattualeSelect').value = '';
+  document.getElementById('scadenzeSelect').value = '';
+  document.getElementById('ordinaSelect').value = 'file';
+  activeCoverageFilter = null;
+  activeDueFilter = {servizio: seg.dataset.servizio, want: seg.dataset.want};
+  renderList();
+  document.getElementById('clientList').scrollIntoView({behavior:'smooth', block:'start'});
+});
+dueFilterChip.addEventListener('click', (e) => {
+  if(e.target.id === 'clearDueFilterBtn'){ activeDueFilter = null; renderList(); }
+});
+
+// Stesso meccanismo, sulle barre "Copertura servizi" (Luca, 09/09/2026, stessa richiesta già fatta
+// per "Manutenzioni svolte"): clic su un segmento colorato (incluso PR Contrattuale, sentinella
+// 'PR_CONTRATTUALE' nel dataset) filtra sotto la lista impianti su quel servizio+stato esatto.
+barsContainer.addEventListener('click', (e) => {
+  const seg = e.target.closest('.bar-seg');
+  if(!seg || !seg.dataset.servizio) return;
+  document.getElementById('searchInput').value = '';
+  document.getElementById('regioneSelect').value = '';
+  document.getElementById('tipologiaSelect').value = '';
+  document.getElementById('pmSelect').value = '';
+  document.getElementById('servizioSelect').value = '';
+  document.getElementById('statoSelect').value = '';
+  document.getElementById('contrattualeSelect').value = '';
+  document.getElementById('scadenzeSelect').value = '';
+  document.getElementById('ordinaSelect').value = 'file';
+  activeDueFilter = null;
+  activeCoverageFilter = {servizio: seg.dataset.servizio, stato: seg.dataset.stato};
+  renderList();
+  document.getElementById('clientList').scrollIntoView({behavior:'smooth', block:'start'});
+});
+coverageFilterChip.addEventListener('click', (e) => {
+  if(e.target.id === 'clearCoverageFilterBtn'){ activeCoverageFilter = null; renderList(); }
+});
+
+renderList();
+(function(){
+  var root=document.documentElement;
+  // tema unico chiaro (18/11/2026): niente pulsante, si ignora anche il tema scuro del sistema
+  root.setAttribute('data-theme','light'); try{ localStorage.removeItem('reflow_theme'); }catch(e){}
+  function eff(){ var t=root.getAttribute('data-theme'); return t || (matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'); }
+  function sync(){ var d=eff()==='dark'; document.querySelectorAll('.theme-btn').forEach(function(b){ b.textContent=d?'☀':'☾'; b.title=d?'Tema chiaro':'Tema scuro'; }); }
+  document.querySelectorAll('.theme-btn').forEach(function(b){ b.addEventListener('click',function(){
+    var n=eff()==='dark'?'light':'dark'; root.setAttribute('data-theme',n); try{localStorage.setItem('reflow_theme',n);}catch(e){} sync(); }); });
+  sync();
+  var bar=document.getElementById('topbar');
+  function onS(){ if(bar) bar.classList.toggle('show', window.scrollY>300); }
+  window.addEventListener('scroll',onS,{passive:true}); onS();
+  var up=document.getElementById('upBtn'); if(up) up.addEventListener('click',function(){ window.scrollTo({top:0,behavior:'smooth'}); });
+})();
+
+// ===== REFLOW MAP v2 =====
+(function(){
+  var byRiga = {}; DATA.forEach(function(c){ byRiga[c.riga] = c; });
+  var panel = document.querySelector('.map-panel');
+  var maps = [document.getElementById('italyMap'), document.getElementById('venetoMap')];
+  // reticolo geografico leggero sul mare
+  maps.forEach(function(svg, i){
+    var defs = svg.querySelector('defs'); if(!defs){ defs = document.createElementNS('http://www.w3.org/2000/svg','defs'); svg.insertBefore(defs, svg.firstChild); } var vb = svg.viewBox.baseVal;
+    defs.insertAdjacentHTML('beforeend','<pattern id="mapGrid'+i+'" width="'+(i?10:40)+'" height="'+(i?10:40)+'" patternUnits="userSpaceOnUse"><path d="M '+(i?10:40)+' 0 L 0 0 0 '+(i?10:40)+'" fill="none" stroke="var(--map-region-line)" stroke-width=".25" opacity=".35"/></pattern>');
+    var sea = svg.querySelector('.map-sea-bg') || defs;
+    sea.insertAdjacentHTML('afterend','<rect class="map-sea-graticule" x="'+(vb.x-vb.width)+'" y="'+(vb.y-vb.height)+'" width="'+(vb.width*3)+'" height="'+(vb.height*3)+'" style="fill:url(#mapGrid'+i+')"/>');
+  });
+  // pallini: dati per filtri/hover, via <title> nativo
+  document.querySelectorAll('.map-dot').forEach(function(d, k){
+    var t = d.querySelector('title'); if(t){ d.setAttribute('aria-label', t.textContent); t.remove(); }
+    var c = byRiga[Number(d.dataset.riga)]; if(!c) return;
+    d.dataset.reg = (c.regione || '').trim();
+    d.setAttribute('style', '--rr:' + d.getAttribute('r') + ';animation-delay:' + ((c.riga % 7) * 0.37).toFixed(2) + 's');
+  });
+  // tooltip
+  var tip = document.createElement('div'); tip.className = 'map-tip'; document.body.appendChild(tip);
+  var STL = {ok:'In regola', due:'Uscite da fare entro fine anno', pending:'In trattativa (contratto non attivo)'};
+  function tipHtml(c){
+    var st = mapStatusClass(c);
+    var pot = c.potenza ? Number(c.potenza).toLocaleString('it-IT') + ' kW' : '—';
+    var isApprox = c.geo_precision && c.geo_precision !== 'esatta';
+    return '<h4>'+escapeHtml(c.cliente)+'</h4><div class="st '+st+'">'+escapeHtml(mapStatusLabel(c))+'</div>'
+      + '<div class="kv"><span>Regione</span><b>'+escapeHtml(c.regione || '—')+'</b></div>'
+      + '<div class="kv"><span>Tipologia</span><b>'+escapeHtml(c.tipologia || '—')+'</b></div>'
+      + '<div class="kv"><span>Potenza</span><b>'+pot+'</b></div>'
+      + (c.pm ? '<div class="kv"><span>PM</span><b>'+escapeHtml(c.pm)+'</b></div>' : '')
+      + '<div class="hint">'+(isApprox ? 'Posizione approssimata ('+escapeHtml(c.geo_precision)+') · ' : '')+'Clic per aprire la scheda</div>';
+  }
+  function place(e){
+    var w = tip.offsetWidth, h = tip.offsetHeight, x = e.clientX + 16, y = e.clientY + 16;
+    if(x + w > innerWidth - 8) x = e.clientX - w - 16;
+    if(y + h > innerHeight - 8) y = e.clientY - h - 16;
+    tip.style.left = Math.max(8, x) + 'px'; tip.style.top = Math.max(8, y) + 'px';
+  }
+  maps.forEach(function(svg){
+    svg.addEventListener('pointermove', function(e){
+      var d = e.target.closest && e.target.closest('.map-dot');
+      if(!d){ tip.classList.remove('show'); return; }
+      var c = byRiga[Number(d.dataset.riga)]; if(!c) return;
+      if(tip.dataset.riga !== d.dataset.riga){ tip.innerHTML = tipHtml(c); tip.dataset.riga = d.dataset.riga; }
+      tip.classList.add('show'); place(e);
+    });
+    svg.addEventListener('pointerleave', function(){ tip.classList.remove('show'); tip.dataset.riga = ''; });
+    svg.addEventListener('focusin', function(e){
+      var d = e.target.closest && e.target.closest('.map-dot'); if(!d) return;
+      var c = byRiga[Number(d.dataset.riga)]; if(!c) return; var r = d.getBoundingClientRect();
+      tip.innerHTML = tipHtml(c); tip.classList.add('show'); place({clientX:r.right, clientY:r.bottom});
+    });
+    svg.addEventListener('focusout', function(){ tip.classList.remove('show'); });
+  });
+  // legenda interattiva + classifica regioni
+  var counts = {ok:0, due:0, pending:0}, reg = {};
+  DATA.filter(function(c){ return c.lat != null && c.lon != null; }).forEach(function(c){
+    counts[mapStatusClass(c)]++; var r = (c.regione || '').trim() || 'N/D'; reg[r] = (reg[r] || 0) + 1;
+  });
+  var legend = document.querySelector('.map-panel .map-legend');
+  legend.querySelectorAll('.map-legend-item').forEach(function(n){ n.remove(); });
+  var order = Object.keys(reg).sort(function(a,b){ return reg[b]-reg[a]; }), mx = reg[order[0]] || 1;
+  var chips = '<div class="map-chips">' + ['ok','due','pending'].map(function(s){
+    return '<button type="button" class="map-chip" data-st="'+s+'" aria-pressed="true"><span class="dot"></span><span class="lbl">'+STL[s]+'</span><span class="cnt">'+counts[s]+'</span></button>';
+  }).join('') + '</div>';
+  var rank = '<div class="map-rank-title">Impianti per regione</div><div class="map-rank">' + order.map(function(r){
+    var nm = r.charAt(0) + r.slice(1).toLowerCase();
+    return '<div class="map-rank-row" data-reg="'+escapeHtml(r)+'"><span>'+escapeHtml(nm)+'</span><span class="map-rank-bar"><i style="width:'+Math.max(4, Math.round(reg[r]/mx*100))+'%"></i></span><b>'+reg[r]+'</b></div>';
+  }).join('') + '</div>';
+  var approxNote = '<div class="map-approx-note"><span class="map-legend-dot approx"></span>Bordo tratteggiato: posizione approssimata (comune, provincia o regione), mancano le coordinate nel Master</div>';
+  legend.insertAdjacentHTML('afterbegin', '<div class="map-legend-title">Legenda · clic per mostrare o nascondere</div>' + chips + approxNote + rank);
+  // stessa legenda (solo lettura) sotto la mappa del Veneto
+  var vCounts = {ok:0, due:0, pending:0};
+  DATA.forEach(function(c){ if(c.lat != null && (c.regione || '').trim().toUpperCase() === 'VENETO') vCounts[mapStatusClass(c)]++; });
+  var vLeg = document.querySelector('#venetoMapCaption');
+  if(vLeg) vLeg.insertAdjacentHTML('afterend', '<div class="map-mini-legend">' + ['ok','due','pending'].map(function(st){
+    return '<span><span class="map-legend-dot '+st+'"></span>'+STL[st]+' <b>'+vCounts[st]+'</b></span>'; }).join('') + '</div>');
+  legend.querySelectorAll('.map-chip').forEach(function(b){ b.addEventListener('click', function(){
+    var on = b.getAttribute('aria-pressed') !== 'true'; b.setAttribute('aria-pressed', on);
+    panel.classList.toggle('hide-' + b.dataset.st, !on);
+  }); });
+  var wrapIt = document.querySelector('#italyMap').closest('.map-svg-wrap');
+  legend.querySelectorAll('.map-rank-row').forEach(function(row){
+    row.addEventListener('mouseenter', function(){
+      wrapIt.classList.add('focus-region');
+      document.querySelectorAll('#mapDots .map-dot').forEach(function(d){ d.classList.toggle('hl', d.dataset.reg === row.dataset.reg); });
+    });
+    row.addEventListener('mouseleave', function(){ wrapIt.classList.remove('focus-region'); });
+    row.addEventListener('click', function(){
+      var sel = document.getElementById('regioneSelect'); var want = row.dataset.reg;
+      var opt = Array.prototype.find.call(sel.options, function(o){ return o.value.trim().toUpperCase() === want.toUpperCase(); });
+      if(!opt) return; sel.value = opt.value; sel.dispatchEvent(new Event('change', {bubbles:true}));
+      document.getElementById('clientList').scrollIntoView({behavior:'smooth', block:'start'});
+    });
+  });
+  // pulsante ingrandisci
+  document.querySelectorAll('.map-zoom-controls').forEach(function(ctrl){
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'map-zoom-btn'; b.title = 'Ingrandisci / riduci mappa'; b.textContent = '⤢';
+    b.addEventListener('click', function(){ ctrl.closest('.map-svg-wrap').classList.toggle('big'); });
+    ctrl.appendChild(b);
+  });
+})();
+// ===== /REFLOW MAP v2 =====
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@azure/msal-browser@2.38.3/lib/msal-browser.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="master.js"></script>
+<script src="cloud.js"></script>
+<script src="app.js"></script>

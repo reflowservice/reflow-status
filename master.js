@@ -118,9 +118,11 @@
 
   // ---- lettura del foglio
   function parse(XLSX, data) {
+    // Errori di struttura del Master: l'app mostra "Manutenzione in corso" (Luca, 18/11/2026), il dettaglio resta sotto "Dettagli tecnici"
+    const fail = t => { const e = new Error(t); e.manutenzione = true; return e; };
     const wb = XLSX.read(data, { type: 'array', cellDates: true });
     const ws = wb.Sheets[SHEET];
-    if (!ws) throw new Error('Nel Master non c\'è il foglio "Impianti " (nome cambiato?).');
+    if (!ws) throw fail('Nel Master non c\'è il foglio "Impianti " (nome cambiato?).');
     const addr = (r, c) => XLSX.utils.encode_cell({ r: r - 1, c: c - 1 });
     const cell = (r, c) => ws[addr(r, c)];
     const val = (r, c) => { const x = cell(r, c); if (!x || x.v === undefined || x.v === null) return ''; if (x.v instanceof Date) return x.w || x.v.toISOString().slice(0, 10); return typeof x.v === 'string' ? x.v.replace(/\r\n?/g, '\n') : x.v; };
@@ -129,11 +131,11 @@
 
     const wrong = Object.entries(EXPECTED_HEADERS)
       .filter(([c, h]) => str(1, +c).trim().toUpperCase() !== h).map(([c, h]) => `${XLSX.utils.encode_col(c - 1)} (atteso "${h}", trovato "${str(1, +c)}")`);
-    if (wrong.length) throw new Error('Le colonne del Master non sono quelle attese: ' + wrong.join('; ') + '. L\'app va allineata alla nuova struttura.');
+    if (wrong.length) throw fail('Le colonne del Master non sono quelle attese: ' + wrong.join('; ') + '. L\'app va allineata alla nuova struttura.');
 
     const blocks = (ws['!merges'] || []).filter(m => m.s.c === 0 && m.e.c === 0 && m.s.r >= 1)
       .map(m => [m.s.r + 1, m.e.r + 1]).sort((a, b) => a[0] - b[0]);
-    if (!blocks.length) throw new Error('Nessun blocco impianto trovato nel Master (colonna A senza celle unite).');
+    if (!blocks.length) throw fail('Nessun blocco impianto trovato nel Master (colonna A senza celle unite).');
 
     const clients = blocks.map(([r0]) => {
       const cliente = val(r0, COL.cliente), regione = val(r0, COL.regione);

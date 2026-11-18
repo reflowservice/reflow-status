@@ -39,6 +39,7 @@
 
   async function load() {
     btn.hidden = true;
+    msg.classList.remove('maint'); if ($('gateDetails')) $('gateDetails').hidden = true;
     say(refresh ? 'Aggiornamento dal REFLOW MASTER…' : 'Lettura del REFLOW MASTER…');
     try {
       const m = await STATUS.loadMaster();
@@ -65,7 +66,14 @@
       }
     } catch (e) {
       console.error(e);
-      say('Non riesco a leggere il Master.\n' + (e && e.message ? e.message : e), true);
+      const det = $('gateDetails');
+      if (e && e.manutenzione) {
+        say('Manutenzione in corso\nIl REFLOW MASTER è in aggiornamento: riprova tra qualche minuto.');
+        msg.classList.add('maint');
+        if (det) { det.querySelector('div').textContent = e.message; det.hidden = false; }
+      } else {
+        say('Non riesco a leggere il Master.\n' + (e && e.message ? e.message : e), true);
+      }
       btn.textContent = 'Riprova'; btn.hidden = false; btn.onclick = () => location.reload();
     }
   }
