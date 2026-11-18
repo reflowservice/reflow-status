@@ -947,6 +947,19 @@ body{ background:#e7ecf3 !important; }
 .map-dot{ vector-effect:non-scaling-stroke; stroke:#fff !important; stroke-width:1.3px !important; stroke-dasharray:none !important; }
 .map-dot.dot-sm{ stroke-width:1px !important; }
 .map-dot.approx{ opacity:.6; stroke:var(--text-muted) !important; stroke-width:1px !important; stroke-dasharray:2 1.6 !important; }
+
+/* Barra filtri blu notte (18/11/2026) */
+.filters{ background:#0b1d3f !important; border:0 !important; box-shadow:0 4px 16px rgba(11,29,63,.25) !important; }
+.filters input[type=search], .filters select{ background-color:rgba(255,255,255,.08) !important; color:#fff !important;
+  border:1px solid rgba(255,255,255,.18) !important; }
+.filters input[type=search]::placeholder{ color:rgba(255,255,255,.6) !important; }
+.filters input[type=search]{ background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23a9c4ec' stroke-width='2.2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E") !important; }
+.filters select{ color-scheme:dark; }
+.filters select option{ background:#0b1d3f; color:#fff; }
+.filters input[type=search]:focus, .filters select:focus{ outline:none; border-color:#38b6ff !important; box-shadow:0 0 0 3px rgba(56,182,255,.25) !important; }
+.filters input[type=search]:hover, .filters select:hover{ border-color:rgba(255,255,255,.35) !important; }
+.filters .reset-btn{ border:1px solid rgba(255,255,255,.35) !important; color:#fff !important; background:transparent !important; }
+.filters .reset-btn:hover{ background:rgba(255,255,255,.12) !important; color:#fff !important; }
 </style>
 
 <div id="gate" class="gate">
