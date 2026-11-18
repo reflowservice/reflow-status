@@ -843,10 +843,12 @@ footer{ color:var(--text-faint); }
 .gate-logo{height:34px;opacity:.95;margin-bottom:34px}
 .gate-brand{font-family:'Michroma',sans-serif;font-weight:400;letter-spacing:.22em;font-size:clamp(20px,4.2vw,36px);color:#fff;white-space:nowrap;padding-left:.22em}
 .gate-brand b{font-weight:400;color:#38b6ff}
-.gate-claim{font-family:'Inter',sans-serif;font-weight:300;font-size:clamp(15px,2.2vw,19px);color:rgba(230,240,255,.78);margin:18px auto 34px;max-width:440px;line-height:1.45}
+.gate-claim{font-family:'Inter',sans-serif;font-weight:300;font-size:clamp(15px,2.2vw,19px);color:rgba(230,240,255,.78);margin:18px auto 34px;max-width:none;white-space:nowrap;line-height:1.45}
 .gate-btn{font:600 15px 'Inter',sans-serif;padding:12px 34px;border-radius:999px;border:1px solid rgba(56,182,255,.6);
   background:linear-gradient(180deg,#2aa7f5,#1478c8);color:#fff;cursor:pointer;box-shadow:0 8px 28px rgba(20,120,200,.35)}
 .gate-btn:hover{filter:brightness(1.08)}
+.gate-claim .sep{color:#38b6ff;opacity:.7;margin:0 .75em}
+@media (max-width:420px){.gate-claim{font-size:14px}.gate-claim .sep{margin:0 .4em}}
 .gate-msg{margin-top:18px;font:500 13px 'Inter',sans-serif;color:rgba(230,240,255,.7);min-height:1.4em;white-space:pre-line}
 .gate-msg.err{color:#ffb4b4}
 .hdr-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:12px;flex-wrap:wrap}
@@ -876,7 +878,7 @@ footer{ color:var(--text-faint); }
   <div class="gate-box">
     <img src="assets/logo_w.png" alt="Reflow" class="gate-logo">
     <div class="gate-brand">REFLOW <b>STATUS</b></div>
-    <div class="gate-claim">Lo stato O&amp;M di ogni impianto, letto in tempo reale dal REFLOW MASTER.</div>
+    <div class="gate-claim">Lo stato O&amp;M<span class="sep">|</span>Ogni Impianto<span class="sep">|</span>In tempo reale</div>
     <button id="gateBtn" class="gate-btn" type="button" hidden>Accedi</button>
     <div id="gateMsg" class="gate-msg">Avvio…</div>
     <svg class="gate-pulse" viewBox="0 0 600 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 70 H190 L215 70 L235 22 L262 104 L288 46 L306 70 H600"/></svg>
