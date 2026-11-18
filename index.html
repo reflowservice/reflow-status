@@ -632,6 +632,7 @@ html{ scroll-behavior:smooth; }
 .map-dot.pending{ filter:drop-shadow(0 0 2px rgba(148,163,184,.7)); }
 .map-dot.due{ filter:drop-shadow(0 0 3px rgba(245,158,11,.9)); stroke:var(--map-due); animation:rf-ring 2.6s ease-out infinite; }
 .map-dot.dot-sm.due{ animation-name:rf-ring-sm; }
+svg.moving .map-dot{ transition:none !important; }
 @keyframes rf-ring-sm{0%{stroke-width:.35; stroke-opacity:.9} 100%{stroke-width:2.6; stroke-opacity:0}}
 .map-panel.hide-ok .map-dot.ok, .map-panel.hide-due .map-dot.due, .map-panel.hide-pending .map-dot.pending{ display:none; }
 .map-svg-wrap.focus-region .map-dot{ opacity:.18; }
@@ -1166,10 +1167,23 @@ function setupZoomableMap(svg, dotsG, viewDefault, minWDivisor, zoomInBtn, zoomO
   const minW = viewDefault.w / minWDivisor; // massimo zoom in
   const maxW = viewDefault.w;               // vista di default = massimo zoom out
 
-  function applyView(){
+  let raf = 0, idle = 0;
+  function paint(){
+    raf = 0;
     svg.setAttribute('viewBox', `${view.x} ${view.y} ${view.w} ${view.h}`);
     svg.style.setProperty('--zs', (view.w / viewDefault.w).toFixed(3));
   }
+  // un solo aggiornamento per fotogramma; durante il movimento niente animazione del raggio dei punti
+  function applyView(){
+    svg.classList.add('moving');
+    clearTimeout(idle); idle = setTimeout(() => svg.classList.remove('moving'), 180);
+    if(!raf) raf = requestAnimationFrame(paint);
+  }
+  // mare e reticolo estesi oltre la vista di default, così spostando la mappa non compare il bianco
+  svg.querySelectorAll('.map-sea-bg').forEach(r => {
+    r.setAttribute('x', viewDefault.x - viewDefault.w); r.setAttribute('y', viewDefault.y - viewDefault.h);
+    r.setAttribute('width', viewDefault.w * 3); r.setAttribute('height', viewDefault.h * 3);
+  });
   function clampView(v){
     const w = Math.max(minW, Math.min(maxW, v.w));
     const h = w * (viewDefault.h / viewDefault.w);
@@ -1198,13 +1212,17 @@ function setupZoomableMap(svg, dotsG, viewDefault, minWDivisor, zoomInBtn, zoomO
   svg.addEventListener('wheel', (e) => {
     e.preventDefault();
     const p = pointFromEvent(e);
-    const factor = e.deltaY < 0 ? 0.85 : 1 / 0.85;
+    let d = e.deltaY * (e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? 400 : 1);
+    d = Math.max(-120, Math.min(120, d));
+    // pizzico sul touchpad (ctrlKey): movimenti piccoli, servono più sensibili
+    const factor = Math.exp(d * (e.ctrlKey ? 0.01 : 0.0022));
     zoomAt(factor, p.x, p.y);
   }, {passive: false});
 
   zoomInBtn.addEventListener('click', () => zoomAt(0.7, view.x + view.w / 2, view.y + view.h / 2));
   zoomOutBtn.addEventListener('click', () => zoomAt(1 / 0.7, view.x + view.w / 2, view.y + view.h / 2));
   resetBtn.addEventListener('click', () => { view = {...viewDefault}; applyView(); });
+  // la vista iniziale si disegna subito, senza attendere il fotogramma
 
   // Trascinamento (pointer events: unifica mouse e touch a un dito). Un trascinamento minimo (soglia in
   // pixel schermo) sopprime il click successivo, per non aprire per sbaglio la scheda di un cliente mentre
@@ -1218,7 +1236,7 @@ function setupZoomableMap(svg, dotsG, viewDefault, minWDivisor, zoomInBtn, zoomO
   const DRAG_CLICK_THRESHOLD = 4;
   let dragOccurred = false;
   function onPointerMove(e){
-    if(!drag) return;
+    if(!drag || pinch) return;
     const dxPx = e.clientX - drag.startClientX;
     const dyPx = e.clientY - drag.startClientY;
     drag.moved = Math.max(drag.moved, Math.hypot(dxPx, dyPx));
@@ -1243,8 +1261,23 @@ function setupZoomableMap(svg, dotsG, viewDefault, minWDivisor, zoomInBtn, zoomO
     document.removeEventListener('pointercancel', onPointerUp);
     drag = null;
   }
+  const touches = new Map(); let pinch = null;
+  svg.addEventListener('pointerdown', (e) => { if(e.pointerType === 'touch') touches.set(e.pointerId, {x: e.clientX, y: e.clientY}); }, true);
+  function endTouch(e){ touches.delete(e.pointerId); if(touches.size < 2) pinch = null; }
+  document.addEventListener('pointerup', endTouch); document.addEventListener('pointercancel', endTouch);
+  document.addEventListener('pointermove', (e) => {
+    if(!touches.has(e.pointerId)) return;
+    touches.set(e.pointerId, {x: e.clientX, y: e.clientY});
+    if(touches.size !== 2) return;
+    const [a, b] = [...touches.values()];
+    const dist = Math.hypot(a.x - b.x, a.y - b.y), mid = {clientX: (a.x + b.x) / 2, clientY: (a.y + b.y) / 2};
+    if(!pinch){ pinch = {dist}; if(drag){ drag.moved = DRAG_CLICK_THRESHOLD + 1; onPointerUp(e); } return; }
+    if(dist > 0 && pinch.dist > 0){ const p = pointFromEvent(mid); zoomAt(pinch.dist / dist, p.x, p.y); }
+    pinch.dist = dist;
+  });
   svg.addEventListener('pointerdown', (e) => {
     if(e.button !== undefined && e.button !== 0) return;
+    if(touches.size > 1) return;
     drag = {startClientX: e.clientX, startClientY: e.clientY, startView: {...view}, moved: 0};
     svg.classList.add('panning');
     document.addEventListener('pointermove', onPointerMove);
@@ -1265,7 +1298,7 @@ function setupZoomableMap(svg, dotsG, viewDefault, minWDivisor, zoomInBtn, zoomO
     focusClientFromMap(Number(dot.dataset.riga));
   });
 
-  applyView();
+  paint();
 }
 
 const MAP_VIEW_DEFAULT = {x: 0, y: 0, w: 439.35, h: 520};
@@ -1718,7 +1751,7 @@ renderList();
     var defs = svg.querySelector('defs'); if(!defs){ defs = document.createElementNS('http://www.w3.org/2000/svg','defs'); svg.insertBefore(defs, svg.firstChild); } var vb = svg.viewBox.baseVal;
     defs.insertAdjacentHTML('beforeend','<pattern id="mapGrid'+i+'" width="'+(i?10:40)+'" height="'+(i?10:40)+'" patternUnits="userSpaceOnUse"><path d="M '+(i?10:40)+' 0 L 0 0 0 '+(i?10:40)+'" fill="none" stroke="var(--map-region-line)" stroke-width=".25" opacity=".35"/></pattern>');
     var sea = svg.querySelector('.map-sea-bg') || defs;
-    sea.insertAdjacentHTML('afterend','<rect class="map-sea-graticule" x="'+(vb.x-200)+'" y="'+(vb.y-200)+'" width="'+(vb.width+400)+'" height="'+(vb.height+400)+'" style="fill:url(#mapGrid'+i+')"/>');
+    sea.insertAdjacentHTML('afterend','<rect class="map-sea-graticule" x="'+(vb.x-vb.width)+'" y="'+(vb.y-vb.height)+'" width="'+(vb.width*3)+'" height="'+(vb.height*3)+'" style="fill:url(#mapGrid'+i+')"/>');
   });
   // pallini: dati per filtri/hover, via <title> nativo
   document.querySelectorAll('.map-dot').forEach(function(d, k){
