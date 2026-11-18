@@ -10,7 +10,7 @@
 <link rel="apple-touch-icon" href="assets/icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Syncopate:wght@400;700&family=Jost:wght@300;400&family=PT+Serif:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Michroma&family=PT+Serif:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
   --navy-950:#091a54;
@@ -834,16 +834,16 @@ footer{ color:var(--text-faint); }
 .gate.out{opacity:0;visibility:hidden}
 .gate-glow{position:absolute;width:780px;height:780px;right:-220px;top:-260px;border-radius:50%;
   background:radial-gradient(circle,rgba(56,182,255,.22),rgba(56,182,255,0) 65%)}
-.gate-pulse{position:absolute;left:0;right:0;bottom:7%;width:100%;height:140px;opacity:.5}
-.gate-pulse path{fill:none;stroke:#38b6ff;stroke-width:2;stroke-linejoin:round;stroke-dasharray:900;stroke-dashoffset:900;
+.gate-pulse{position:absolute;left:50%;top:100%;transform:translateX(-50%);width:100vw;max-width:1100px;height:110px;opacity:.5;margin-top:6px}
+.gate-pulse path{fill:none;vector-effect:non-scaling-stroke;stroke:#38b6ff;stroke-width:2;stroke-linejoin:round;stroke-dasharray:900;stroke-dashoffset:900;
   animation:gatePulse var(--beat,1.6s) ease-in-out infinite}
 @keyframes gatePulse{0%{stroke-dashoffset:900;opacity:0}15%{opacity:1}60%{stroke-dashoffset:0;opacity:1}100%{stroke-dashoffset:0;opacity:0}}
 @media (prefers-reduced-motion:reduce){.gate-pulse path{animation:none;stroke-dashoffset:0}}
 .gate-box{position:relative;text-align:center;padding:24px;max-width:560px}
 .gate-logo{height:34px;opacity:.95;margin-bottom:34px}
-.gate-brand{font-family:'Syncopate',sans-serif;font-weight:400;letter-spacing:.18em;font-size:clamp(26px,5vw,44px);color:#fff}
-.gate-brand b{font-weight:700;color:#38b6ff}
-.gate-claim{font-family:'Jost',sans-serif;font-weight:300;font-size:clamp(15px,2.2vw,19px);color:rgba(230,240,255,.78);margin:18px auto 34px;max-width:440px;line-height:1.45}
+.gate-brand{font-family:'Michroma',sans-serif;font-weight:400;letter-spacing:.22em;font-size:clamp(20px,4.2vw,36px);color:#fff;white-space:nowrap;padding-left:.22em}
+.gate-brand b{font-weight:400;color:#38b6ff}
+.gate-claim{font-family:'Inter',sans-serif;font-weight:300;font-size:clamp(15px,2.2vw,19px);color:rgba(230,240,255,.78);margin:18px auto 34px;max-width:440px;line-height:1.45}
 .gate-btn{font:600 15px 'Inter',sans-serif;padding:12px 34px;border-radius:999px;border:1px solid rgba(56,182,255,.6);
   background:linear-gradient(180deg,#2aa7f5,#1478c8);color:#fff;cursor:pointer;box-shadow:0 8px 28px rgba(20,120,200,.35)}
 .gate-btn:hover{filter:brightness(1.08)}
@@ -873,18 +873,18 @@ footer{ color:var(--text-faint); }
 
 <div id="gate" class="gate">
   <div class="gate-glow"></div>
-  <svg class="gate-pulse" viewBox="0 0 600 120" aria-hidden="true"><path d="M0 70 H190 L215 70 L235 22 L262 104 L288 46 L306 70 H600"/></svg>
   <div class="gate-box">
     <img src="assets/logo_w.png" alt="Reflow" class="gate-logo">
     <div class="gate-brand">REFLOW <b>STATUS</b></div>
     <div class="gate-claim">Lo stato O&amp;M di ogni impianto, letto in tempo reale dal REFLOW MASTER.</div>
     <button id="gateBtn" class="gate-btn" type="button" hidden>Accedi</button>
     <div id="gateMsg" class="gate-msg">Avvio…</div>
+    <svg class="gate-pulse" viewBox="0 0 600 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 70 H190 L215 70 L235 22 L262 104 L288 46 L306 70 H600"/></svg>
   </div>
 </div>
-<div class="topbar" id="topbar"><span class="tb-dot"></span><div><div class="tb-title">REFLOW STATUS</div><div class="tb-sub"><span class="n-clienti"></span> impianti in gestione</div></div><span class="tb-sp"></span><button class="theme-btn-tb theme-btn" type="button" style="position:static" aria-label="Cambia tema">☾</button><button id="upBtn" type="button" title="Torna su" aria-label="Torna su">↑</button></div>
+<div class="topbar" id="topbar"><span class="tb-dot"></span><div><div class="tb-title">REFLOW STATUS</div><div class="tb-sub"><span class="n-clienti"></span> impianti in gestione</div></div><span class="tb-sp"></span><button id="upBtn" type="button" title="Torna su" aria-label="Torna su">↑</button></div>
 <header class="site-header">
-  <div class="hero-glow"></div><button class="theme-btn" type="button" aria-label="Cambia tema">☾</button>
+  <div class="hero-glow"></div>
   <div class="brand">
     <img src="assets/logo_c.png" alt="Reflow">
     <div class="brand-divider"></div>
@@ -1693,7 +1693,8 @@ coverageFilterChip.addEventListener('click', (e) => {
 renderList();
 (function(){
   var root=document.documentElement;
-  try{ var sv=localStorage.getItem('reflow_theme'); if(sv) root.setAttribute('data-theme',sv); }catch(e){}
+  // tema unico chiaro (18/11/2026): niente pulsante, si ignora anche il tema scuro del sistema
+  root.setAttribute('data-theme','light'); try{ localStorage.removeItem('reflow_theme'); }catch(e){}
   function eff(){ var t=root.getAttribute('data-theme'); return t || (matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'); }
   function sync(){ var d=eff()==='dark'; document.querySelectorAll('.theme-btn').forEach(function(b){ b.textContent=d?'☀':'☾'; b.title=d?'Tema chiaro':'Tema scuro'; }); }
   document.querySelectorAll('.theme-btn').forEach(function(b){ b.addEventListener('click',function(){
