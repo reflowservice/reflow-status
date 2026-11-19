@@ -967,18 +967,21 @@ body{ background:#e7ecf3 !important; }
 .filters input[type=search]:hover, .filters select:hover{ border-color:rgba(255,255,255,.35) !important; }
 .filters .reset-btn{ border:1px solid rgba(255,255,255,.35) !important; color:#fff !important; background:transparent !important; }
 .filters .reset-btn:hover{ background:rgba(255,255,255,.12) !important; color:#fff !important; }
-/* Manutenzioni da fare entro fine anno: stesso abbinamento della barra filtri (19/11/2026) - pannello blu notte,
-   blocchi semitrasparenti con bordo chiaro, testo bianco; numeri in tinte schiarite per leggersi sul blu. */
+/* Manutenzioni svolte: stesso abbinamento della barra filtri (19/11/2026) - pannello blu notte, testo bianco,
+   anelli su fondo semitrasparente, tinte schiarite per fatte (verde) e da fare (rosso). */
 .bars-panel-navy{ background:#0b1d3f !important; border:0 !important; box-shadow:0 4px 16px rgba(11,29,63,.25) !important; }
 .bars-panel-navy h2{ color:#fff !important; }
-.bars-panel-navy .due-block{ background:rgba(255,255,255,.08) !important; border:1px solid rgba(255,255,255,.18) !important; }
-.bars-panel-navy .due-block:hover{ border-color:rgba(255,255,255,.35) !important; }
-.bars-panel-navy .due-block .due-label{ color:#fff !important; }
-.bars-panel-navy .due-block .due-sub{ color:rgba(255,255,255,.6) !important; }
-.bars-panel-navy .due-block.zero .due-num{ color:#3ddc84 !important; }
-.bars-panel-navy .due-block.has-due .due-num{ color:#ff8a80 !important; }
-.bars-panel-navy .due-block.verde-mil .due-num{ color:#a9c46a !important; }
-.bars-panel-navy .due-block.blu .due-num{ color:#38b6ff !important; }
+.bars-panel-navy .donut-track{ stroke:rgba(255,255,255,.14) !important; }
+.bars-panel-navy .donut-seg.ok{ stroke:#3ddc84 !important; }
+.bars-panel-navy .donut-seg.danger{ stroke:#ff6b62 !important; }
+.bars-panel-navy .donut-num{ fill:#fff !important; }
+.bars-panel-navy .donut-name{ color:#fff !important; }
+.bars-panel-navy .donut-counts{ color:rgba(255,255,255,.6) !important; }
+.bars-panel-navy .donut-counts b.ok{ color:#3ddc84 !important; }
+.bars-panel-navy .donut-counts b.danger{ color:#ff8a80 !important; }
+.bars-panel-navy #doneBarsContainer > div:last-child{ color:rgba(255,255,255,.6) !important; }
+.bars-panel-navy #doneBarsContainer > div:last-child b.ok{ color:#3ddc84 !important; }
+.bars-panel-navy #doneBarsContainer > div:last-child b.danger{ color:#ff8a80 !important; }
 </style>
 
 <div id="gate" class="gate">
@@ -1066,11 +1069,11 @@ body{ background:#e7ecf3 !important; }
         </div>
       </div>
     </div>
-    <div class="bars-panel bars-panel-navy">
+    <div class="bars-panel">
       <h2 id="dueByServiceTitle">Manutenzioni da fare entro fine anno, per tipologia</h2>
       <div class="due-grid" id="dueByServiceRow"></div>
     </div>
-    <div class="bars-panel">
+    <div class="bars-panel bars-panel-navy">
       <h2>Manutenzioni svolte</h2>
       <div id="doneBarsContainer"></div>
     </div>
