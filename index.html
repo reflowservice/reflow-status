@@ -983,6 +983,13 @@ body{ background:#e7ecf3 !important; }
 .bars-panel-navy #doneBarsContainer > div:last-child{ color:rgba(255,255,255,.6) !important; }
 .bars-panel-navy #doneBarsContainer > div:last-child b.ok{ color:#3ddc84 !important; }
 .bars-panel-navy #doneBarsContainer > div:last-child b.danger{ color:#ff8a80 !important; }
+/* Intestazione, variante A (19/11/2026): logo bianco senza riquadro; su telefono sopra il titolo, sottotitolo a capo */
+.brand img{ background:none !important; padding:0 !important; border-radius:0 !important; height:30px !important; width:auto; }
+@media (max-width:720px){
+  .brand{ flex-direction:column !important; align-items:flex-start !important; gap:12px !important; }
+  .brand img{ height:24px !important; }
+  .brand-divider{ display:none !important; }
+}
 </style>
 
 <div id="gate" class="gate">
@@ -1001,7 +1008,7 @@ body{ background:#e7ecf3 !important; }
 <header class="site-header">
   <div class="hero-glow"></div>
   <div class="brand">
-    <img src="assets/logo_c.png" alt="Reflow">
+    <img src="assets/logo_w.png" alt="Reflow">
     <div class="brand-divider"></div>
     <div>
       <div class="page-title">REFLOW STATUS</div>
