@@ -34,7 +34,7 @@
     [/\bPROPOSTA NON FIRMATA\b/i, 'proposta_non_firmata', 'Proposta commerciale non firmata'],
     [/proposta non ancora firmata/i, 'proposta_non_firmata', 'Proposta commerciale non firmata'],
     [/\bPROPOSTA IN FORSE\b/i, 'proposta_in_forse', 'Proposta in forse'],
-    [/\bPOTENZIALE\b/i, 'potenziale', 'Potenziale — nessuna proposta ancora avviata']
+    [/\bPOTENZIALE\b/i, 'potenziale', 'Nessuna proposta avviata']
   ];
 
   // ---- coordinate (colonna 3): decimale "lat, lon" o DMS, con controllo di plausibilità sull'Italia
