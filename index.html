@@ -971,13 +971,14 @@ body{ background:#e7ecf3 !important; }
    anelli su fondo semitrasparente, tinte schiarite per fatte (verde) e da fare (rosso). */
 .bars-panel-navy{ background:#0b1d3f !important; border:0 !important; box-shadow:0 4px 16px rgba(11,29,63,.25) !important; }
 .bars-panel-navy h2{ color:#fff !important; }
-/* Manutenzioni da fare entro fine anno: azzurro del brand (#1c8fe0) al posto del blu notte (19/11/2026) */
-.bars-panel-azure{ background:#1c8fe0 !important; border:0 !important; box-shadow:0 4px 16px rgba(28,143,224,.30) !important; }
-.bars-panel-azure h2{ color:#fff !important; }
-.bars-panel-azure .due-block{ background:rgba(255,255,255,.16) !important; border:1px solid rgba(255,255,255,.38) !important; }
-.bars-panel-azure .due-block:hover{ border-color:rgba(255,255,255,.7) !important; }
-.bars-panel-azure .due-block .due-num, .bars-panel-azure .due-block .due-label{ color:#fff !important; }
-.bars-panel-azure .due-block .due-sub{ color:rgba(255,255,255,.85) !important; }
+.bars-panel-navy .due-block{ background:rgba(255,255,255,.08) !important; border:1px solid rgba(255,255,255,.18) !important; }
+.bars-panel-navy .due-block:hover{ border-color:rgba(255,255,255,.35) !important; }
+.bars-panel-navy .due-block .due-label{ color:#fff !important; }
+.bars-panel-navy .due-block .due-sub{ color:rgba(255,255,255,.6) !important; }
+.bars-panel-navy .due-block.zero .due-num{ color:#3ddc84 !important; }
+.bars-panel-navy .due-block.has-due .due-num{ color:#ff8a80 !important; }
+.bars-panel-navy .due-block.verde-mil .due-num{ color:#a9c46a !important; }
+.bars-panel-navy .due-block.blu .due-num{ color:#38b6ff !important; }
 .bars-panel-navy .donut-track{ stroke:rgba(255,255,255,.14) !important; }
 .bars-panel-navy .donut-seg.ok{ stroke:#3ddc84 !important; }
 .bars-panel-navy .donut-seg.danger{ stroke:#ff6b62 !important; }
@@ -1076,7 +1077,7 @@ body{ background:#e7ecf3 !important; }
         </div>
       </div>
     </div>
-    <div class="bars-panel bars-panel-azure">
+    <div class="bars-panel bars-panel-navy">
       <h2 id="dueByServiceTitle">Manutenzioni da fare entro fine anno, per tipologia</h2>
       <div class="due-grid" id="dueByServiceRow"></div>
     </div>
